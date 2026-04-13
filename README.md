@@ -177,14 +177,14 @@ plot(gic)
 
 | Source | Coverage | R package |
 |--------|----------|-----------|
-| [World Bank PovcalNet](https://pip.worldbank.org/) | Global poverty and inequality | `pipr` |
+| [World Bank PIP](https://datanalytics.worldbank.org/PIP-Methodology/) | Global poverty and inequality | `pipr` |
 | [World Inequality Database](https://wid.world/) | Top income shares, 100+ countries | `wid` |
 | [Luxembourg Income Study](https://www.lisdatacenter.org/) | Harmonised household surveys | `lissyrtools` |
 | [OECD Income Distribution](https://stats.oecd.org/) | OECD member Gini, P90/P10, shares | `readoecd` |
 | [Eurostat EU-SILC](https://ec.europa.eu/eurostat) | European household income | `eurostat` |
 | [UK Family Resources Survey](https://www.gov.uk/government/collections/family-resources-survey--2) | UK income distribution | Download CSV |
 | [US Current Population Survey](https://www.census.gov/programs-surveys/cps.html) | US income and poverty | `ipumsr` |
-| [UN WIDER WIID](https://www.wider.unu.edu/database/wiid) | Cross-country inequality database | Download CSV |
+| [UN WIDER WIID](https://www.wider.unu.edu/database/world-income-inequality-database-wiid) | Cross-country inequality database | Download CSV |
 
 
 ## Related packages

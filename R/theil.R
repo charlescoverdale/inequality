@@ -42,7 +42,7 @@
 #' # Mean log deviation (GE(0))
 #' iq_theil(d$income, index = "L")
 #'
-#' # GE(2) — half the squared coefficient of variation
+#' # GE(2): half the squared coefficient of variation
 #' iq_theil(d$income, index = 2)
 iq_theil <- function(x, weights = NULL, index = "T", na.rm = FALSE) {
   v <- validate_inputs(x, weights, na.rm, require_strictly_positive = TRUE)

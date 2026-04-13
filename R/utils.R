@@ -1,4 +1,4 @@
-# Internal helpers — not exported
+# Internal helpers (not exported)
 
 # Validate and prepare inputs shared across all functions
 validate_inputs <- function(x, weights = NULL, na.rm = FALSE,

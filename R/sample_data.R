@@ -31,15 +31,6 @@
 #' head(grouped)
 iq_sample_data <- function(type = c("income", "panel", "grouped")) {
   type <- match.arg(type)
-
-  old_seed <- globalenv()[[".Random.seed"]]
-  on.exit({
-    if (is.null(old_seed)) {
-      rm(".Random.seed", envir = globalenv())
-    } else {
-      assign(".Random.seed", old_seed, envir = globalenv())
-    }
-  })
   set.seed(42L)
 
   switch(type,

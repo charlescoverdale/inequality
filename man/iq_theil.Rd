@@ -44,7 +44,7 @@ iq_theil(d$income, index = "T")
 # Mean log deviation (GE(0))
 iq_theil(d$income, index = "L")
 
-# GE(2) — half the squared coefficient of variation
+# GE(2): half the squared coefficient of variation
 iq_theil(d$income, index = 2)
 }
 \references{
