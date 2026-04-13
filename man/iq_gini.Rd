@@ -4,7 +4,15 @@
 \alias{iq_gini}
 \title{Gini coefficient}
 \usage{
-iq_gini(x, weights = NULL, na.rm = FALSE, ci = FALSE, R = 1000L, level = 0.95)
+iq_gini(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  method = c("bootstrap", "asymptotic"),
+  R = 1000L,
+  level = 0.95
+)
 }
 \arguments{
 \item{x}{Numeric vector of incomes or values (non-negative).}
@@ -13,9 +21,13 @@ iq_gini(x, weights = NULL, na.rm = FALSE, ci = FALSE, R = 1000L, level = 0.95)
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
 
-\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+\item{ci}{Logical. Compute confidence intervals? Default \code{FALSE}.}
 
-\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+\item{method}{Character. CI method: \code{"bootstrap"} (default) or
+\code{"asymptotic"} (jackknife-based, faster for large samples).}
+
+\item{R}{Integer. Number of bootstrap replicates (ignored for
+asymptotic). Default \code{1000}.}
 
 \item{level}{Numeric. Confidence level. Default \code{0.95}.}
 }
@@ -24,14 +36,16 @@ An S3 object of class \code{"iq_gini"} with elements:
 \describe{
 \item{gini}{Numeric. The Gini coefficient.}
 \item{n}{Integer. Number of observations.}
+\item{se}{Numeric or \code{NULL}. Standard error (asymptotic method only).}
 \item{ci_lower}{Numeric or \code{NULL}. Lower bound of the CI.}
 \item{ci_upper}{Numeric or \code{NULL}. Upper bound of the CI.}
 \item{level}{Numeric or \code{NULL}. Confidence level.}
+\item{method}{Character or \code{NULL}. CI method used.}
 }
 }
 \description{
 Computes the Gini coefficient of a distribution, with optional survey
-weights and bootstrap confidence intervals.
+weights and confidence intervals (bootstrap or asymptotic).
 }
 \details{
 The Gini coefficient ranges from 0 (perfect equality) to 1 (perfect
@@ -42,8 +56,11 @@ the 45-degree line.
 d <- iq_sample_data("income")
 iq_gini(d$income)
 
-# With bootstrap CIs
+# Bootstrap CIs
 iq_gini(d$income, ci = TRUE, R = 500)
+
+# Asymptotic CIs (faster for large samples)
+iq_gini(d$income, ci = TRUE, method = "asymptotic")
 
 # Perfect equality
 iq_gini(rep(100, 50))
@@ -52,4 +69,7 @@ iq_gini(rep(100, 50))
 Gini, C. (1912). "Variabilita e mutabilita." Reprinted in
 \emph{Memorie di metodologica statistica} (Ed. Pizetti E, Salvemini, T).
 Rome: Libreria Eredi Virgilio Veschi.
+
+Davidson, R. (2009). "Reliable Inference for the Gini Index."
+\emph{Journal of Econometrics}, 150(1), 30--40.
 }

@@ -33,3 +33,8 @@ d <- iq_sample_data("income")
 lc <- iq_lorenz(d$income)
 plot(lc)
 }
+\references{
+Lorenz, M. O. (1905). "Methods of Measuring the Concentration of
+Wealth." \emph{Publications of the American Statistical Association},
+9(70), 209--219.
+}

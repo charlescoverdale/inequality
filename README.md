@@ -8,94 +8,81 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-An R package for measuring income and wealth inequality. Compute Gini coefficients with bootstrap confidence intervals, Theil indices, Atkinson indices, Palma ratios, Lorenz curves, between-within group decompositions, poverty measures, growth incidence curves, and more. All functions accept optional survey weights and work with data from any source.
+Measure income and wealth inequality in R. Gini coefficients with confidence intervals, Theil indices, Atkinson indices, Palma ratios, Lorenz curves, poverty measures, tax progressivity, and more. All functions accept optional survey weights.
+
 
 ## Installation
-
-Install from GitHub:
 
 ```r
 # install.packages("devtools")
 devtools::install_github("charlescoverdale/inequality")
 ```
 
+
+## Quick start
+
 ```r
 library(inequality)
 
-# Built-in sample data: 1000 lognormal incomes
+# Built-in sample data: 1000 synthetic incomes
 d <- iq_sample_data("income")
-head(d)
-#>     income weight
-#> 1  45032.1      1
-#> 2  28910.5      1
-#> 3  67221.8      1
-#> ...
 
 # How unequal is this distribution?
 iq_gini(d$income)
 #> -- Gini Coefficient --
-#> * Gini: 0.3912
+#> * Gini: 0.43
 #> * Observations: 1000
+
+# With confidence intervals
+iq_gini(d$income, ci = TRUE)
+#> -- Gini Coefficient --
+#> * Gini: 0.43
+#> * Observations: 1000
+#> * Bootstrap 95% CI: [0.4085, 0.453]
 ```
 
 
-## Why inequality?
+## What can it do?
 
-The only CRAN package for inequality measurement (`ineq`) was last updated in 2014. It provides basic Gini and Theil calculations but lacks confidence intervals, survey weight support, subgroup decomposition, poverty measures, the Palma ratio, growth incidence curves, or polarisation indices.
-
-`inequality` fills these gaps. You bring income or wealth data from any source (household surveys, tax records, simulations) and the package handles measurement, decomposition, and comparison. Every function accepts optional weights, returns a clean S3 object, and prints a human-readable summary.
-
-
-## Examples
-
-### How unequal is the distribution?
-
-Compare all major indices side by side:
+### Compare indices side by side
 
 ```r
-d <- iq_sample_data("income")
 iq_compare(d$income)
 #> -- Inequality Comparison (n = 1000) --
-#> * Gini              0.3912
-#> * Theil T (GE1)     0.2614
-#> * Theil L (GE0)     0.2428
-#> * Atkinson (e=0.5)  0.1148
-#> * Atkinson (e=1.0)  0.2155
-#> * Palma ratio       1.4832
-#> * Hoover            0.2812
-#> * P90/P10           5.21
-#> * P80/P20           3.12
+#> * Gini              0.4300
+#> * Theil T (GE1)     0.3307
+#> * Theil L (GE0)     0.3241
+#> * Atkinson (e=0.5)  0.1506
+#> * Atkinson (e=1.0)  0.2768
+#> * Palma ratio       2.1668
+#> * Hoover            0.3126
+#> * P90/P10           7.83
+#> * P80/P20           3.92
 ```
 
-### Who is getting what?
-
-Income shares by quantile:
+### Who gets what? Income shares
 
 ```r
 iq_shares(d$income)
 #> -- Income Shares --
-#> * Bottom 50%: 28.4% of income (50% of population)
-#> * P50-P90:    43.2% of income (40% of population)
-#> * Top 10%:    23.8% of income (10% of population)
-#> * Top 1%:      5.6% of income (1% of population)
+#> * Bottom 50%: 21.2% of income (50% of population)
+#> * P50-P90:    47.1% of income (40% of population)
+#> * P90-P99:    24.0% of income (9% of population)
+#> * Top 1%:      6.6% of income (1% of population)
 ```
 
-### Is inequality between groups or within groups?
-
-Decompose a Theil index into between-group and within-group components:
+### Between-group vs within-group inequality
 
 ```r
 d <- iq_sample_data("grouped")
 iq_decompose(d$income, d$group)
 #> -- Between-Within Decomposition (Theil T (GE(1))) --
-#> * Total: 0.2987
-#> * Between: 0.0412 (13.8%)
-#> * Within: 0.2575 (86.2%)
+#> * Total: 0.463
+#> * Between: 0.116 (25.1%)
+#> * Within: 0.347 (74.9%)
 ```
 
-### How much poverty is there?
-
-Foster-Greer-Thorbecke measures with a chosen poverty line:
+### Poverty measurement
 
 ```r
 d <- iq_sample_data("income")
@@ -108,44 +95,89 @@ iq_poverty(d$income, line = 20000)
 #> * Watts index: 0.0634
 ```
 
-### Is growth pro-poor?
-
-Growth incidence curve comparing two periods:
+### Is a tax progressive?
 
 ```r
-d <- iq_sample_data("panel")
-gic <- iq_growth_incidence(d$income_t0, d$income_t1)
-plot(gic)
+pre_tax <- d$income
+tax <- pre_tax * (0.10 + 0.15 * (pre_tax / max(pre_tax)))
+iq_kakwani(pre_tax, tax)
+#> -- Fiscal Progressivity (Progressive) --
+#> * Kakwani index: 0.1832
+#> * Reynolds-Smolensky index: 0.0421
 ```
 
-### Lorenz curve
+### Lorenz curve and growth incidence
 
 ```r
-d <- iq_sample_data("income")
+# Lorenz curve
 lc <- iq_lorenz(d$income)
 plot(lc)
+
+# Growth incidence curve
+panel <- iq_sample_data("panel")
+gic <- iq_growth_incidence(panel$income_t0, panel$income_t1)
+plot(gic)
 ```
 
 
 ## Functions
 
-| Function | Description |
+### Inequality indices
+
+| Function | What it measures |
 |---|---|
-| `iq_gini()` | Gini coefficient with optional bootstrap CIs |
-| `iq_theil()` | Theil T, Theil L, and GE(alpha) indices |
-| `iq_atkinson()` | Atkinson index with inequality aversion parameter |
-| `iq_palma()` | Palma ratio (top 10% / bottom 40%) |
-| `iq_hoover()` | Hoover index (Robin Hood index) |
-| `iq_percentile_ratio()` | P90/P10, P80/P20, or custom percentile ratios |
-| `iq_lorenz()` | Lorenz curve data with plot method |
+| `iq_gini()` | Gini coefficient (bootstrap or asymptotic CIs) |
+| `iq_sgini()` | Extended Gini family (adjustable inequality aversion) |
+| `iq_theil()` | Theil T, Theil L, and generalised entropy GE(alpha) |
+| `iq_atkinson()` | Atkinson index (with equally distributed equivalent income) |
+| `iq_kolm()` | Kolm index (absolute inequality, translation invariant) |
+| `iq_palma()` | Palma ratio (top 10% share / bottom 40% share) |
+| `iq_hoover()` | Hoover index (Robin Hood index, Pietra index) |
+| `iq_percentile_ratio()` | P90/P10, P80/P20, or custom ratios |
+
+### Distribution and decomposition
+
+| Function | What it measures |
+|---|---|
+| `iq_lorenz()` | Lorenz curve with plot method |
+| `iq_shares()` | Income shares by quantile (top 1%, top 10%, etc.) |
 | `iq_decompose()` | Between-within group decomposition (GE family) |
-| `iq_shares()` | Income shares by quantile |
-| `iq_concentration()` | Concentration index (health inequality) |
-| `iq_poverty()` | FGT poverty measures, Sen index, Watts index |
-| `iq_growth_incidence()` | Growth incidence curve with plot method |
+| `iq_concentration()` | Concentration index with optional Erreygers correction |
 | `iq_polarisation()` | Wolfson bipolarisation index |
-| `iq_compare()` | Side-by-side comparison of all indices |
-| `iq_sample_data()` | Synthetic data for examples |
+
+### Poverty
+
+| Function | What it measures |
+|---|---|
+| `iq_poverty()` | FGT family (headcount, gap, severity), Sen and Watts indices |
+| `iq_growth_incidence()` | Growth incidence curve (is growth pro-poor?) |
+
+### Fiscal
+
+| Function | What it measures |
+|---|---|
+| `iq_kakwani()` | Kakwani progressivity + Reynolds-Smolensky redistribution |
+
+### Utilities
+
+| Function | What it does |
+|---|---|
+| `iq_compare()` | All major indices in one table |
+| `iq_sample_data()` | Built-in synthetic data for examples |
+
+
+## Where to find inequality data
+
+| Source | Coverage | R package |
+|--------|----------|-----------|
+| [World Bank PovcalNet](https://pip.worldbank.org/) | Global poverty and inequality | `pipr` |
+| [World Inequality Database](https://wid.world/) | Top income shares, 100+ countries | `wid` |
+| [Luxembourg Income Study](https://www.lisdatacenter.org/) | Harmonised household surveys | `lissyrtools` |
+| [OECD Income Distribution](https://stats.oecd.org/) | OECD member Gini, P90/P10, shares | `readoecd` |
+| [Eurostat EU-SILC](https://ec.europa.eu/eurostat) | European household income | `eurostat` |
+| [UK Family Resources Survey](https://www.gov.uk/government/collections/family-resources-survey--2) | UK income distribution | Download CSV |
+| [US Current Population Survey](https://www.census.gov/programs-surveys/cps.html) | US income and poverty | `ipumsr` |
+| [UN WIDER WIID](https://www.wider.unu.edu/database/wiid) | Cross-country inequality database | Download CSV |
 
 
 ## Related packages
@@ -166,4 +198,4 @@ Report bugs or request features at [GitHub Issues](https://github.com/charlescov
 
 ## Keywords
 
-inequality, Gini, Theil, Atkinson, Lorenz, Palma, poverty, FGT, decomposition, income distribution, wealth, survey weights, economics
+inequality, Gini, Theil, Atkinson, Kolm, Lorenz, Palma, Kakwani, poverty, FGT, decomposition, income distribution, wealth, survey weights, economics, progressivity

@@ -29,6 +29,9 @@
 #' Cowell, F. A. (2011). \emph{Measuring Inequality}. 3rd edition. Oxford
 #' University Press.
 #'
+#' Shorrocks, A. F. (1980). "The Class of Additively Decomposable
+#' Inequality Measures." \emph{Econometrica}, 48(3), 613--625.
+#'
 #' @export
 #' @examples
 #' d <- iq_sample_data("income")

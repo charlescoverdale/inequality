@@ -35,4 +35,8 @@ iq_polarisation(d$income)
 \references{
 Wolfson, M. C. (1994). "When Inequalities Diverge."
 \emph{American Economic Review}, 84(2), 353--358.
+
+Foster, J. E. and Wolfson, M. C. (2010). "Polarization and the Decline
+of the Middle Class: Canada and the US." \emph{Journal of Economic
+Inequality}, 8(2), 247--273.
 }

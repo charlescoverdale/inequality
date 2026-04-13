@@ -17,6 +17,11 @@
 #'   \item{n}{Integer. Number of observations.}
 #' }
 #'
+#' @references
+#' Lorenz, M. O. (1905). "Methods of Measuring the Concentration of
+#' Wealth." \emph{Publications of the American Statistical Association},
+#' 9(70), 209--219.
+#'
 #' @export
 #' @examples
 #' d <- iq_sample_data("income")

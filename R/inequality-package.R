@@ -6,5 +6,5 @@
 #' @importFrom graphics plot lines points polygon axis grid legend mtext par
 #'   abline text box segments
 #' @importFrom stats quantile weighted.mean median sd var rnorm runif rlnorm
-#'   setNames approx
+#'   setNames approx qnorm rbinom
 NULL
