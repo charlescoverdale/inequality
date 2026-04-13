@@ -1,4 +1,4 @@
 library(testthat)
-library(inequalitykit)
+library(inequality)
 
-test_check("inequalitykit")
+test_check("inequality")

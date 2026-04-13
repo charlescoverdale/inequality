@@ -1,9 +1,9 @@
-# inequalitykit
+# inequality
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/inequalitykit)](https://CRAN.R-project.org/package=inequalitykit)
-[![CRAN downloads](https://cranlogs.r-pkg.org/badges/inequalitykit)](https://CRAN.R-project.org/package=inequalitykit)
-[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/inequalitykit)](https://CRAN.R-project.org/package=inequalitykit)
+[![CRAN status](https://www.r-pkg.org/badges/version/inequality)](https://CRAN.R-project.org/package=inequality)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/inequality)](https://CRAN.R-project.org/package=inequality)
+[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/inequality)](https://CRAN.R-project.org/package=inequality)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
@@ -16,11 +16,11 @@ Install from GitHub:
 
 ```r
 # install.packages("devtools")
-devtools::install_github("charlescoverdale/inequalitykit")
+devtools::install_github("charlescoverdale/inequality")
 ```
 
 ```r
-library(inequalitykit)
+library(inequality)
 
 # Built-in sample data: 1000 lognormal incomes
 d <- iq_sample_data("income")
@@ -39,11 +39,11 @@ iq_gini(d$income)
 ```
 
 
-## Why inequalitykit?
+## Why inequality?
 
 The only CRAN package for inequality measurement (`ineq`) was last updated in 2014. It provides basic Gini and Theil calculations but lacks confidence intervals, survey weight support, subgroup decomposition, poverty measures, the Palma ratio, growth incidence curves, or polarisation indices.
 
-`inequalitykit` fills these gaps. You bring income or wealth data from any source (household surveys, tax records, simulations) and the package handles measurement, decomposition, and comparison. Every function accepts optional weights, returns a clean S3 object, and prints a human-readable summary.
+`inequality` fills these gaps. You bring income or wealth data from any source (household surveys, tax records, simulations) and the package handles measurement, decomposition, and comparison. Every function accepts optional weights, returns a clean S3 object, and prints a human-readable summary.
 
 
 ## Examples
@@ -158,7 +158,7 @@ plot(lc)
 
 ## Issues
 
-Report bugs or request features at [GitHub Issues](https://github.com/charlescoverdale/inequalitykit/issues).
+Report bugs or request features at [GitHub Issues](https://github.com/charlescoverdale/inequality/issues).
 
 
 ## Keywords

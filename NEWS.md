@@ -1,4 +1,4 @@
-# inequalitykit 0.1.0
+# inequality 0.1.0
 
 * Initial release.
 * Gini coefficient with optional bootstrap confidence intervals via `iq_gini()`.

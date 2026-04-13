@@ -1,4 +1,4 @@
-# CRAN submission comments — inequalitykit 0.1.0
+# CRAN submission comments — inequality 0.1.0
 
 ## New submission
 
