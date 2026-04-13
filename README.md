@@ -19,6 +19,13 @@ devtools::install_github("charlescoverdale/inequality")
 ```
 
 
+## Why this package?
+
+The main CRAN package for inequality measurement (`ineq`) was last updated in 2014. It computes basic Gini and Theil indices but has no support for survey weights, no confidence intervals, no subgroup decomposition, no poverty measures, no Palma ratio, and no tax progressivity analysis.
+
+`inequality` fills these gaps. You bring income or wealth data from any source (household surveys, tax records, administrative data, simulations) and the package handles measurement, decomposition, and comparison. Every function accepts optional weights, returns a clean S3 object with a print method, and cites the underlying academic paper.
+
+
 ## Quick start
 
 ```r
