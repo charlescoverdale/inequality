@@ -62,7 +62,7 @@ iq_concentration <- function(x, rank, weights = NULL, na.rm = FALSE) {
 
   mu <- sum(w * x)
   if (mu == 0) {
-    structure(list(value = 0, n = length(x)), class = "iq_concentration")
+    return(structure(list(value = 0, n = length(x)), class = "iq_concentration"))
   }
 
   cum_w <- cumsum(w)

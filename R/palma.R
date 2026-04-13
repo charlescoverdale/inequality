@@ -54,6 +54,11 @@ iq_palma <- function(x, weights = NULL, na.rm = FALSE) {
 
   bottom40_share <- lorenz_at(0.4)
   top10_share <- 1 - lorenz_at(0.9)
+
+  if (bottom40_share == 0) {
+    cli_abort("Bottom 40% income share is zero; Palma ratio is undefined.")
+  }
+
   palma_val <- top10_share / bottom40_share
 
   structure(

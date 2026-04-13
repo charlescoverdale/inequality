@@ -150,10 +150,13 @@ plot(lc)
 
 ## Related packages
 
-- [inflationkit](https://github.com/charlescoverdale/inflationkit): inflation decomposition and core measures
-- [debtkit](https://github.com/charlescoverdale/debtkit): debt sustainability analysis
-- [yieldcurves](https://github.com/charlescoverdale/yieldcurves): yield curve fitting and analysis
-- [predictset](https://github.com/charlescoverdale/predictset): conformal prediction intervals
+| Package | Description |
+|---------|-------------|
+| [inflationkit](https://github.com/charlescoverdale/inflationkit) | Inflation decomposition and core measures |
+| [debtkit](https://github.com/charlescoverdale/debtkit) | Debt sustainability analysis |
+| [yieldcurves](https://github.com/charlescoverdale/yieldcurves) | Yield curve fitting and analysis |
+| [predictset](https://github.com/charlescoverdale/predictset) | Conformal prediction intervals |
+| [nowcast](https://github.com/charlescoverdale/nowcast) | Economic nowcasting |
 
 
 ## Issues
