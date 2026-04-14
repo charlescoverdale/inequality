@@ -15,7 +15,7 @@ Description: Tools for measuring income and wealth inequality. Computes the
     progressivity and Reynolds-Smolensky redistribution indices,
     Foster-Greer-Thorbecke poverty measures including the Sen index, growth
     incidence curves following Ravallion and Chen (2003)
-    <doi:10.1016/S0165-1765(03)00167-4>, and Wolfson polarisation. All
+    <doi:10.1016/S0165-1765(02)00205-7>, and Wolfson polarisation. All
     functions accept optional survey weights and work with data from any
     source.
 Depends: R (>= 4.1.0)
