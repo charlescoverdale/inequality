@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+      margin-bottom: 0em;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R</title>
+
+  <meta property="description" itemprop="description" content="The inequality package provides tools for measuring income and wealth inequality, decomposing it into between-group and within-group components, and relating it to poverty and fiscal redistribution. It covers the Gini coefficient with Davidson (2009) bootstrap and asymptotic confidence intervals, the extended S-Gini family, the generalised entropy family (Theil T and L), the Atkinson and Kolm indices, the Palma ratio, the Hoover index, percentile ratios, Lorenz curves, Bourguignon (1979) between-within decomposition, concentration indices with Erreygers (2009) correction, Kakwani tax progressivity, Reynolds-Smolensky redistribution, Foster-Greer-Thorbecke poverty measures, the Sen and Watts indices, Ravallion-Chen (2003) growth incidence curves, and Wolfson polarisation. Every function accepts optional survey weights. The package is pure R, has no network dependency, and will be available on CRAN shortly."/>
+
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2026-04-19"/>
+  <meta property="article:created" itemprop="dateCreated" content="2026-04-19"/>
+  <meta name="article:author" content="Charles Coverdale"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="The inequality package provides tools for measuring income and wealth inequality, decomposing it into between-group and within-group components, and relating it to poverty and fiscal redistribution. It covers the Gini coefficient with Davidson (2009) bootstrap and asymptotic confidence intervals, the extended S-Gini family, the generalised entropy family (Theil T and L), the Atkinson and Kolm indices, the Palma ratio, the Hoover index, percentile ratios, Lorenz curves, Bourguignon (1979) between-within decomposition, concentration indices with Erreygers (2009) correction, Kakwani tax progressivity, Reynolds-Smolensky redistribution, Foster-Greer-Thorbecke poverty measures, the Sen and Watts indices, Ravallion-Chen (2003) growth incidence curves, and Wolfson polarisation. Every function accepts optional survey weights. The package is pure R, has no network dependency, and will be available on CRAN shortly."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R"/>
+  <meta property="twitter:description" content="The inequality package provides tools for measuring income and wealth inequality, decomposing it into between-group and within-group components, and relating it to poverty and fiscal redistribution. It covers the Gini coefficient with Davidson (2009) bootstrap and asymptotic confidence intervals, the extended S-Gini family, the generalised entropy family (Theil T and L), the Atkinson and Kolm indices, the Palma ratio, the Hoover index, percentile ratios, Lorenz curves, Bourguignon (1979) between-within decomposition, concentration indices with Erreygers (2009) correction, Kakwani tax progressivity, Reynolds-Smolensky redistribution, Foster-Greer-Thorbecke poverty measures, the Sen and Watts indices, Ravallion-Chen (2003) growth incidence curves, and Wolfson polarisation. Every function accepts optional survey weights. The package is pure R, has no network dependency, and will be available on CRAN shortly."/>
+
+  <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+  <meta name="citation_title" content="Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R"/>
+  <meta name="citation_pdf_url" content="inequality.pdf"/>
+  <meta name="citation_journal_title" content="The R Journal"/>
+  <meta name="citation_issn" content="2073-4859"/>
+  <meta name="citation_firstpage" content="1"/>
+  <meta name="citation_fulltext_world_readable" content=""/>
+  <meta name="citation_online_date" content="2026/04/19"/>
+  <meta name="citation_publication_date" content="2026/04/19"/>
+  <meta name="citation_author" content="Charles Coverdale"/>
+  <meta name="citation_author_institution" content="Independent"/>
+  <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Variabilità e mutabilità: Contributo allo studio delle distribuzioni e delle relazioni statistiche;citation_publisher=C. Cuppini;citation_author=Corrado Gini"/>
+  <meta name="citation_reference" content="citation_title=Methods of measuring the concentration of wealth;citation_volume=9;citation_doi=10.2307/2276207;citation_author=Max O. Lorenz"/>
+  <meta name="citation_reference" content="citation_title=On the measurement of inequality;citation_volume=2;citation_doi=10.1016/0022-0531(70)90039-6;citation_author=Anthony B. Atkinson"/>
+  <meta name="citation_reference" content="citation_title=Economics and information theory;citation_publisher=North-Holland;citation_author=Henri Theil"/>
+  <meta name="citation_reference" content="citation_title=The class of additively decomposable inequality measures;citation_volume=48;citation_doi=10.2307/1913126;citation_author=Anthony F. Shorrocks"/>
+  <meta name="citation_reference" content="citation_title=A single-parameter generalization of the gini indices of inequality;citation_volume=22;citation_doi=10.1016/0022-0531(80)90065-4;citation_author=David Donaldson;citation_author=John A. Weymark"/>
+  <meta name="citation_reference" content="citation_title=Unequal inequalities i;citation_volume=12;citation_doi=10.1016/0022-0531(76)90037-5;citation_author=Serge-Christophe Kolm"/>
+  <meta name="citation_reference" content="citation_title=Homogeneous middles vs. Heterogeneous tails, and the end of the “inverted-u”: It’s all about the share of the rich;citation_volume=42;citation_doi=10.1111/j.1467-7660.2011.01694.x;citation_author=José Gabriel Palma"/>
+  <meta name="citation_reference" content="citation_title=Decomposable income inequality measures;citation_volume=47;citation_doi=10.2307/1914138;citation_author=François Bourguignon"/>
+  <meta name="citation_reference" content="citation_title=A class of decomposable poverty measures;citation_volume=52;citation_doi=10.2307/1913475;citation_author=James Foster;citation_author=Joel Greer;citation_author=Erik Thorbecke"/>
+  <meta name="citation_reference" content="citation_title=Poverty: An ordinal approach to measurement;citation_volume=44;citation_doi=10.2307/1912718;citation_author=Amartya Sen"/>
+  <meta name="citation_reference" content="citation_title=Reliable inference for the Gini index;citation_volume=150;citation_doi=10.1016/j.jeconom.2008.09.011;citation_author=Russell Davidson"/>
+  <meta name="citation_reference" content="citation_title=Measuring pro-poor growth;citation_volume=78;citation_doi=10.1016/S0165-1765(02)00205-7;citation_author=Martin Ravallion;citation_author=Shaohua Chen"/>
+  <meta name="citation_reference" content="citation_title=Polarization and the decline of the middle class: Canada and the U.S.;citation_volume=8;citation_doi=10.1007/s10888-009-9122-7;citation_author=James E. Foster;citation_author=Michael C. Wolfson"/>
+  <meta name="citation_reference" content="citation_title=Correcting the concentration index;citation_volume=28;citation_doi=10.1016/j.jhealeco.2008.02.003;citation_author=Guido Erreygers"/>
+  <meta name="citation_reference" content="citation_title=Measurement of tax progressivity: An international comparison;citation_volume=87;citation_doi=10.2307/2231833;citation_author=Nanak C. Kakwani"/>
+  <meta name="citation_reference" content="citation_title=The changing distribution of earnings in OECD countries;citation_publisher=Oxford University Press;citation_doi=10.1093/acprof:oso/9780199532438.001.0001;citation_author=Anthony B. Atkinson"/>
+  <meta name="citation_reference" content="citation_title=Capital in the twenty-first century;citation_publisher=Harvard University Press;citation_doi=10.4159/9780674369542;citation_author=Thomas Piketty"/>
+  <meta name="citation_reference" content="citation_title=Public expenditures, taxes, and the distribution of income: The United States, 1950, 1961, 1970;citation_publisher=Academic Press;citation_author=Morgan Reynolds;citation_author=Eugene Smolensky"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","date","description","draft","author","type","journal","output","header-includes","bibliography","slug","pdf_url","creative_commons","packages","CTV","csl"]}},"value":[{"type":"character","attributes":{},"value":["Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R"]},{"type":"character","attributes":{},"value":["2026-04-19"]},{"type":"character","attributes":{},"value":["The inequality package provides tools for measuring income and wealth inequality, decomposing it into between-group and within-group components, and relating it to poverty and fiscal redistribution. It covers the Gini coefficient with Davidson (2009) bootstrap and asymptotic confidence intervals, the extended S-Gini family, the generalised entropy family (Theil T and L), the Atkinson and Kolm indices, the Palma ratio, the Hoover index, percentile ratios, Lorenz curves, Bourguignon (1979) between-within decomposition, concentration indices with Erreygers (2009) correction, Kakwani tax progressivity, Reynolds-Smolensky redistribution, Foster-Greer-Thorbecke poverty measures, the Sen and Watts indices, Ravallion-Chen (2003) growth incidence curves, and Wolfson polarisation. Every function accepts optional survey weights. The package is pure R, has no network dependency, and will be available on CRAN shortly.\n"]},{"type":"logical","attributes":{},"value":[false]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","address","url","email"]}},"value":[{"type":"character","attributes":{},"value":["Charles Coverdale"]},{"type":"character","attributes":{},"value":["Independent"]},{"type":"character","attributes":{},"value":["London, United Kingdom"]},{"type":"character","attributes":{},"value":["https://github.com/charlescoverdale/inequality"]},{"type":"character","attributes":{},"value":["charles.f.coverdale@gmail.com"]}]}]},{"type":"character","attributes":{},"value":["package"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","issn","firstpage","lastpage"]}},"value":[{"type":"character","attributes":{},"value":["The R Journal"]},{"type":"character","attributes":{},"value":["2073-4859"]},{"type":"double","attributes":{},"value":[1]},{"type":"NULL"}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["\\renewcommand{\\address}[1]{}"]},{"type":"character","attributes":{},"value":["RJreferences.bib"]},{"type":"character","attributes":{},"value":["inequality"]},{"type":"character","attributes":{},"value":["inequality.pdf"]},{"type":"character","attributes":{},"value":["CC BY"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["cran","bioc"]}},"value":[{"type":"character","attributes":{},"value":["ineq","cli","testthat","survey","srvyr"]},{"type":"list","attributes":{},"value":[]}]},{"type":"character","attributes":{},"value":["Econometrics","OfficialStatistics","Survival"]},{"type":"character","attributes":{},"value":["/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rjtools/rjournal.csl"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["figures/fig1_lorenz.pdf","figures/fig2_gini_ci.pdf","figures/fig3_decompose.pdf","figures/fig4_gic.pdf","figures/fig5_atkinson.pdf","figures/fig6_wb_gini.pdf","inequality.log","inequality.pdf","inequality.tex","initial_checks.log","motivation-letter/motivation-letter.md","RJournal.sty","RJreferences.bib","RJwrapper.log","RJwrapper.tex"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+    font-size: 100%;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+    border-top: none;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="inequality_files/header-attrs-2.30/header-attrs.js"></script>
+  <script src="inequality_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="inequality_files/popper-2.6.0/popper.min.js"></script>
+  <link href="inequality_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="inequality_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="inequality_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="inequality_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="inequality_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="inequality_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="inequality_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+  <script>
+    $(function() {
+      console.log("Starting...")
+
+      // Mathjax config (add automatic linebreaks when supported)
+      // MathJax = {
+      //    tex: {
+      //        inlineMath: [['$', '$'], ['\\(', '\\)']],
+      //        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      //        tags: 'ams',
+      //        multline: true,
+      //    },
+      //    options: {
+      //        linebreaks: { automatic: true },
+      //    },
+      // };
+
+      // Always show Published - distill hides it if not set
+      function show_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'visible');
+      }
+
+      show_byline_column('Published')
+
+      // tweak function
+      var rmd_meta = JSON.parse($("#radix-rmarkdown-metadata").html());
+      function get_meta(name, meta) {
+        var ind = meta.attributes.names.value.findIndex((e) => e == name)
+        var val = meta.value[ind]
+        if (val.type != 'list') {
+          return val.value.toString()
+        }
+        return val
+      }
+
+      // tweak description
+      // Add clickable tags
+      const slug = get_meta('slug', rmd_meta)
+      const cite_url = get_meta('citation_url', rmd_meta)
+
+      var title = $("d-title").text
+
+      const buttons = $('<div class="dt-tags" style="grid-column: page;">')
+      buttons.append('<a href="#citation" class="dt-tag"><i class="fas fa-quote-left"></i> Cite</a>')
+      buttons.append('<a href="' + slug + '.pdf" class="dt-tag"><i class="fas fa-file-pdf"></i> PDF</a>')
+      buttons.append('<a href="' + slug + '.zip" class="dt-tag"><i class="fas fa-file-zipper"></i> Supplement</a>')
+
+      // adds Abstract: in front of the first <p> in the title section --
+      // unless it happens to be the subtitle (FIXME: this is a bad hack - can't distill do this?)
+      var tpar = $("d-title p:not(:empty)").filter(function() {
+        return !$(this).hasClass("subtitle");
+      }).first();
+      if (tpar) {
+        const abstract = $('<d-abstract>')
+        abstract.append('<b>Abstract:</b><br>')
+        abstract.append(tpar) // Move description to d-abstract
+        $("d-title p:empty").remove() // Remove empty paragraphs after title
+        abstract.append(buttons)
+        abstract.insertAfter($('d-title')) // Add abstract section after title */
+      }
+
+      // tweak by-line
+      var byline = $("d-byline div.byline")
+      ind = rmd_meta.attributes.names.value.findIndex((e) => e == "journal")
+      const journal = get_meta('journal', rmd_meta)
+      const volume = get_meta('volume', rmd_meta)
+      const issue = get_meta('issue', rmd_meta)
+      const jrtitle = get_meta('title', journal)
+      const year = ((jrtitle == "R News") ? 2000 : 2008) + parseInt(volume)
+      const firstpage = get_meta('firstpage', journal)
+      const lastpage = get_meta('lastpage', journal)
+      byline.append('<div class="rjournal grid">')
+      $('div.rjournal').append('<h3>Volume</h3>')
+      $('div.rjournal').append('<h3>Pages</h3>')
+      $('div.rjournal').append('<a class="volume" href="../../issues/'+year+'-'+issue+'">'+volume+'/'+issue+'</a>')
+      $('div.rjournal').append('<p class="pages">'+firstpage+' - '+lastpage+'</p>')
+
+      const received_date = new Date(get_meta('date_received', rmd_meta))
+      byline.find('h3:contains("Published")').parent().append('<h3>Received</h3><p>'+received_date.toLocaleDateString('en-US', {month: 'short'})+' '+received_date.getDate()+', '+received_date.getFullYear()+'</p>')
+
+    })
+  </script>
+
+  <style>
+      /*
+    .nav-dropdown-content .nav-dropdown-header {
+      text-transform: lowercase;
+    }
+    */
+
+    d-byline .byline {
+      grid-template-columns: 2fr 2fr 2fr 2fr;
+    }
+
+    d-byline .rjournal {
+      grid-column-end: span 2;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 0;
+    }
+
+    d-title h1, d-title p, d-title figure,
+    d-abstract p, d-abstract b {
+      grid-column: page;
+    }
+
+    d-title .dt-tags {
+      grid-column: page;
+    }
+
+    .dt-tags .dt-tag {
+      text-transform: lowercase;
+    }
+
+    d-article h1 {
+      line-height: 1.1em;
+    }
+
+    d-abstract p, d-article p {
+      text-align: justify;
+    }
+
+    @media(min-width: 1000px) {
+      .d-contents.d-contents-float {
+        justify-self: end;
+      }
+
+      nav.toc {
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .posts-list .dt-tags .dt-tag {
+      text-transform: lowercase;
+    }
+
+    @keyframes highlight-target {
+      0% {
+        background-color: #ffa;
+      }
+      66% {
+        background-color: #ffa;
+      }
+      100% {
+        background-color: none;
+      }
+    }
+
+    d-article :target, d-appendix :target {
+       animation: highlight-target 3s;
+    }
+
+    .header-section-number {
+      margin-right: 0.5em;
+    }
+    
+    d-appendix .citation-appendix,
+    .d-appendix .citation-appendix {
+      color: rgb(60, 60, 60);
+    }
+
+    d-article h2 {
+      border-bottom: 0px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 0rem;
+    }
+    d-article h3 {
+      font-size: 20px;
+    }
+    d-article h4 {
+      font-size: 18px;
+      text-transform: none;
+    }
+
+    @media (min-width: 1024px) {
+      d-article h2 {
+        font-size: 32px;
+      }
+      d-article h3 {
+        font-size: 24px;
+      }
+      d-article h4 {
+        font-size: 20px;
+      }
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R","description":"The inequality package provides tools for measuring income and wealth inequality, decomposing it into between-group and within-group components, and relating it to poverty and fiscal redistribution. It covers the Gini coefficient with Davidson (2009) bootstrap and asymptotic confidence intervals, the extended S-Gini family, the generalised entropy family (Theil T and L), the Atkinson and Kolm indices, the Palma ratio, the Hoover index, percentile ratios, Lorenz curves, Bourguignon (1979) between-within decomposition, concentration indices with Erreygers (2009) correction, Kakwani tax progressivity, Reynolds-Smolensky redistribution, Foster-Greer-Thorbecke poverty measures, the Sen and Watts indices, Ravallion-Chen (2003) growth incidence curves, and Wolfson polarisation. Every function accepts optional survey weights. The package is pure R, has no network dependency, and will be available on CRAN shortly.","authors":[{"author":"Charles Coverdale","authorURL":"https://github.com/charlescoverdale/inequality","affiliation":"Independent","affiliationURL":"#","orcidID":""}],"publishedDate":"2026-04-19T00:00:00.000+01:00","citationText":"Coverdale, 2026"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R</h1>
+
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>The inequality package provides tools for measuring income and wealth inequality, decomposing it into between-group and within-group components, and relating it to poverty and fiscal redistribution. It covers the Gini coefficient with Davidson (2009) bootstrap and asymptotic confidence intervals, the extended S-Gini family, the generalised entropy family (Theil T and L), the Atkinson and Kolm indices, the Palma ratio, the Hoover index, percentile ratios, Lorenz curves, Bourguignon (1979) between-within decomposition, concentration indices with Erreygers (2009) correction, Kakwani tax progressivity, Reynolds-Smolensky redistribution, Foster-Greer-Thorbecke poverty measures, the Sen and Watts indices, Ravallion-Chen (2003) growth incidence curves, and Wolfson polarisation. Every function accepts optional survey weights. The package is pure R, has no network dependency, and will be available on CRAN shortly.</p></p>
+</div>
+
+<div class="d-byline">
+  Charles Coverdale <a href="https://github.com/charlescoverdale/inequality" class="uri">https://github.com/charlescoverdale/inequality</a> (Independent)
+  
+<br/>2026-04-19
+</div>
+
+<div class="d-article">
+<h2 data-number="1" id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>The <a href="#">inequality</a> package is a comprehensive R implementation of
+the indices, decompositions, poverty measures, and redistribution
+diagnostics used in applied distributional economics. It accepts raw
+income, wealth, or expenditure data from any source, applies optional
+survey weights, and returns S3 objects with print methods and cited
+underlying references. Eighteen exported functions share a uniform
+prefix and consistent argument ordering, so a user who
+knows can reach for ,
+, or without re-reading
+documentation.</p>
+<p>The state of R infrastructure for inequality measurement is poor
+relative to the demand. The main package on CRAN, <a href="https://cran.r-project.org/package=ineq">ineq</a>, was
+last updated in 2014. It computes the Gini and Theil indices and
+renders a Lorenz curve, but it has no support for survey weights,
+no confidence intervals, no between-within decomposition, no poverty
+measures, no Palma ratio, no tax progressivity, and no concentration
+indices. Distributional analysis of contemporary survey data, from the
+Luxembourg Income Study to the UK Family Resources Survey to the
+Australian Household Income and Labour Dynamics survey, requires all
+of these as routine operations. Researchers have worked around the
+gap with ad hoc code that is neither tested nor cited;
+<a href="#">inequality</a> consolidates the operations they actually need
+behind a single consistent interface.</p>
+<p>The package is pure computation, with four runtime imports
+(<a href="https://cran.r-project.org/package=cli">cli</a>, , , ),
+three of which ship with base R. There are no API calls, no network
+access, and no bundled upstream data. Every numerical result is
+reproducible given the input; the only source of randomness is the
+Gini bootstrap confidence interval, which exposes a seed-controllable
+argument.</p>
+<h2 data-number="2" id="background"><span class="header-section-number">2</span> Background</h2>
+<p>Inequality measurement has accumulated four broad families of indices
+over the past century.</p>
+<p><strong>Rank-based indices.</strong> The Gini coefficient <span class="citation" data-cites="gini1912variabilita">(<a href="#ref-gini1912variabilita" role="doc-biblioref">Gini 1912</a>)</span>
+averages the absolute difference in income between all pairs of
+individuals, normalised by twice the mean. Geometrically it is twice
+the area between the Lorenz curve <span class="citation" data-cites="lorenz1905methods">(<a href="#ref-lorenz1905methods" role="doc-biblioref">Lorenz 1905</a>)</span> and the line of
+perfect equality. The Gini is scale-invariant and transfer-sensitive
+but anonymous with respect to distributional position: a transfer from
+rich to poor and from middle to middle contribute equally when they
+span the same percentile gap. The S-Gini family
+<span class="citation" data-cites="donaldson1980single">(<a href="#ref-donaldson1980single" role="doc-biblioref">Donaldson and Weymark 1980</a>)</span> adds a parameter that reweights transfers by
+rank.</p>
+<p><strong>Axiomatic indices.</strong> Theil T and L <span class="citation" data-cites="theil1967information">(<a href="#ref-theil1967information" role="doc-biblioref">Theil 1967</a>)</span>,
+generalised by <span class="citation" data-cites="shorrocks1980class">Shorrocks (<a href="#ref-shorrocks1980class" role="doc-biblioref">1980</a>)</span> into the generalised entropy (GE)
+family indexed by <span class="math inline">\(\alpha\)</span>, admit additive between-within
+decomposition (an axiom the Gini does not satisfy in general). The
+Atkinson index <span class="citation" data-cites="atkinson1970measurement">(<a href="#ref-atkinson1970measurement" role="doc-biblioref">Atkinson 1970</a>)</span> is grounded in social
+welfare: its parameter <span class="math inline">\(\varepsilon\)</span> encodes inequality aversion, and
+the index equals the fraction of mean income the society would
+sacrifice to eliminate inequality while maintaining social welfare.</p>
+<p><strong>Tail-sensitive ratios.</strong> The Palma ratio <span class="citation" data-cites="palma2011homogeneous">(<a href="#ref-palma2011homogeneous" role="doc-biblioref">Palma 2011</a>)</span>
+compares the income share of the top 10 per cent with that of the
+bottom 40 per cent. Percentile ratios such as P90/P10 and P80/P20 are
+similar in spirit. These measures are not transfer-sensitive inside
+the middle of the distribution by construction, which is a feature
+when the analyst cares about tails.</p>
+<p><strong>Absolute indices.</strong> Scale-invariance is appropriate for
+cross-country comparisons but not for assessing whether an individual
+economy’s inequality is rising. The Kolm index
+<span class="citation" data-cites="kolm1976unequal">(<a href="#ref-kolm1976unequal" role="doc-biblioref">Kolm 1976</a>)</span> is translation-invariant instead: it is unchanged
+by equal absolute additions to every income. The Hoover index
+measures the share of total income that would need to be redistributed
+to achieve perfect equality.</p>
+<p><strong>Decomposition.</strong> <span class="citation" data-cites="bourguignon1979decomposable">Bourguignon (<a href="#ref-bourguignon1979decomposable" role="doc-biblioref">1979</a>)</span> shows that the GE
+family is the unique class of scale-invariant indices admitting exact
+additive decomposition into between-group and within-group components.
+This result is the reason distributional economists routinely
+decompose inequality into that attributable to covariates (education,
+region, gender) and that within each stratum.</p>
+<p><strong>Poverty.</strong> The Foster-Greer-Thorbecke family
+<span class="citation" data-cites="foster1984class">(<a href="#ref-foster1984class" role="doc-biblioref">Foster et al. 1984</a>)</span> parameterises headcount, gap, and severity by
+<span class="math inline">\(\alpha\)</span>. The Sen index <span class="citation" data-cites="sen1976poverty">(<a href="#ref-sen1976poverty" role="doc-biblioref">Sen 1976</a>)</span> combines headcount,
+poverty gap, and Gini of the poor into a single measure that
+satisfies the monotonicity and transfer axioms. The Watts index is an
+early axiomatic alternative. <span class="citation" data-cites="ravallion2003measuring">Ravallion and Chen (<a href="#ref-ravallion2003measuring" role="doc-biblioref">2003</a>)</span> introduced the
+growth incidence curve, which plots the annualised growth rate of
+real income at each percentile, turning the question “was growth
+pro-poor?” into a directly-visible curve.</p>
+<p><strong>Fiscal redistribution.</strong> <span class="citation" data-cites="kakwani1977measurement">Kakwani (<a href="#ref-kakwani1977measurement" role="doc-biblioref">1977</a>)</span> defines tax
+progressivity as the concentration index of taxes paid minus the Gini
+of pre-tax income. <span class="citation" data-cites="reynolds1977public">Reynolds and Smolensky (<a href="#ref-reynolds1977public" role="doc-biblioref">1977</a>)</span> show that the difference
+between pre-tax and post-tax Gini decomposes cleanly into Kakwani
+progressivity times average tax rate, plus a reranking term. These
+diagnostics are central to distributional fiscal incidence analysis.</p>
+<p><strong>Polarisation.</strong> <span class="citation" data-cites="foster2010polarization">Foster and Wolfson (<a href="#ref-foster2010polarization" role="doc-biblioref">2010</a>)</span> argue that inequality and
+bipolarisation are conceptually distinct: the same Gini is consistent
+with a unimodal distribution and with a bimodal “disappearing middle”
+distribution. The Wolfson polarisation index, developed further in
+that paper, is designed to separate the two.</p>
+<p><strong>Concentration and health.</strong> The concentration index, related to the
+Gini but computed against a ranking variable (usually income) rather
+than the measured variable (usually health), quantifies socioeconomic
+gradients in health outcomes. <span class="citation" data-cites="erreygers2009correcting">Erreygers (<a href="#ref-erreygers2009correcting" role="doc-biblioref">2009</a>)</span> proposes a
+correction that restores symmetry in ill-being versus well-being
+framings.</p>
+<h2 data-number="3" id="package-design"><span class="header-section-number">3</span> Package design</h2>
+<p><a href="#">inequality</a> is pure R with no compiled code. Runtime imports
+are <a href="https://cran.r-project.org/package=cli">cli</a> (user-facing messages and errors), ,
+, and . R 4.1.0 or later is required. The
+only suggested package is <a href="https://cran.r-project.org/package=testthat">testthat</a> for the test suite. The
+package has no API clients, no bundled external data (beyond a
+synthetic data generator), and no optional heavy dependencies.</p>
+<p>Every exported function is prefixed and takes a numeric
+vector of incomes, wealth, or outcomes as its first argument, followed
+by an optional vector and an flag.
+Index-specific parameters follow: for
+, (for choosing T or L) for
+and , for
+. The return is always an S3 object with a
+method; the list elements can be extracted with the
+familiar accessor.</p>
+<p>Every index and diagnostic accepts a argument
+corresponding to survey sampling weights or frequency weights.
+Weighted quantiles use the Hyndman-Fan Type 7 linear interpolation,
+matching defaults. Weighted mean and variance
+use the standard formulae. This parity matters: survey data is the
+dominant input to real-world inequality analysis, and the legacy CRAN
+package <a href="https://cran.r-project.org/package=ineq">ineq</a> requires the user to expand the survey into a
+row-per-person data frame before computing any index, which is
+memory-prohibitive for anything beyond toy samples.</p>
+<p>The Gini coefficient admits two inferential routes. The asymptotic
+variance, derived in <span class="citation" data-cites="davidson2009reliable">Davidson (<a href="#ref-davidson2009reliable" role="doc-biblioref">2009</a>)</span>, is computed from a single
+pass over the data. The bootstrap route resamples the data
+times (default 1000) and takes percentile-method intervals.
+The asymptotic estimator is cheap and accurate in large samples; the
+bootstrap is slower but behaves better under heavy-tailed income
+distributions where the asymptotic distribution can be slow to
+settle. Both are selected via or
+to .</p>
+<p>Each family of functions has its own S3 class. Inequality indices
+return , , and
+objects. Distribution and decomposition functions return
+and . Poverty and growth
+functions return and .
+Utility functions return or
+. All classes expose a
+method emitting a compact summary. methods are
+provided for and for
+, where geometric intuition matters.</p>
+<p>Numerical results are deterministic given the input. The only random
+component is the bootstrap in and
+, which accepts a argument for exact
+reproducibility. The package ships a synthetic data generator,
+, that produces income, panel, and grouped
+data frames with a fixed seed, used in examples and in the canonical
+replication below.</p>
+<h2 data-number="4" id="inequality-indices"><span class="header-section-number">4</span> Inequality indices</h2>
+<p> returns the Gini
+coefficient with optional confidence intervals. Figure
+<a href="#fig:lorenz">1</a> shows the Lorenz curves of three distributions with
+Gini 0.20, 0.43, and 0.69; by construction the curves are nested, and
+the area between each curve and the 45-degree line is half the Gini.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lorenz"></span>
+<embed src="figures/fig1_lorenz.pdf" title="A chart showing three Lorenz curves nested between the origin and the top-right corner of a square, alongside a dashed diagonal representing perfect equality. The innermost curve, close to the diagonal, corresponds to a Gini of 0.20; the middle curve to a Gini of 0.43; the outermost curve, furthest from the diagonal, to a Gini of 0.69. All three curves are monotonic and convex." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 1: Lorenz curves for three synthetic income distributions with low, medium, and high inequality. Each series is a lognormal sample of 2000 observations. Distributions share the same geometric mean and differ only in dispersion. Dashed diagonal is the line of perfect equality. Each Gini is twice the area between its curve and the diagonal.
+</p>
+</div>
+</div>
+<p>Figure <a href="#fig:gini-ci">2</a> shows how the Davidson bootstrap confidence
+interval width shrinks with sample size. At 100 observations the
+half-width is over 0.05 Gini points, which is often larger than the
+substantive effect an applied economist is trying to detect. At 5000
+observations the interval collapses to under 0.02 Gini points.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:gini-ci"></span>
+<embed src="figures/fig2_gini_ci.pdf" title="A chart of confidence interval half-width on the vertical axis against sample size on a logarithmic horizontal axis. Values fall from above 0.05 at a sample size of 100 to below 0.02 at a sample size of 5000. The curve is smoothly decreasing and approximately linear in log space." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 2: Mean 95 per cent Davidson bootstrap CI width for the Gini coefficient as a function of sample size. At each sample size the CI is computed on 40 independent lognormal draws (mu = 10.5, sigma = 0.8), each with 400 bootstrap replications. Sample sizes on the log scale. CI half-width falls by a factor of roughly six between n = 100 and n = 5000.
+</p>
+</div>
+</div>
+<p> returns either Theil T (GE(1)) or Theil L
+(GE(0)) depending on the argument.
+returns the Atkinson index with its
+equally-distributed-equivalent income. The remaining inequality
+measures are exposed through ,
+, , , and
+complete the set of inequality
+indices.</p>
+<h2 data-number="5" id="decomposition-and-income-shares"><span class="header-section-number">5</span> Decomposition and income shares</h2>
+<p> implements the
+Bourguignon decomposition of a GE index into a between-group
+component (the inequality that would remain if every individual had
+their group mean) and a within-group component (the inequality that
+would remain if every group had the grand mean). Figure
+<a href="#fig:decompose">3</a> shows how the decomposition behaves across three
+grouping scenarios, holding within-group dispersion constant but
+varying the spread of group means.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:decompose"></span>
+<embed src="figures/fig3_decompose.pdf" title="A stacked bar chart with three bars, each representing a different grouping scenario. Every bar is normalised to the same total height, representing the full Theil T index. The left bar is dominated by the within-group component (the between share is 0.6 per cent). The middle bar has a larger between-group share. The right bar is roughly evenly split, with the between-group share reaching 45 per cent." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 3: Bourguignon between-within decomposition of Theil T across three grouping scenarios. Each scenario has 1500 observations in three groups with identical within-group dispersion (sigma = 0.6 lognormal) but different group-mean spread. Left bar: group means GBP 30k / 32k / 34k, between share 0.6 per cent. Middle bar: group means 25k / 35k / 55k. Right bar: group means 18k / 40k / 80k, between share 45 per cent. The between-within split is an immediate diagnostic for how much inequality is explained by the grouping variable.
+</p>
+</div>
+</div>
+<p> returns the income share held by the
+bottom 50 per cent, the middle 40 per cent, the top 10 per cent, and
+the top 1 per cent. This mirrors the tabulation style of the World
+Inequality Database and Distributional National Accounts.</p>
+<p> computes the concentration index of a
+health or wellbeing variable against a rank variable (usually
+income). The option applies the Erreygers
+correction for bounded variables.</p>
+<p> returns the Lorenz curve coordinates and the
+associated Gini. A method renders the curve with
+the line of perfect equality.</p>
+<h2 data-number="6" id="poverty-and-growth-incidence"><span class="header-section-number">6</span> Poverty and growth incidence</h2>
+<p> returns the FGT headcount
+(<span class="math inline">\(\alpha = 0\)</span>, the poverty rate), gap (<span class="math inline">\(\alpha = 1\)</span>, depth of poverty
+normalised by the line), and severity (<span class="math inline">\(\alpha = 2\)</span>, which rewards
+transfers within the poor), plus the Sen index and the Watts index.
+The poverty line is a required argument with no default, since the
+choice of line is a substantive modelling decision.</p>
+<p>returns the Ravallion-Chen growth incidence curve, plotting
+annualised income growth at each percentile of the period-zero
+distribution. The mean growth rate corresponds to the usual
+aggregate growth statistic; a curve below the mean line at low
+percentiles indicates anti-poor growth. Figure <a href="#fig:gic">4</a> shows a
+curve from the package’s sample panel dataset.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:gic"></span>
+<embed src="figures/fig4_gic.pdf" title="A line chart with the base-period percentile rank on the horizontal axis from 0 to 100 and the annualised growth rate on the vertical axis. The curve rises monotonically from a low value at the lowest percentile to a higher value at the top percentile. A horizontal dashed line marks the mean annualised growth rate; the curve is below the dashed line for lower percentiles and above it at higher percentiles." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 4: Growth incidence curve on the package’s synthetic panel dataset. Data from : 1000 individuals across two periods, lognormal returns with heterogeneous growth (lower percentiles grow more slowly). Annualised growth rate at each 5-percentile bin is plotted against the base-period percentile rank. Dashed line is the mean annualised growth rate across the full distribution. The curve’s upward slope signals inequality-increasing growth over the period.
+</p>
+</div>
+</div>
+<h2 data-number="7" id="fiscal-redistribution-and-polarisation"><span class="header-section-number">7</span> Fiscal redistribution and polarisation</h2>
+<p> returns the Kakwani index
+of tax progressivity (concentration index of the tax minus Gini of
+pre-tax income) and the Reynolds-Smolensky index of redistribution
+(Gini of pre-tax income minus Gini of post-tax income). By
+construction redistribution decomposes into progressivity times
+average tax rate less a reranking term.</p>
+<p> returns the Wolfson polarisation
+index. The index is zero under perfect equality, reaches a positive
+maximum when the distribution splits into two equal masses far from
+the median, and is uncorrelated with the Gini in general. Rising
+polarisation with stable Gini is the empirical signature of a
+“disappearing middle”.</p>
+<h2 data-number="8" id="a-case-study-on-the-inequality-verdict"><span class="header-section-number">8</span> A case study on the inequality verdict</h2>
+<p>A common pitfall in distributional analysis is treating a single
+index as synonymous with “inequality”. Different indices weight
+different parts of the distribution, so the ordinal ranking of two
+populations can flip depending on the index chosen. Figure
+<a href="#fig:atkinson">5</a> makes this concrete: two distributions are scored
+by the Atkinson index over a grid of inequality-aversion parameters
+<span class="math inline">\(\varepsilon \in [0.1, 2.5]\)</span>. A lognormal distribution scores
+consistently lower than a heavy-tailed mixture (85 per cent
+moderate-variance plus 15 per cent high-variance top tail) throughout
+the range, but the gap between them widens sharply with
+<span class="math inline">\(\varepsilon\)</span>: the heavy-tailed distribution is penalised far more
+once the social welfare function becomes aversive to inequality at
+the top.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:atkinson"></span>
+<embed src="figures/fig5_atkinson.pdf" title="A line chart with the inequality-aversion parameter epsilon on the horizontal axis from 0.1 to 2.5 and the Atkinson index value on the vertical axis. A solid blue line corresponds to a lognormal sample and rises gently. A dashed red line corresponds to a heavy-tailed mixture and rises much more steeply, reaching roughly double the blue line by epsilon equals 2." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 5: Atkinson index as a function of inequality-aversion parameter epsilon for two distributions. Blue solid: a single lognormal sample, n = 3000. Red dashed: a mixture, 85 per cent moderate lognormal plus 15 per cent high-mean high-variance lognormal, total n = 3000. At epsilon = 0.5 the two distributions score similarly; at epsilon = 2 the mixture distribution scores more than double the lognormal, reflecting the heavier top tail. The two distributions have Gini coefficients 0.41 and 0.56 respectively.
+</p>
+</div>
+</div>
+<p>The practical implication is that any claim of the form “population A
+is more unequal than population B” requires specifying the index. The
+function addresses this by running the standard
+index set on the same data and returning the tabulated results.</p>
+<h2 data-number="9" id="a-case-study-of-six-country-inequality-trajectories"><span class="header-section-number">9</span> A case study of six-country inequality trajectories</h2>
+<p>Figure <a href="#fig:wb-gini">6</a> plots annual Gini coefficients from the
+World Bank’s Poverty and Inequality Platform (PIP), series
+, for six economies with the longest continuous
+coverage: Sweden, Germany, France, the United Kingdom, the United
+States, and Brazil, 1970 to 2024. The Gini values themselves are
+published; the case study’s contribution is to show how the package
+machinery handles the full observed record (241 country-year
+observations) in one pipeline and to produce a Davidson-interval
+point estimate on any slice the user cares about.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:wb-gini"></span>
+<embed src="figures/fig6_wb_gini.pdf" title="A line chart with calendar year on the horizontal axis from 1970 to 2024 and Gini coefficient on the vertical axis from about 22 to 60. Six country series are plotted. Brazil sits well above the others, starting around 58 and declining to about 50. The United States climbs from 37 to 42. Sweden, France, and Germany cluster between 25 and 33 across the full period. The United Kingdom rises from 28 to 32 with most of the increase in the 1980s." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 6: Gini coefficient by country, 1970 to 2024, from the World Bank Poverty and Inequality Platform. Data: World Bank series , downloaded via the WDI API. Six economies with the longest continuous coverage are shown. Brazil shows the well-documented post-Bolsa-Familia decline from 58 in 1989 to 51 in 2024. The United States shows a steady rise from 37 in 1970 to 42 in 2024. Sweden, France, Germany cluster in the 25 to 32 band throughout. The United Kingdom traces a Thatcher-era rise and post-1990 stabilisation.
+</p>
+</div>
+</div>
+<p>Table <a href="#tab:wb-summary">1</a> reports the first-year and last-year
+Gini and the point change for each country.</p>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<caption><span id="tab:wb-summary">Table 1: </span>First-year and last-year Gini plus total change for six countries in the World Bank Poverty and Inequality Platform panel. Ordered by latest observed Gini, ascending. Change is the last-year Gini minus the first-year Gini in percentage points.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">First</th>
+<th style="text-align: right;">First Gini</th>
+<th style="text-align: right;">Last</th>
+<th style="text-align: right;">Last Gini</th>
+<th style="text-align: left;">Change (pp)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sweden</td>
+<td style="text-align: right;">1975</td>
+<td style="text-align: right;">24.3</td>
+<td style="text-align: right;">2023</td>
+<td style="text-align: right;">29.3</td>
+<td style="text-align: left;">+5.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">1970</td>
+<td style="text-align: right;">37.1</td>
+<td style="text-align: right;">2023</td>
+<td style="text-align: right;">31.8</td>
+<td style="text-align: left;">-5.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">United Kingdom</td>
+<td style="text-align: right;">1970</td>
+<td style="text-align: right;">28.0</td>
+<td style="text-align: right;">2021</td>
+<td style="text-align: right;">32.4</td>
+<td style="text-align: left;">+4.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">1991</td>
+<td style="text-align: right;">29.3</td>
+<td style="text-align: right;">2022</td>
+<td style="text-align: right;">33.7</td>
+<td style="text-align: left;">+4.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">United States</td>
+<td style="text-align: right;">1970</td>
+<td style="text-align: right;">36.6</td>
+<td style="text-align: right;">2024</td>
+<td style="text-align: right;">41.8</td>
+<td style="text-align: left;">+5.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">1981</td>
+<td style="text-align: right;">57.9</td>
+<td style="text-align: right;">2024</td>
+<td style="text-align: right;">50.3</td>
+<td style="text-align: left;">-7.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The picture is consistent with the comparative-welfare literature
+<span class="citation" data-cites="atkinson2008changing piketty2014capital">(<a href="#ref-atkinson2008changing" role="doc-biblioref">Atkinson 2008</a>; <a href="#ref-piketty2014capital" role="doc-biblioref">Piketty 2014</a>)</span>: Scandinavian
+economies with strong redistribution remain at the low end of the
+distribution; liberal-market economies (United States, United
+Kingdom) saw rising inequality from roughly 1980; continental
+European economies traced a middle path; and Brazil’s post-2000
+declines track the expansion of conditional-cash-transfer
+programmes.</p>
+<p>The computation itself is two lines: read the CSV, pass each
+country’s series to to obtain a Davidson bootstrap
+confidence interval if desired. The bundled <a href="#">inequality</a>
+toolkit then allows any of the other indices (Theil, Atkinson,
+Palma) to be computed from the same underlying microdata when
+available, and the between-within decomposition described above to
+treat the country as the grouping variable for a cross-country
+decomposition of global inequality.</p>
+<h2 data-number="10" id="replication"><span class="header-section-number">10</span> Replication</h2>
+<p>Table <a href="#tab:compare">2</a> reports output on the
+package’s synthetic sample data. The data frame has 1000 observations
+drawn from a lognormal distribution with mean log 10.5 and standard
+deviation log 0.8; the sample is bundled via
+.</p>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<caption><span id="tab:compare">Table 2: </span>Nine inequality and poverty indices for the package’s synthetic income sample. Output of . Gini and Theil agree on the total magnitude; Atkinson rises sharply with inequality aversion; Palma ratio captures the 10/40 tail concentration; P90/P10 gives the most intuitive read.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Index</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Gini</td>
+<td style="text-align: right;">0.4300</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Theil T (GE1)</td>
+<td style="text-align: right;">0.3307</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Theil L (GE0)</td>
+<td style="text-align: right;">0.3241</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Atkinson (e=0.5)</td>
+<td style="text-align: right;">0.1506</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Atkinson (e=1.0)</td>
+<td style="text-align: right;">0.2768</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Palma ratio</td>
+<td style="text-align: right;">2.1528</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hoover</td>
+<td style="text-align: right;">0.3126</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">P90/P10</td>
+<td style="text-align: right;">7.8282</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">P80/P20</td>
+<td style="text-align: right;">3.9206</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The full workflow for an applied study is five lines.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(inequality)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">iq_sample_data</span>(<span class="st">&quot;income&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">iq_gini</span>(d<span class="sc">$</span>income, <span class="at">weights =</span> d<span class="sc">$</span>weight, <span class="at">ci =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">iq_decompose</span>(d<span class="sc">$</span>income, d<span class="sc">$</span>group, <span class="at">weights =</span> d<span class="sc">$</span>weight)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">iq_poverty</span>(d<span class="sc">$</span>income, <span class="at">line =</span> <span class="dv">20000</span>, <span class="at">weights =</span> d<span class="sc">$</span>weight)</span></code></pre></div>
+<p>Each call returns an S3 object with a print method; the numeric
+components are accessible by .</p>
+<h2 data-number="11" id="limitations"><span class="header-section-number">11</span> Limitations</h2>
+<p>Five limitations apply.</p>
+<ol type="1">
+<li><a href="#">inequality</a> is a measurement package, not a survey-design
+package. It accepts survey weights but does not compute
+replicate-weight or Taylor-series variance estimators for complex
+survey designs. Users needing design-based inference should pair
+these functions with <a href="https://cran.r-project.org/package=survey">survey</a> or <a href="https://cran.r-project.org/package=srvyr">srvyr</a>.</li>
+<li>The package does not correct for top-coding, bottom-coding, or
+unit non-response. Analyses of administrative tax data are
+sensitive to the top-coding threshold, and the user must apply
+any correction (Pareto tail interpolation, for example) before
+passing data into the functions.</li>
+<li>Inferential coverage is confined to the Gini coefficient.
+Confidence intervals for the other indices could be added by
+bootstrap but are not yet exposed as a uniform option.</li>
+<li>The package does not reconcile survey income to national accounts,
+as the Distributional National Accounts (DINA) framework does.
+Cross-comparability of inequality indices across countries and
+vintages remains the user’s responsibility.</li>
+<li>All functions are pure R. For panel inequality analysis at the
+scale of linked employer-employee data (millions of rows across
+dozens of time periods), compiled-code implementations in Rcpp or
+Julia would be faster.</li>
+</ol>
+<h2 data-number="12" id="conclusion"><span class="header-section-number">12</span> Conclusion</h2>
+<p>Inequality measurement is mature as a subfield but has been
+underserved on CRAN: <a href="https://cran.r-project.org/package=ineq">ineq</a> has not been updated in over a
+decade, and applied work has relied on private scripts that are
+neither tested nor cited. <a href="#">inequality</a> replaces that state
+with a single package that covers every index, decomposition,
+poverty measure, and fiscal-redistribution diagnostic routinely used
+in applied distributional analysis. All functions accept survey
+weights, return cited S3 objects with print methods, and share a
+uniform interface. Planned additions for future releases include
+complex-survey variance estimators, DINA-style national-accounts
+reconciliation helpers, bootstrap confidence intervals for the full
+index set, and compiled-code implementations for large panels.
+Contributions and bug reports are welcome at
+.</p>
+<h2 class="unnumbered" id="acknowledgements">Acknowledgements</h2>
+<p>The author thanks the R Core Team and CRAN maintainers for the
+infrastructure that supports open-source statistical software. The
+World Bank publishes the Poverty and Inequality Platform series used
+in the six-country case study.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 class="appendix" data-number="12.1" id="cran-packages-used"><span class="header-section-number">12.1</span> CRAN packages used</h3>
+<p><a href="https://cran.r-project.org/package=ineq">ineq</a>, <a href="https://cran.r-project.org/package=cli">cli</a>, <a href="https://cran.r-project.org/package=testthat">testthat</a>, <a href="https://cran.r-project.org/package=survey">survey</a>, <a href="https://cran.r-project.org/package=srvyr">srvyr</a></p>
+<h3 class="appendix" data-number="12.2" id="cran-task-views-implied-by-cited-packages"><span class="header-section-number">12.2</span> CRAN Task Views implied by cited packages</h3>
+<p><a href="https://cran.r-project.org/view=Econometrics">Econometrics</a>, <a href="https://cran.r-project.org/view=OfficialStatistics">OfficialStatistics</a>, <a href="https://cran.r-project.org/view=Survival">Survival</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-atkinson1970measurement" class="csl-entry" role="listitem">
+A. B. Atkinson. On the measurement of inequality. <em>Journal of Economic Theory</em>, 2(3): 244–263, 1970. DOI <a href="https://doi.org/10.1016/0022-0531(70)90039-6">10.1016/0022-0531(70)90039-6</a>.
+</div>
+<div id="ref-atkinson2008changing" class="csl-entry" role="listitem">
+A. B. Atkinson. <em>The changing distribution of earnings in <span>OECD</span> countries.</em> Oxford: Oxford University Press, 2008. DOI <a href="https://doi.org/10.1093/acprof:oso/9780199532438.001.0001">10.1093/acprof:oso/9780199532438.001.0001</a>.
+</div>
+<div id="ref-bourguignon1979decomposable" class="csl-entry" role="listitem">
+F. Bourguignon. Decomposable income inequality measures. <em>Econometrica</em>, 47(4): 901–920, 1979. DOI <a href="https://doi.org/10.2307/1914138">10.2307/1914138</a>.
+</div>
+<div id="ref-davidson2009reliable" class="csl-entry" role="listitem">
+R. Davidson. Reliable inference for the <span>G</span>ini index. <em>Journal of Econometrics</em>, 150(1): 30–40, 2009. DOI <a href="https://doi.org/10.1016/j.jeconom.2008.09.011">10.1016/j.jeconom.2008.09.011</a>.
+</div>
+<div id="ref-donaldson1980single" class="csl-entry" role="listitem">
+D. Donaldson and J. A. Weymark. A single-parameter generalization of the gini indices of inequality. <em>Journal of Economic Theory</em>, 22(1): 67–86, 1980. DOI <a href="https://doi.org/10.1016/0022-0531(80)90065-4">10.1016/0022-0531(80)90065-4</a>.
+</div>
+<div id="ref-erreygers2009correcting" class="csl-entry" role="listitem">
+G. Erreygers. Correcting the concentration index. <em>Journal of Health Economics</em>, 28(2): 504–515, 2009. DOI <a href="https://doi.org/10.1016/j.jhealeco.2008.02.003">10.1016/j.jhealeco.2008.02.003</a>.
+</div>
+<div id="ref-foster2010polarization" class="csl-entry" role="listitem">
+J. E. Foster and M. C. Wolfson. Polarization and the decline of the middle class: <span>C</span>anada and the <span>U.S.</span> <em>Journal of Economic Inequality</em>, 8(2): 247–273, 2010. DOI <a href="https://doi.org/10.1007/s10888-009-9122-7">10.1007/s10888-009-9122-7</a>.
+</div>
+<div id="ref-foster1984class" class="csl-entry" role="listitem">
+J. Foster, J. Greer and E. Thorbecke. A class of decomposable poverty measures. <em>Econometrica</em>, 52(3): 761–766, 1984. DOI <a href="https://doi.org/10.2307/1913475">10.2307/1913475</a>.
+</div>
+<div id="ref-gini1912variabilita" class="csl-entry" role="listitem">
+C. Gini. <em>Variabilità e mutabilità: Contributo allo studio delle distribuzioni e delle relazioni statistiche.</em> Bologna: C. Cuppini, 1912.
+</div>
+<div id="ref-kakwani1977measurement" class="csl-entry" role="listitem">
+N. C. Kakwani. Measurement of tax progressivity: An international comparison. <em>Economic Journal</em>, 87(345): 71–80, 1977. DOI <a href="https://doi.org/10.2307/2231833">10.2307/2231833</a>.
+</div>
+<div id="ref-kolm1976unequal" class="csl-entry" role="listitem">
+S.-C. Kolm. Unequal inequalities i. <em>Journal of Economic Theory</em>, 12(3): 416–442, 1976. DOI <a href="https://doi.org/10.1016/0022-0531(76)90037-5">10.1016/0022-0531(76)90037-5</a>.
+</div>
+<div id="ref-lorenz1905methods" class="csl-entry" role="listitem">
+M. O. Lorenz. Methods of measuring the concentration of wealth. <em>Publications of the American Statistical Association</em>, 9(70): 209–219, 1905. DOI <a href="https://doi.org/10.2307/2276207">10.2307/2276207</a>.
+</div>
+<div id="ref-palma2011homogeneous" class="csl-entry" role="listitem">
+J. G. Palma. Homogeneous middles vs. Heterogeneous tails, and the end of the <span>“inverted-u”</span>: It’s all about the share of the rich. <em>Development and Change</em>, 42(1): 87–153, 2011. DOI <a href="https://doi.org/10.1111/j.1467-7660.2011.01694.x">10.1111/j.1467-7660.2011.01694.x</a>.
+</div>
+<div id="ref-piketty2014capital" class="csl-entry" role="listitem">
+T. Piketty. <em>Capital in the twenty-first century.</em> Cambridge, MA: Harvard University Press, 2014. DOI <a href="https://doi.org/10.4159/9780674369542">10.4159/9780674369542</a>.
+</div>
+<div id="ref-ravallion2003measuring" class="csl-entry" role="listitem">
+M. Ravallion and S. Chen. Measuring pro-poor growth. <em>Economics Letters</em>, 78(1): 93–99, 2003. DOI <a href="https://doi.org/10.1016/S0165-1765(02)00205-7">10.1016/S0165-1765(02)00205-7</a>.
+</div>
+<div id="ref-reynolds1977public" class="csl-entry" role="listitem">
+M. Reynolds and E. Smolensky. <em>Public expenditures, taxes, and the distribution of income: The <span>U</span>nited <span>S</span>tates, 1950, 1961, 1970.</em> New York: Academic Press, 1977.
+</div>
+<div id="ref-sen1976poverty" class="csl-entry" role="listitem">
+A. Sen. Poverty: An ordinal approach to measurement. <em>Econometrica</em>, 44(2): 219–231, 1976. DOI <a href="https://doi.org/10.2307/1912718">10.2307/1912718</a>.
+</div>
+<div id="ref-shorrocks1980class" class="csl-entry" role="listitem">
+A. F. Shorrocks. The class of additively decomposable inequality measures. <em>Econometrica</em>, 48(3): 613–625, 1980. DOI <a href="https://doi.org/10.2307/1913126">10.2307/1913126</a>.
+</div>
+<div id="ref-theil1967information" class="csl-entry" role="listitem">
+H. Theil. <em>Economics and information theory.</em> Amsterdam: North-Holland, 1967.
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+<h3 id="citation">Citation</h3>
+<p>For attribution, please cite this work as</p>
+<pre class="citation-appendix short">Coverdale, "Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R", The R Journal, 2026</pre>
+<p>BibTeX citation</p>
+<pre class="citation-appendix long">@article{inequality,
+  author = {Coverdale, Charles},
+  title = {Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R},
+  journal = {The R Journal},
+  year = {2026},
+  issn = {2073-4859},
+  pages = {1}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
