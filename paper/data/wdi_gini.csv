@@ -1,0 +1,271 @@
+"iso3","country","year","gini"
+"BRA","Brazil",1981,57.9
+"BRA","Brazil",1982,58.4
+"BRA","Brazil",1983,58.9
+"BRA","Brazil",1984,58.3
+"BRA","Brazil",1985,55.5
+"BRA","Brazil",1986,58.4
+"BRA","Brazil",1987,59.6
+"BRA","Brazil",1988,61.4
+"BRA","Brazil",1989,63.2
+"BRA","Brazil",1990,60.5
+"BRA","Brazil",1992,53.1
+"BRA","Brazil",1993,60.1
+"BRA","Brazil",1995,59.5
+"BRA","Brazil",1996,59.8
+"BRA","Brazil",1997,59.8
+"BRA","Brazil",1998,59.6
+"BRA","Brazil",1999,59
+"BRA","Brazil",2001,58.4
+"BRA","Brazil",2002,58.1
+"BRA","Brazil",2003,57.6
+"BRA","Brazil",2004,56.5
+"BRA","Brazil",2005,56.3
+"BRA","Brazil",2006,55.6
+"BRA","Brazil",2007,54.9
+"BRA","Brazil",2008,54
+"BRA","Brazil",2009,53.7
+"BRA","Brazil",2011,52.9
+"BRA","Brazil",2012,53.4
+"BRA","Brazil",2013,52.7
+"BRA","Brazil",2014,52.1
+"BRA","Brazil",2015,51.9
+"BRA","Brazil",2016,53.4
+"BRA","Brazil",2017,53.3
+"BRA","Brazil",2018,53.9
+"BRA","Brazil",2019,53.5
+"BRA","Brazil",2020,48.8
+"BRA","Brazil",2021,52.9
+"BRA","Brazil",2022,51.9
+"BRA","Brazil",2023,51.5
+"BRA","Brazil",2024,50.3
+"DEU","Germany",1991,29.3
+"DEU","Germany",1992,29
+"DEU","Germany",1993,28.4
+"DEU","Germany",1994,29.1
+"DEU","Germany",1995,28.7
+"DEU","Germany",1996,28.3
+"DEU","Germany",1997,28.2
+"DEU","Germany",1998,28.1
+"DEU","Germany",1999,29
+"DEU","Germany",2000,28.7
+"DEU","Germany",2001,29.9
+"DEU","Germany",2002,29.9
+"DEU","Germany",2003,29.9
+"DEU","Germany",2004,30.1
+"DEU","Germany",2005,31.6
+"DEU","Germany",2006,31
+"DEU","Germany",2007,31.2
+"DEU","Germany",2008,30.6
+"DEU","Germany",2009,30.4
+"DEU","Germany",2010,30.2
+"DEU","Germany",2011,30.4
+"DEU","Germany",2012,30.9
+"DEU","Germany",2013,31.4
+"DEU","Germany",2014,30.8
+"DEU","Germany",2015,31.4
+"DEU","Germany",2016,31.3
+"DEU","Germany",2017,31.3
+"DEU","Germany",2018,31.9
+"DEU","Germany",2019,32.2
+"DEU","Germany",2020,32.5
+"DEU","Germany",2021,33.6
+"DEU","Germany",2022,33.7
+"FRA","France",1970,37.1
+"FRA","France",1975,35.9
+"FRA","France",1979,34
+"FRA","France",1984,33.4
+"FRA","France",1990,32.1
+"FRA","France",1996,32
+"FRA","France",1997,31.9
+"FRA","France",1998,31.7
+"FRA","France",1999,32.5
+"FRA","France",2000,32.6
+"FRA","France",2001,32.5
+"FRA","France",2002,31.8
+"FRA","France",2003,31.4
+"FRA","France",2004,30.6
+"FRA","France",2005,29.8
+"FRA","France",2006,29.7
+"FRA","France",2007,32.4
+"FRA","France",2008,33
+"FRA","France",2009,32.7
+"FRA","France",2010,33.7
+"FRA","France",2011,33.3
+"FRA","France",2012,33.1
+"FRA","France",2013,32.5
+"FRA","France",2014,32.3
+"FRA","France",2015,32.7
+"FRA","France",2016,31.9
+"FRA","France",2017,31.6
+"FRA","France",2018,32.4
+"FRA","France",2019,31.2
+"FRA","France",2020,30.7
+"FRA","France",2021,31.5
+"FRA","France",2022,31.2
+"FRA","France",2023,31.8
+"GBR","United Kingdom",1968,26.8
+"GBR","United Kingdom",1969,27.9
+"GBR","United Kingdom",1970,28
+"GBR","United Kingdom",1971,29.3
+"GBR","United Kingdom",1972,28.8
+"GBR","United Kingdom",1973,28.8
+"GBR","United Kingdom",1974,29
+"GBR","United Kingdom",1975,27.9
+"GBR","United Kingdom",1976,27.6
+"GBR","United Kingdom",1977,27.1
+"GBR","United Kingdom",1978,27.2
+"GBR","United Kingdom",1979,27.4
+"GBR","United Kingdom",1980,28.5
+"GBR","United Kingdom",1981,29.7
+"GBR","United Kingdom",1982,29.9
+"GBR","United Kingdom",1983,29.8
+"GBR","United Kingdom",1984,29.2
+"GBR","United Kingdom",1985,30.4
+"GBR","United Kingdom",1986,31.9
+"GBR","United Kingdom",1987,33.9
+"GBR","United Kingdom",1988,34.3
+"GBR","United Kingdom",1989,33.4
+"GBR","United Kingdom",1990,35.7
+"GBR","United Kingdom",1991,35
+"GBR","United Kingdom",1992,35
+"GBR","United Kingdom",1993,35.1
+"GBR","United Kingdom",1994,36
+"GBR","United Kingdom",1995,35.5
+"GBR","United Kingdom",1996,35.3
+"GBR","United Kingdom",1997,35.7
+"GBR","United Kingdom",1998,36.6
+"GBR","United Kingdom",1999,36.8
+"GBR","United Kingdom",2000,38.9
+"GBR","United Kingdom",2001,37.1
+"GBR","United Kingdom",2002,35.1
+"GBR","United Kingdom",2003,34.9
+"GBR","United Kingdom",2004,34.8
+"GBR","United Kingdom",2005,35.5
+"GBR","United Kingdom",2006,35.9
+"GBR","United Kingdom",2007,34.4
+"GBR","United Kingdom",2008,35.4
+"GBR","United Kingdom",2009,35.1
+"GBR","United Kingdom",2010,33.7
+"GBR","United Kingdom",2011,33.2
+"GBR","United Kingdom",2012,33.1
+"GBR","United Kingdom",2013,32.7
+"GBR","United Kingdom",2014,33.1
+"GBR","United Kingdom",2015,33.3
+"GBR","United Kingdom",2016,33.1
+"GBR","United Kingdom",2017,32.6
+"GBR","United Kingdom",2018,33.7
+"GBR","United Kingdom",2019,32.8
+"GBR","United Kingdom",2020,32.7
+"GBR","United Kingdom",2021,32.4
+"JPN","Japan",2008,34.6
+"JPN","Japan",2009,33
+"JPN","Japan",2010,31.5
+"JPN","Japan",2011,33
+"JPN","Japan",2012,32.5
+"JPN","Japan",2013,31.5
+"JPN","Japan",2014,31.3
+"JPN","Japan",2015,30.7
+"JPN","Japan",2016,31.8
+"JPN","Japan",2017,31.8
+"JPN","Japan",2018,32.9
+"JPN","Japan",2019,33
+"JPN","Japan",2020,32.3
+"SWE","Sweden",1975,24.3
+"SWE","Sweden",1981,22.9
+"SWE","Sweden",1987,23.1
+"SWE","Sweden",1992,24.9
+"SWE","Sweden",1995,25.2
+"SWE","Sweden",2000,27
+"SWE","Sweden",2001,26.5
+"SWE","Sweden",2002,26.2
+"SWE","Sweden",2003,25.3
+"SWE","Sweden",2004,26.1
+"SWE","Sweden",2005,26.8
+"SWE","Sweden",2006,26.4
+"SWE","Sweden",2007,27.1
+"SWE","Sweden",2008,28.1
+"SWE","Sweden",2009,27.3
+"SWE","Sweden",2010,27.7
+"SWE","Sweden",2011,27.6
+"SWE","Sweden",2012,27.6
+"SWE","Sweden",2013,28.8
+"SWE","Sweden",2014,28.4
+"SWE","Sweden",2015,29.2
+"SWE","Sweden",2016,29.6
+"SWE","Sweden",2017,28.8
+"SWE","Sweden",2018,30
+"SWE","Sweden",2019,29.3
+"SWE","Sweden",2020,28.9
+"SWE","Sweden",2021,29.8
+"SWE","Sweden",2022,31.6
+"SWE","Sweden",2023,29.3
+"USA","United States",1963,36.7
+"USA","United States",1964,37.4
+"USA","United States",1965,36.8
+"USA","United States",1966,37.1
+"USA","United States",1967,36.9
+"USA","United States",1968,36.3
+"USA","United States",1969,36
+"USA","United States",1970,36.6
+"USA","United States",1971,36.9
+"USA","United States",1972,36.7
+"USA","United States",1973,36.1
+"USA","United States",1974,35.5
+"USA","United States",1975,35.7
+"USA","United States",1976,35.6
+"USA","United States",1977,35.5
+"USA","United States",1978,34.8
+"USA","United States",1979,34.8
+"USA","United States",1980,34.7
+"USA","United States",1981,35.5
+"USA","United States",1982,36.7
+"USA","United States",1983,37.3
+"USA","United States",1984,37.3
+"USA","United States",1985,37.6
+"USA","United States",1986,37.6
+"USA","United States",1987,37.2
+"USA","United States",1988,37.7
+"USA","United States",1989,38.2
+"USA","United States",1990,38.3
+"USA","United States",1991,38
+"USA","United States",1992,38.4
+"USA","United States",1993,40.4
+"USA","United States",1994,40
+"USA","United States",1995,39.9
+"USA","United States",1996,40.3
+"USA","United States",1997,40.5
+"USA","United States",1998,40
+"USA","United States",1999,40
+"USA","United States",2000,40.1
+"USA","United States",2001,40.6
+"USA","United States",2002,40.4
+"USA","United States",2003,40.8
+"USA","United States",2004,40.5
+"USA","United States",2005,41.3
+"USA","United States",2006,41.7
+"USA","United States",2007,41.1
+"USA","United States",2008,41.1
+"USA","United States",2009,40.9
+"USA","United States",2010,40.2
+"USA","United States",2011,41.2
+"USA","United States",2012,41.2
+"USA","United States",2013,40.9
+"USA","United States",2014,41.7
+"USA","United States",2015,41.5
+"USA","United States",2016,41.3
+"USA","United States",2017,41.4
+"USA","United States",2018,41.8
+"USA","United States",2019,41.9
+"USA","United States",2020,40
+"USA","United States",2021,39.7
+"USA","United States",2022,41.7
+"USA","United States",2023,41.8
+"USA","United States",2024,41.8
+"ZAF","South Africa",1993,59.3
+"ZAF","South Africa",2000,57.8
+"ZAF","South Africa",2005,65
+"ZAF","South Africa",2008,62.5
+"ZAF","South Africa",2010,60.9
+"ZAF","South Africa",2014,59.6
+"ZAF","South Africa",2022,54.1
