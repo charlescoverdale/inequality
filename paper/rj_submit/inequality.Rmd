@@ -33,6 +33,7 @@ output:
     toc: no
 header-includes:
   - \renewcommand{\address}[1]{}
+  - \usepackage{float}
 bibliography: RJreferences.bib
 ---
 
@@ -363,11 +364,12 @@ wb_summary <- data.frame(
   `Change (pp)` = c("+5.0", "-5.3", "+4.4", "+4.4", "+5.2", "-7.6"),
   check.names = FALSE
 )
-knitr::kable(
+k <- knitr::kable(
   wb_summary,
   caption = "First-year and last-year Gini plus total change for six countries in the World Bank Poverty and Inequality Platform panel. Ordered by latest observed Gini, ascending. Change is the last-year Gini minus the first-year Gini in percentage points.",
-  booktabs = TRUE
+  booktabs = TRUE, format = "latex"
 )
+kableExtra::kable_styling(k, latex_options = c("HOLD_position"))
 ```
 
 The picture is consistent with the comparative-welfare literature
@@ -404,12 +406,12 @@ compare_tbl <- data.frame(
   Value = c(0.4300, 0.3307, 0.3241, 0.1506, 0.2768,
             2.1528, 0.3126, 7.8282, 3.9206)
 )
-knitr::kable(
+k2 <- knitr::kable(
   compare_tbl,
   caption = "Nine inequality and poverty indices for the package's synthetic income sample. Output of \\texttt{iq\\_compare(iq\\_sample\\_data(\"income\")\\$income)}. Gini and Theil agree on the total magnitude; Atkinson rises sharply with inequality aversion; Palma ratio captures the 10/40 tail concentration; P90/P10 gives the most intuitive read.",
-  booktabs = TRUE,
-  digits = 4
+  booktabs = TRUE, digits = 4, format = "latex"
 )
+kableExtra::kable_styling(k2, latex_options = c("HOLD_position"))
 ```
 
 The full workflow for an applied study is five lines.

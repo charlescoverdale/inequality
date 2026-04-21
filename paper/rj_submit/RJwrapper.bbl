@@ -1,0 +1,119 @@
+\begin{thebibliography}{19}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Atkinson(1970)]{atkinson1970measurement}
+A.~B. Atkinson.
+\newblock On the measurement of inequality.
+\newblock \emph{Journal of Economic Theory}, 2\penalty0 (3):\penalty0 244--263, 1970.
+\newblock \doi{10.1016/0022-0531(70)90039-6}.
+
+\bibitem[Atkinson(2008)]{atkinson2008changing}
+A.~B. Atkinson.
+\newblock \emph{The Changing Distribution of Earnings in {OECD} Countries}.
+\newblock Oxford University Press, Oxford, 2008.
+\newblock \doi{10.1093/acprof:oso/9780199532438.001.0001}.
+
+\bibitem[Bourguignon(1979)]{bourguignon1979decomposable}
+F.~Bourguignon.
+\newblock Decomposable income inequality measures.
+\newblock \emph{Econometrica}, 47\penalty0 (4):\penalty0 901--920, 1979.
+\newblock \doi{10.2307/1914138}.
+
+\bibitem[Davidson(2009)]{davidson2009reliable}
+R.~Davidson.
+\newblock Reliable inference for the {G}ini index.
+\newblock \emph{Journal of Econometrics}, 150\penalty0 (1):\penalty0 30--40, 2009.
+\newblock \doi{10.1016/j.jeconom.2008.09.011}.
+
+\bibitem[Donaldson and Weymark(1980)]{donaldson1980single}
+D.~Donaldson and J.~A. Weymark.
+\newblock A single-parameter generalization of the gini indices of inequality.
+\newblock \emph{Journal of Economic Theory}, 22\penalty0 (1):\penalty0 67--86, 1980.
+\newblock \doi{10.1016/0022-0531(80)90065-4}.
+
+\bibitem[Erreygers(2009)]{erreygers2009correcting}
+G.~Erreygers.
+\newblock Correcting the concentration index.
+\newblock \emph{Journal of Health Economics}, 28\penalty0 (2):\penalty0 504--515, 2009.
+\newblock \doi{10.1016/j.jhealeco.2008.02.003}.
+
+\bibitem[Foster et~al.(1984)Foster, Greer, and Thorbecke]{foster1984class}
+J.~Foster, J.~Greer, and E.~Thorbecke.
+\newblock A class of decomposable poverty measures.
+\newblock \emph{Econometrica}, 52\penalty0 (3):\penalty0 761--766, 1984.
+\newblock \doi{10.2307/1913475}.
+
+\bibitem[Foster and Wolfson(2010)]{foster2010polarization}
+J.~E. Foster and M.~C. Wolfson.
+\newblock Polarization and the decline of the middle class: {C}anada and the {U.S.}
+\newblock \emph{Journal of Economic Inequality}, 8\penalty0 (2):\penalty0 247--273, 2010.
+\newblock \doi{10.1007/s10888-009-9122-7}.
+
+\bibitem[Gini(1912)]{gini1912variabilita}
+C.~Gini.
+\newblock \emph{Variabilit\`a e Mutabilit\`a: Contributo allo Studio delle Distribuzioni e delle Relazioni Statistiche}.
+\newblock C. Cuppini, Bologna, 1912.
+
+\bibitem[Kakwani(1977)]{kakwani1977measurement}
+N.~C. Kakwani.
+\newblock Measurement of tax progressivity: An international comparison.
+\newblock \emph{Economic Journal}, 87\penalty0 (345):\penalty0 71--80, 1977.
+\newblock \doi{10.2307/2231833}.
+
+\bibitem[Kolm(1976)]{kolm1976unequal}
+S.-C. Kolm.
+\newblock Unequal inequalities i.
+\newblock \emph{Journal of Economic Theory}, 12\penalty0 (3):\penalty0 416--442, 1976.
+\newblock \doi{10.1016/0022-0531(76)90037-5}.
+
+\bibitem[Lorenz(1905)]{lorenz1905methods}
+M.~O. Lorenz.
+\newblock Methods of measuring the concentration of wealth.
+\newblock \emph{Publications of the American Statistical Association}, 9\penalty0 (70):\penalty0 209--219, 1905.
+\newblock \doi{10.2307/2276207}.
+
+\bibitem[Palma(2011)]{palma2011homogeneous}
+J.~G. Palma.
+\newblock Homogeneous middles vs. heterogeneous tails, and the end of the `inverted-u': It's all about the share of the rich.
+\newblock \emph{Development and Change}, 42\penalty0 (1):\penalty0 87--153, 2011.
+\newblock \doi{10.1111/j.1467-7660.2011.01694.x}.
+
+\bibitem[Piketty(2014)]{piketty2014capital}
+T.~Piketty.
+\newblock \emph{Capital in the Twenty-First Century}.
+\newblock Harvard University Press, Cambridge, MA, 2014.
+\newblock \doi{10.4159/9780674369542}.
+
+\bibitem[Ravallion and Chen(2003)]{ravallion2003measuring}
+M.~Ravallion and S.~Chen.
+\newblock Measuring pro-poor growth.
+\newblock \emph{Economics Letters}, 78\penalty0 (1):\penalty0 93--99, 2003.
+\newblock \doi{10.1016/S0165-1765(02)00205-7}.
+
+\bibitem[Reynolds and Smolensky(1977)]{reynolds1977public}
+M.~Reynolds and E.~Smolensky.
+\newblock \emph{Public Expenditures, Taxes, and the Distribution of Income: The {U}nited {S}tates, 1950, 1961, 1970}.
+\newblock Academic Press, New York, 1977.
+
+\bibitem[Sen(1976)]{sen1976poverty}
+A.~Sen.
+\newblock Poverty: An ordinal approach to measurement.
+\newblock \emph{Econometrica}, 44\penalty0 (2):\penalty0 219--231, 1976.
+\newblock \doi{10.2307/1912718}.
+
+\bibitem[Shorrocks(1980)]{shorrocks1980class}
+A.~F. Shorrocks.
+\newblock The class of additively decomposable inequality measures.
+\newblock \emph{Econometrica}, 48\penalty0 (3):\penalty0 613--625, 1980.
+\newblock \doi{10.2307/1913126}.
+
+\bibitem[Theil(1967)]{theil1967information}
+H.~Theil.
+\newblock \emph{Economics and Information Theory}.
+\newblock North-Holland, Amsterdam, 1967.
+
+\end{thebibliography}

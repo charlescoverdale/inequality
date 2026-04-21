@@ -1,0 +1,358 @@
+---
+title: "inequality"
+subtitle: "Inequality measurement, decomposition, and poverty analysis in R"
+author: "Charles Coverdale"
+institute: "London, United Kingdom"
+date: "2026-04-01"
+date-format: "MMMM YYYY"
+format:
+  beamer:
+    aspectratio: 169
+    fontsize: 11pt
+    navigation: empty
+    theme: default
+    colortheme: default
+    fonttheme: default
+    pdf-engine: xelatex
+    include-in-header: header.tex
+    slide-level: 2
+    keep-tex: false
+    fig-align: center
+    classoption:
+      - t
+---
+
+
+## The question
+
+\vspace{1.5em}
+
+\begin{center}
+\Large\bfseries\color{econblue}
+How should we compute the standard suite of inequality, poverty,\\[0.1em]
+and redistribution measures in a single reproducible R interface?
+\end{center}
+
+\vspace{1em}
+
+\begin{center}
+\normalsize\itshape
+Eighteen functions, four families, one uniform \texttt{iq\_} interface with survey weights as a first-class argument.
+\end{center}
+
+::: notes
+Open with the question, not the package. The problem: inequality
+measurement is routine in applied distributional economics but the R
+ecosystem delivers it piecemeal. We need a single interface that
+matches how analysts actually work with survey data.
+:::
+
+
+## Why it matters
+
+- **National statistical offices** publish annual Gini, Palma, and poverty tabulations
+- **Fiscal policy analysts** measure Kakwani progressivity and Reynolds-Smolensky redistribution
+- **Development economists** compute Ravallion-Chen growth incidence curves and FGT poverty
+- **Health economists** quantify socioeconomic gradients via Erreygers-corrected concentration indices
+
+::: notes
+Four distinct stakeholder groups, four live use cases. Point at
+fiscal redistribution and health: those are the fastest-growing demand
+segments. 60 seconds.
+:::
+
+
+
+## What is already out there
+
+- **`ineq`**: Gini, Theil, Lorenz only. Last updated 2014. No survey weights, no CIs\footnote{\scriptsize Zeileis (2014), \textit{ineq: Measuring Inequality, Concentration, and Poverty}, R package v0.2-13.}
+- **`IC2`**, **`dineq`**: decomposition-focused, narrow scope, inconsistent output schemas
+- **`acid`**: archived on CRAN, no active maintenance
+- **Private scripts**: widely-used but untested, uncited, unreproducible
+
+\vspace{0.5em}
+
+The gap: **no single package covers indices, decomposition, poverty, and redistribution with survey weights**.
+
+::: notes
+Respect existing packages. ineq covered the same ground over a decade
+ago but has not kept pace. inequality fills the vacuum. 45 seconds.
+:::
+
+
+
+## What inequality offers
+
+1. **Coverage**: 18 functions across 4 families (inequality indices, decomposition, poverty, fiscal redistribution)
+2. **Interface**: uniform `iq_` prefix; optional `weights` argument on every function; S3 objects with print methods
+3. **Provenance**: pure computation, no API calls, no network dependency, cited references in every help page
+
+\vspace{0.5em}
+
+In the CRAN newbies queue as of April 2026. Davidson bootstrap CIs on the Gini\footnote{\scriptsize Davidson (2009), \textit{Reliable inference for the Gini index}, Journal of Econometrics 150(1).}.
+
+::: notes
+Three bullets, three selling points. Emphasise the weights argument:
+that is the usability advantage over the legacy ineq package. Davidson
+inference signals maturity. 45 seconds.
+:::
+
+
+
+## Indices: Lorenz curves and Gini
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.65\textheight]{figures/fig1_lorenz.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape Lorenz curves for three synthetic distributions.}
+```
+
+::: notes
+First family. Nested Lorenz curves show the ordering at a glance; Gini
+is twice the area between each curve and the 45-degree line. 25 seconds.
+:::
+
+
+## Decomposition: Bourguignon between-within
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.65\textheight]{figures/fig3_decompose.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape Bourguignon (1979) between-within decomposition of Theil T by subgroup.}
+```
+
+::: notes
+Second family. Theil T is additively decomposable into a between-group
+and within-group component. Point at the split. 25 seconds.
+:::
+
+
+## Welfare: Atkinson over inequality aversion
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.65\textheight]{figures/fig5_atkinson.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape Atkinson index over inequality-aversion $\varepsilon$ for two synthetic distributions.}
+```
+
+::: notes
+Third family. The gap widens with $\varepsilon$: a heavy-tail mixture
+is penalised far more as the social welfare function becomes aversive.
+25 seconds.
+:::
+
+
+## Poverty: Ravallion-Chen growth incidence
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.65\textheight]{figures/fig4_gic.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape Ravallion-Chen (2003) growth incidence curve: per-percentile income growth between two periods.}
+```
+
+::: notes
+Fourth family. GIC plots per-percentile growth; pro-poor growth means
+the curve is downward-sloping. 25 seconds.
+:::
+
+
+## Central formulas
+
+\vspace{0.3em}
+
+\textbf{Gini coefficient} (twice the area between Lorenz and the 45-degree line):
+\begin{equation}
+G = \frac{1}{2n^2\bar{x}} \sum_{i=1}^{n} \sum_{j=1}^{n} \left| x_i - x_j \right|
+\end{equation}
+
+\textbf{Theil T index} (GE(1), additively decomposable; Theil 1967):
+\begin{equation}
+T = \frac{1}{n} \sum_{i=1}^{n} \frac{x_i}{\bar{x}} \ln\!\left(\frac{x_i}{\bar{x}}\right)
+\end{equation}
+
+\textbf{Atkinson index} (welfare-grounded, aversion $\varepsilon$; Atkinson 1970):
+\begin{equation}
+A_\varepsilon = 1 - \frac{1}{\bar{x}} \left[\frac{1}{n} \sum_{i=1}^{n} x_i^{\,1-\varepsilon}\right]^{\frac{1}{1-\varepsilon}}
+\end{equation}
+
+::: notes
+Three equations, one family each. Do not read them aloud. Point at the
+pairwise sum in Gini, the log-ratio structure of Theil, and the EDE
+behind Atkinson. The three indices answer different questions: Gini
+is rank-based, Theil is decomposable, Atkinson is welfare-grounded.
+60 seconds.
+:::
+
+
+
+## Package at a glance
+
+::: columns
+::: {.column width="58%"}
+
+Function families:
+
+- **Inequality indices**: Gini, S-Gini, Theil (T, L), Atkinson, Kolm, Palma, Hoover, percentile ratios
+- **Distribution**: Lorenz curves, income shares (bottom 50, top 10, top 1)
+- **Decomposition**: Bourguignon between-within; Erreygers concentration
+- **Poverty**: FGT ($\alpha = 0, 1, 2$), Sen, Watts; growth incidence
+- **Redistribution**: Kakwani, Reynolds-Smolensky
+- **Polarisation**: Wolfson
+
+Deps: `cli`, `grDevices`, `graphics`, `stats`. R $\geq$ 4.1.0.
+
+:::
+::: {.column width="40%"}
+
+\begin{block}{Uniform interface}
+Every function:
+
+\texttt{iq\_*(x, weights, ...)}
+
+Returns an S3 object with a \texttt{print()} method. Weights are first-class.
+\end{block}
+
+:::
+:::
+
+::: notes
+Two columns. Left lists the families. Right highlights the uniform
+interface in the blue block. The consistency is the pitch. 45 seconds.
+:::
+
+
+
+## Minimal working example
+
+```r
+library(inequality)
+d <- iq_sample_data("income")
+
+# Three diagnostics on the same data, each weighted
+g   <- iq_gini(d$income,      weights = d$weight, ci = TRUE)
+dec <- iq_decompose(d$income, d$group, weights = d$weight)
+pov <- iq_poverty(d$income,   line = 20000, weights = d$weight)
+
+print(g); print(dec); print(pov)
+```
+
+\footnotesize
+Every function accepts `weights`, returns a printable S3 object, and
+exposes numeric components via `$`. Davidson bootstrap CIs available
+on `iq_gini()` via `ci = TRUE`.
+
+::: notes
+Live-read the code. Three calls, three S3 objects, one uniform
+interface. That is the entire user experience. The weights argument
+is the advantage over the legacy ineq package. 60 seconds.
+:::
+
+
+
+## Six-country Gini trajectories, 1970 to 2024
+
+**Data.** World Bank Poverty and Inequality Platform, series `SI.POV.GINI`. 241 country-year observations across six economies: Sweden, Germany, France, the United Kingdom, the United States, Brazil.
+
+**Question.** *Do liberal-market, continental European, and Scandinavian economies trace distinct inequality trajectories over five decades?*
+
+**Why this case.** Longest continuous coverage on PIP. Tests the comparative-welfare-state hypothesis\footnote{\scriptsize Atkinson (2008), \textit{The Changing Distribution of Earnings in OECD Countries}, OUP; Piketty (2014), \textit{Capital in the Twenty-First Century}.}. Runs through `iq_gini()` on each slice.
+
+::: notes
+Setup only. No results on this slide. Point forward: hero figure is
+next. Name the data, the period, the question, and why these six
+countries are the right sample. 45 seconds.
+:::
+
+
+
+## Six-country Gini trajectories: the evidence
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.68\textheight]{figures/hero_figure.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape Gini coefficient by country, 1970 to 2024. Source: World Bank \texttt{SI.POV.GINI}.}
+```
+
+::: notes
+The money slide. Ninety seconds. Walk the audience through each series:
+Brazil's decline, the US rise, the UK Thatcher-era jump and post-1990
+stabilisation, and the Scandinavian flat band. The cross-country
+spread is the whole story. Pause before moving on.
+:::
+
+
+
+## What inequality does not yet do
+
+- **Measurement only**: no replicate-weight or Taylor-series variance for complex survey designs
+- **CIs on Gini only**: Theil, Atkinson, Palma CIs via bootstrap not yet exposed as a uniform option
+- **No top-coding correction**: Pareto-tail interpolation is upstream user responsibility
+- **No DINA reconciliation**: national-accounts bridging for cross-country comparability is on the user
+
+\vspace{0.5em}
+
+**v0.2.0 roadmap**: complex-survey variance estimators, CIs for the full index set, DINA-style helpers, Rcpp acceleration for panel-scale linked employer-employee data.
+
+::: notes
+Honest limitations. Name each one. Frame v0.2.0 as a commitment, not a
+vague plan. The survey-variance extension matters most to official
+statistics users. 45 seconds.
+:::
+
+
+
+## Contact, code, paper
+
+::: columns
+::: {.column width="62%"}
+
+```{=latex}
+{\large\bfseries Charles Coverdale\par}
+\vspace{0.5em}
+\texttt{charles.f.coverdale@gmail.com}\\
+\texttt{github.com/charlescoverdale/inequality}\\
+\texttt{charlescoverdale.github.io/publications}
+\vspace{0.9em}
+
+\textbf{Acknowledgements.} Data: World Bank Poverty and Inequality Platform (CC BY 4.0). Thanks to the distributional-economics community, CRAN maintainers, and reviewers of \emph{inequality} v0.1.0.
+```
+
+:::
+::: {.column width="35%"}
+
+\begin{center}
+\includegraphics[width=0.85\linewidth]{figures/qrcode_paper.png}
+
+\vspace{0.3em}
+
+{\footnotesize\itshape Scan for paper PDF}
+\end{center}
+
+:::
+:::
+
+::: notes
+Close cleanly. Name, email, GitHub, publications. Point at the QR
+code. Acknowledge the World Bank and the distributional-economics
+community. Open for questions.
+:::
