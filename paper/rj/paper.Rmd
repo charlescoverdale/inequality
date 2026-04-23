@@ -361,7 +361,7 @@ point estimate on any slice the user cares about.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\linewidth]{figures/fig6_wb_gini.pdf}
-\caption{\textbf{Gini coefficient by country, 1970 to 2024, from the World Bank Poverty and Inequality Platform.} Data: World Bank series \code{SI.POV.GINI}, downloaded via the WDI API. Six economies with the longest continuous coverage are shown. Brazil shows the well-documented post-Bolsa-Família decline from 58 in 1989 to 51 in 2024. The United States shows a steady rise from 37 in 1970 to 42 in 2024. Sweden, France, Germany cluster in the 25 to 32 band throughout. The United Kingdom traces a Thatcher-era rise and post-1990 stabilisation.}
+\caption{\textbf{Gini coefficient by country, 1970 to 2024, from the World Bank Poverty and Inequality Platform.} Data: World Bank series \code{SI.POV.GINI}, downloaded via the WDI API. Six economies with the longest continuous coverage are shown. Brazil shows the well-documented post-Bolsa-Família decline from a peak of 63 in 1989 to 50 in 2024. The United States shows a steady rise from 37 in 1970 to 42 in 2024. Sweden, France, Germany cluster in the 25 to 32 band throughout. The United Kingdom traces a Thatcher-era rise and post-1990 stabilisation.}
 \label{fig:wb-gini}
 \end{figure}
 
