@@ -1,0 +1,33 @@
+# inequality
+
+> Tools for measuring income and wealth inequality. Install with `install.packages("inequality")`.
+
+Version: 0.1.0. License: MIT.
+
+## Functions
+
+- [`iq_atkinson()`](https://charlescoverdale.github.io/inequality/reference/iq_atkinson.html): Atkinson index
+- [`iq_compare()`](https://charlescoverdale.github.io/inequality/reference/iq_compare.html): Compare inequality measures
+- [`iq_concentration()`](https://charlescoverdale.github.io/inequality/reference/iq_concentration.html): Concentration index
+- [`iq_decompose()`](https://charlescoverdale.github.io/inequality/reference/iq_decompose.html): Between-within group decomposition
+- [`iq_gini()`](https://charlescoverdale.github.io/inequality/reference/iq_gini.html): Gini coefficient
+- [`iq_growth_incidence()`](https://charlescoverdale.github.io/inequality/reference/iq_growth_incidence.html): Growth incidence curve
+- [`iq_hoover()`](https://charlescoverdale.github.io/inequality/reference/iq_hoover.html): Hoover index (Robin Hood index)
+- [`iq_kakwani()`](https://charlescoverdale.github.io/inequality/reference/iq_kakwani.html): Kakwani progressivity index
+- [`iq_kolm()`](https://charlescoverdale.github.io/inequality/reference/iq_kolm.html): Kolm index (absolute inequality)
+- [`iq_lorenz()`](https://charlescoverdale.github.io/inequality/reference/iq_lorenz.html): Lorenz curve
+- [`iq_palma()`](https://charlescoverdale.github.io/inequality/reference/iq_palma.html): Palma ratio
+- [`iq_percentile_ratio()`](https://charlescoverdale.github.io/inequality/reference/iq_percentile_ratio.html): Percentile ratio
+- [`iq_polarisation()`](https://charlescoverdale.github.io/inequality/reference/iq_polarisation.html): Polarisation index
+- [`iq_poverty()`](https://charlescoverdale.github.io/inequality/reference/iq_poverty.html): Poverty measures
+- [`iq_sample_data()`](https://charlescoverdale.github.io/inequality/reference/iq_sample_data.html): Generate sample inequality data
+- [`iq_sgini()`](https://charlescoverdale.github.io/inequality/reference/iq_sgini.html): S-Gini (extended Gini family)
+- [`iq_shares()`](https://charlescoverdale.github.io/inequality/reference/iq_shares.html): Income shares by quantile
+- [`iq_theil()`](https://charlescoverdale.github.io/inequality/reference/iq_theil.html): Theil index and generalised entropy measures
+
+## Documentation
+
+- [Full reference](https://charlescoverdale.github.io/inequality/reference/)
+- [GitHub](https://github.com/charlescoverdale/inequality)
+- [CRAN](https://CRAN.R-project.org/package=inequality)
+

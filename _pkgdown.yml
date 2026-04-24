@@ -1,0 +1,53 @@
+url: https://charlescoverdale.github.io/inequality/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github]
+
+reference:
+  - title: "Inequality Measures"
+    desc: "Standard and generalised inequality indices"
+    contents:
+      - iq_gini
+      - iq_sgini
+      - iq_theil
+      - iq_atkinson
+      - iq_kolm
+      - iq_hoover
+      - iq_palma
+      - iq_percentile_ratio
+      - iq_shares
+
+  - title: "Decomposition"
+    desc: "Subgroup and factor decomposition"
+    contents:
+      - iq_decompose
+
+  - title: "Health and Fiscal"
+    desc: "Concentration index, Kakwani, and Reynolds-Smolensky"
+    contents:
+      - iq_concentration
+      - iq_kakwani
+
+  - title: "Poverty"
+    desc: "FGT and Sen poverty measures"
+    contents:
+      - iq_poverty
+
+  - title: "Mobility and Polarisation"
+    desc: "Growth incidence curve, Wolfson polarisation, Lorenz curve"
+    contents:
+      - iq_growth_incidence
+      - iq_polarisation
+      - iq_lorenz
+
+  - title: "General"
+    desc: "Comparison and sample data"
+    contents:
+      - iq_compare
+      - iq_sample_data
+
