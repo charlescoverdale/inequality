@@ -51,3 +51,7 @@ reference:
       - iq_compare
       - iq_sample_data
 
+
+  - title: "Package"
+    contents:
+      - inequality-package
