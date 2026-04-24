@@ -272,3 +272,10 @@ Comparison and sample data
 - [`iq_sample_data()`](https://charlescoverdale.github.io/inequality/reference/iq_sample_data.md)
   : Generate sample inequality data
 
+## Package
+
+- [`inequality`](https://charlescoverdale.github.io/inequality/reference/inequality-package.md)
+  [`inequality-package`](https://charlescoverdale.github.io/inequality/reference/inequality-package.md)
+  : inequality: Inequality Measurement, Decomposition, and Poverty
+  Analysis
+
