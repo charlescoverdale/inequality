@@ -3,7 +3,7 @@
 Tools for measuring income and wealth inequality. Computes the Gini
 coefficient with bootstrap or asymptotic confidence intervals following
 Davidson (2009)
-[doi:10.1016/j.jeconom.2008.09.011](https://doi.org/10.1016/j.jeconom.2008.09.011)
+[doi:10.1016/j.jeconom.2008.11.004](https://doi.org/10.1016/j.jeconom.2008.11.004)
 , the extended S-Gini family, Theil T and L indices (generalised entropy
 family), the Atkinson index, the Kolm absolute inequality index, Palma
 ratio, Hoover index, percentile ratios, and Lorenz curves. Supports
