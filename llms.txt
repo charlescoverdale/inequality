@@ -2,6 +2,8 @@
 
 > Tools for measuring income and wealth inequality. Install with `install.packages("inequality")`.
 
+Full API reference (for agents): https://raw.githubusercontent.com/charlescoverdale/inequality/main/llms-full.txt
+
 Version: 0.1.0. License: MIT.
 
 ## Functions

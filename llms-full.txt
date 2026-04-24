@@ -1,0 +1,683 @@
+# inequality — full API reference
+
+> Tools for measuring income and wealth inequality.
+
+- Version: 0.1.0
+- Install: `install.packages("inequality")`
+- CRAN: https://CRAN.R-project.org/package=inequality
+- GitHub: https://github.com/charlescoverdale/inequality
+- Reference site: https://charlescoverdale.github.io/inequality/
+
+This file is a self-contained reference for LLM agents: every exported
+function with its signature, arguments, return value, and example.
+
+---
+
+## `iq_atkinson()`
+
+**Atkinson index**
+
+Computes the Atkinson inequality index, which incorporates an explicit normative judgement about inequality aversion through the parameter epsilon. Higher epsilon gives more weight to transfers at the bottom of the distribution.
+
+**Usage**
+
+```r
+iq_atkinson(x, weights = NULL, epsilon = 0.5, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (strictly positive).
+- `weights` — Optional numeric vector of survey weights.
+- `epsilon` — Numeric. Inequality aversion parameter (> 0). Default `0.5`. Common values: 0.5 (moderate), 1.0 (high), 2.0 (very high aversion).
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_atkinson"` with elements: valueNumeric. The Atkinson index (0 to 1). epsilonNumeric. The inequality aversion parameter used. edeNumeric. The equally distributed equivalent income. mean_incomeNumeric. The mean income. nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+
+# Moderate inequality aversion
+iq_atkinson(d$income, epsilon = 0.5)
+
+# High inequality aversion
+iq_atkinson(d$income, epsilon = 1)
+
+# Very high inequality aversion
+iq_atkinson(d$income, epsilon = 2)
+```
+
+---
+
+## `iq_compare()`
+
+**Compare inequality measures**
+
+Computes all major inequality indices on the same data and returns a summary table for easy comparison.
+
+**Usage**
+
+```r
+iq_compare(x, weights = NULL, na.rm = FALSE, ci = FALSE, R = 1000L)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (strictly positive for Theil and Atkinson; non-negative for Gini, Palma, Hoover).
+- `weights` — Optional numeric vector of survey weights.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+- `ci` — Logical. Compute bootstrap CIs for the Gini? Default `FALSE`.
+- `R` — Integer. Number of bootstrap replicates. Default `1000`.
+
+**Returns**
+
+An S3 object of class `"iq_comparison"` with elements: tabledata.frame with columns `measure` and `value`. gini_ciList with `lower` and `upper` (or `NULL`). nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+iq_compare(d$income)
+```
+
+---
+
+## `iq_concentration()`
+
+**Concentration index**
+
+Computes the concentration index, which measures inequality in a health (or other) variable across the income distribution. Unlike the Gini coefficient, the ranking variable and the outcome variable are different.
+
+**Usage**
+
+```r
+iq_concentration(
+  x,
+  rank,
+  weights = NULL,
+  correction = c("none", "erreygers"),
+  bounds = c(0, 1),
+  na.rm = FALSE
+)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of outcome values (e.g. health expenditure).
+- `rank` — Numeric vector of ranking values (e.g. income). Must be the same length as `x`.
+- `weights` — Optional numeric vector of survey weights.
+- `correction` — Character. `"none"` (default) for the standard index, or `"erreygers"` for the Erreygers (2009) correction for bounded variables.
+- `bounds` — Numeric vector of length 2 giving the lower and upper bounds of `x`. Required when `correction = "erreygers"`. Default `c(0, 1)` (suitable for binary or proportion variables).
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_concentration"` with elements: valueNumeric. The concentration index. correctionCharacter. The correction applied. nInteger. Number of observations.
+
+**Example**
+
+```r
+set.seed(1)
+income <- rlnorm(200, 10, 0.8)
+health_exp <- income * 0.05 + rnorm(200, 500, 100)
+iq_concentration(health_exp, rank = income)
+
+# Binary outcome with Erreygers correction
+sick <- as.numeric(income < median(income)) + rbinom(200, 1, 0.1)
+sick <- pmin(sick, 1)
+iq_concentration(sick, rank = income, correction = "erreygers")
+```
+
+---
+
+## `iq_decompose()`
+
+**Between-within group decomposition**
+
+Decomposes a generalised entropy index into a between-group component (inequality due to differences in group means) and a within-group component (inequality within each group). The decomposition is exact: between + within = total.
+
+**Usage**
+
+```r
+iq_decompose(x, group, weights = NULL, index = "T", na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (strictly positive).
+- `group` — Factor or character vector identifying group membership.
+- `weights` — Optional numeric vector of survey weights.
+- `index` — Character or numeric. `"T"` for Theil T (GE(1)), `"L"` for mean log deviation (GE(0)), or a numeric alpha. Default `"T"`.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_decomposition"` with elements: totalNumeric. The total GE index. betweenNumeric. The between-group component. withinNumeric. The within-group component. groupsdata.frame with columns `group`, `n`, `mean_income`, `pop_share`, `income_share`, `within_ge`. index_nameCharacter. Name of the index used.
+
+**Example**
+
+```r
+d <- iq_sample_data("grouped")
+iq_decompose(d$income, d$group)
+```
+
+---
+
+## `iq_gini()`
+
+**Gini coefficient**
+
+Computes the Gini coefficient of a distribution, with optional survey weights and confidence intervals (bootstrap or asymptotic).
+
+**Usage**
+
+```r
+iq_gini(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  method = c("bootstrap", "asymptotic"),
+  R = 1000L,
+  level = 0.95
+)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes or values (non-negative).
+- `weights` — Optional numeric vector of survey weights.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+- `ci` — Logical. Compute confidence intervals? Default `FALSE`.
+- `method` — Character. CI method: `"bootstrap"` (default) or `"asymptotic"` (jackknife-based, faster for large samples).
+- `R` — Integer. Number of bootstrap replicates (ignored for asymptotic). Default `1000`.
+- `level` — Numeric. Confidence level. Default `0.95`.
+
+**Returns**
+
+An S3 object of class `"iq_gini"` with elements: giniNumeric. The Gini coefficient. nInteger. Number of observations. seNumeric or `NULL`. Standard error (asymptotic method only). ci_lowerNumeric or `NULL`. Lower bound of the CI. ci_upperNumeric or `NULL`. Upper bound of the CI. levelNumeric or `NULL`. Confidence level. methodCharacter or `NULL`. CI method used.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+iq_gini(d$income)
+
+# Bootstrap CIs
+iq_gini(d$income, ci = TRUE, R = 500)
+
+# Asymptotic CIs (faster for large samples)
+iq_gini(d$income, ci = TRUE, method = "asymptotic")
+
+# Perfect equality
+iq_gini(rep(100, 50))
+```
+
+---
+
+## `iq_growth_incidence()`
+
+**Growth incidence curve**
+
+Computes the growth incidence curve (GIC), showing the annualised or total growth rate at each quantile of the distribution between two time periods.
+
+**Usage**
+
+```r
+iq_growth_incidence(
+  x_t0,
+  x_t1,
+  weights_t0 = NULL,
+  weights_t1 = NULL,
+  n_quantiles = 20L,
+  na.rm = FALSE
+)
+```
+
+**Arguments**
+
+- `x_t0` — Numeric vector of incomes in period 0.
+- `x_t1` — Numeric vector of incomes in period 1. Must be the same length as `x_t0`.
+- `weights_t0` — Optional weights for period 0.
+- `weights_t1` — Optional weights for period 1.
+- `n_quantiles` — Integer. Number of quantile bins. Default `20` (ventiles).
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_growth_incidence"` with elements: gicdata.frame with columns `quantile` (midpoint), `growth` (proportional growth rate at that quantile). mean_growthNumeric. Mean growth across all quantiles. median_growthNumeric. Median growth rate. n_quantilesInteger.
+
+**Example**
+
+```r
+d <- iq_sample_data("panel")
+gic <- iq_growth_incidence(d$income_t0, d$income_t1)
+plot(gic)
+```
+
+---
+
+## `iq_hoover()`
+
+**Hoover index (Robin Hood index)**
+
+Computes the Hoover index, also known as the Robin Hood index or the Schutz coefficient. It equals the maximum proportion of total income that would need to be redistributed to achieve perfect equality, or equivalently, half the mean absolute deviation divided by the mean.
+
+**Usage**
+
+```r
+iq_hoover(x, weights = NULL, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (non-negative).
+- `weights` — Optional numeric vector of survey weights.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_hoover"` with elements: valueNumeric. The Hoover index (0 to 1). nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+iq_hoover(d$income)
+
+# Perfect equality
+iq_hoover(rep(100, 50))
+```
+
+---
+
+## `iq_kakwani()`
+
+**Kakwani progressivity index**
+
+Measures the progressivity of a tax or transfer system. A positive value indicates progressivity (the rich pay a larger share than their income share); a negative value indicates regressivity. Zero means proportional.
+
+**Usage**
+
+```r
+iq_kakwani(pre_tax, tax, weights = NULL, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `pre_tax` — Numeric vector of pre-tax incomes (non-negative).
+- `tax` — Numeric vector of tax payments (same length as `pre_tax`). Positive values are taxes paid; negative values are transfers received.
+- `weights` — Optional numeric vector of survey weights.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_kakwani"` with elements: kakwaniNumeric. The Kakwani index (-1 to 1). gini_preNumeric. The pre-tax Gini coefficient. concentration_taxNumeric. The concentration coefficient of taxes. reynolds_smolenskyNumeric. The Reynolds-Smolensky index (pre-tax Gini minus post-tax Gini). gini_postNumeric. The post-tax Gini coefficient. avg_tax_rateNumeric. Average effective tax rate. nInteger. Number of observations.
+
+**Example**
+
+```r
+set.seed(1)
+pre <- iq_sample_data("income")$income
+# Progressive tax: higher rate for higher incomes
+tax <- pre * (0.10 + 0.15 * (pre / max(pre)))
+iq_kakwani(pre, tax)
+```
+
+---
+
+## `iq_kolm()`
+
+**Kolm index (absolute inequality)**
+
+Computes the Kolm index, the only standard inequality measure that is translation-invariant (absolute). Adding the same amount to every income leaves the index unchanged. All other indices in this package are scale-invariant (relative): multiplying every income by the same factor leaves them unchanged.
+
+**Usage**
+
+```r
+iq_kolm(x, weights = NULL, alpha = 1, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes.
+- `weights` — Optional numeric vector of survey weights.
+- `alpha` — Numeric. Inequality aversion parameter (> 0). Default `1`.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_kolm"` with elements: valueNumeric. The Kolm index. alphaNumeric. The inequality aversion parameter used. nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+iq_kolm(d$income, alpha = 1)
+
+# Higher aversion to inequality at the bottom
+iq_kolm(d$income, alpha = 2)
+```
+
+---
+
+## `iq_lorenz()`
+
+**Lorenz curve**
+
+Computes the Lorenz curve: the cumulative share of income held by the cumulative share of the population, ordered from poorest to richest. The result can be plotted with `plot()`.
+
+**Usage**
+
+```r
+iq_lorenz(x, weights = NULL, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (non-negative).
+- `weights` — Optional numeric vector of survey weights.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_lorenz"` with elements: curvedata.frame with columns `cum_pop` and `cum_income` (both 0 to 1). Starts at (0, 0) and ends at (1, 1). giniNumeric. The Gini coefficient (twice the area between the curve and the diagonal). nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+lc <- iq_lorenz(d$income)
+plot(lc)
+```
+
+---
+
+## `iq_palma()`
+
+**Palma ratio**
+
+Computes the Palma ratio: the share of total income received by the top 10 percent divided by the share received by the bottom 40 percent.
+
+**Usage**
+
+```r
+iq_palma(x, weights = NULL, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (non-negative).
+- `weights` — Optional numeric vector of survey weights.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_palma"` with elements: palmaNumeric. The Palma ratio. top10_shareNumeric. Share of income held by the top 10 percent. bottom40_shareNumeric. Share of income held by the bottom 40 percent. nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+iq_palma(d$income)
+
+# Equal distribution: Palma = 0.25/0.40 = 0.625
+iq_palma(rep(100, 100))
+```
+
+---
+
+## `iq_percentile_ratio()`
+
+**Percentile ratio**
+
+Computes the ratio of two percentiles of the distribution. Common choices include P90/P10 (interdecile ratio), P80/P20, and P50/P10.
+
+**Usage**
+
+```r
+iq_percentile_ratio(x, weights = NULL, upper = 90, lower = 10, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes.
+- `weights` — Optional numeric vector of survey weights.
+- `upper` — Numeric. Upper percentile (0 to 100). Default `90`.
+- `lower` — Numeric. Lower percentile (0 to 100). Default `10`.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_percentile_ratio"` with elements: ratioNumeric. The percentile ratio. upper_valueNumeric. The value at the upper percentile. lower_valueNumeric. The value at the lower percentile. upperNumeric. The upper percentile used. lowerNumeric. The lower percentile used. nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+
+# P90/P10 (interdecile ratio)
+iq_percentile_ratio(d$income)
+
+# P80/P20
+iq_percentile_ratio(d$income, upper = 80, lower = 20)
+```
+
+---
+
+## `iq_polarisation()`
+
+**Polarisation index**
+
+Computes the Wolfson bipolarisation index, which measures the extent to which a distribution is bimodal (clustering at the tails) rather than unimodal. Higher values indicate more polarisation.
+
+**Usage**
+
+```r
+iq_polarisation(x, weights = NULL, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (non-negative).
+- `weights` — Optional numeric vector of survey weights.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_polarisation"` with elements: wolfsonNumeric. The Wolfson polarisation index. giniNumeric. The Gini coefficient. medianNumeric. The weighted median income. meanNumeric. The weighted mean income. nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+iq_polarisation(d$income)
+```
+
+---
+
+## `iq_poverty()`
+
+**Poverty measures**
+
+Computes the Foster-Greer-Thorbecke (FGT) family of poverty measures, plus the Sen index and the Watts index. All measures require a poverty line.
+
+**Usage**
+
+```r
+iq_poverty(x, line, weights = NULL, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (non-negative).
+- `line` — Numeric. The poverty line. Required.
+- `weights` — Optional numeric vector of survey weights.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_poverty"` with elements: headcountNumeric. FGT(0): proportion below the poverty line. gapNumeric. FGT(1): average normalised gap. severityNumeric. FGT(2): average squared normalised gap. senNumeric. Sen index: headcount * (gap among poor + Gini among poor * (1 - gap among poor)). wattsNumeric. Watts index: mean of log(line/x) among the poor. lineNumeric. The poverty line used. nInteger. Number of observations. n_poorInteger. Number of observations below the line.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+# Poverty line at the 20th percentile
+p20 <- quantile(d$income, 0.20)
+iq_poverty(d$income, line = p20)
+```
+
+---
+
+## `iq_sample_data()`
+
+**Generate sample inequality data**
+
+Creates synthetic data for testing and demonstrating inequalitykit functions. Three types are available: individual incomes, a two-period panel for growth incidence analysis, and grouped incomes for decomposition.
+
+**Usage**
+
+```r
+iq_sample_data(type = c("income", "panel", "grouped"))
+```
+
+**Arguments**
+
+- `type` — Character. One of `"income"`, `"panel"`, or `"grouped"`.
+
+**Returns**
+
+A data.frame. `"income"`1000 rows with columns `income` and `weight`. Drawn from a lognormal distribution (mean log 10.5, sd log 0.8), producing realistic income-like data centred around 40,000. `"panel"`1000 rows with columns `income_t0`, `income_t1`, `weight`. Two periods with heterogeneous growth (bottom grows slower than top, mimicking rising inequality). `"grouped"`1000 rows with columns `income`, `group`, `weight`. Three groups (A, B, C) with different mean incomes for between/within decomposition.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+head(d)
+
+panel <- iq_sample_data("panel")
+head(panel)
+
+grouped <- iq_sample_data("grouped")
+head(grouped)
+```
+
+---
+
+## `iq_sgini()`
+
+**S-Gini (extended Gini family)**
+
+Computes the S-Gini coefficient, a one-parameter generalisation of the Gini that allows the user to specify how much weight to give different parts of the distribution. The standard Gini is the special case `delta = 2`.
+
+**Usage**
+
+```r
+iq_sgini(x, weights = NULL, delta = 2, na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (non-negative).
+- `weights` — Optional numeric vector of survey weights.
+- `delta` — Numeric. Inequality aversion parameter (> 1). Default `2` (standard Gini).
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_sgini"` with elements: valueNumeric. The S-Gini coefficient. deltaNumeric. The inequality aversion parameter used. nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+
+# Standard Gini (delta = 2)
+iq_sgini(d$income, delta = 2)
+
+# More weight on the bottom of the distribution
+iq_sgini(d$income, delta = 3)
+```
+
+---
+
+## `iq_shares()`
+
+**Income shares by quantile**
+
+Computes the share of total income held by each segment of the distribution. Default segments: bottom 50%, middle 40%, top 10%, and top 1%.
+
+**Usage**
+
+```r
+iq_shares(x, weights = NULL, breaks = c(0.5, 0.9, 0.99, 1), na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (non-negative).
+- `weights` — Optional numeric vector of survey weights.
+- `breaks` — Numeric vector of cumulative population thresholds defining the segments. Default `c(0.50, 0.90, 0.99, 1.00)`.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_shares"` with elements: sharesdata.frame with columns `segment`, `pop_share`, `income_share`. nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+iq_shares(d$income)
+
+# Custom breaks: quintiles
+iq_shares(d$income, breaks = c(0.20, 0.40, 0.60, 0.80, 1.00))
+```
+
+---
+
+## `iq_theil()`
+
+**Theil index and generalised entropy measures**
+
+Computes the Theil T index (GE(1)), Theil L / mean log deviation (GE(0)), or a generalised entropy index GE(alpha) for any non-negative alpha.
+
+**Usage**
+
+```r
+iq_theil(x, weights = NULL, index = "T", na.rm = FALSE)
+```
+
+**Arguments**
+
+- `x` — Numeric vector of incomes (strictly positive).
+- `weights` — Optional numeric vector of survey weights.
+- `index` — Character or numeric. `"T"` for Theil T (GE(1)), `"L"` for mean log deviation (GE(0)), or a numeric value for GE(alpha). Default `"T"`.
+- `na.rm` — Logical. Remove `NA` values? Default `FALSE`.
+
+**Returns**
+
+An S3 object of class `"iq_theil"` with elements: valueNumeric. The index value. alphaNumeric. The alpha parameter used. index_nameCharacter. Human-readable name of the index. nInteger. Number of observations.
+
+**Example**
+
+```r
+d <- iq_sample_data("income")
+
+# Theil T (GE(1))
+iq_theil(d$income, index = "T")
+
+# Mean log deviation (GE(0))
+iq_theil(d$income, index = "L")
+
+# GE(2): half the squared coefficient of variation
+iq_theil(d$income, index = 2)
+```
+
+---
+
