@@ -7,7 +7,15 @@ alpha.
 ## Usage
 
 ``` r
-iq_theil(x, weights = NULL, index = "T", na.rm = FALSE)
+iq_theil(
+  x,
+  weights = NULL,
+  index = "T",
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
+)
 ```
 
 ## Arguments
@@ -29,6 +37,18 @@ iq_theil(x, weights = NULL, index = "T", na.rm = FALSE)
 
   Logical. Remove `NA` values? Default `FALSE`.
 
+- ci:
+
+  Logical. Compute bootstrap confidence intervals? Default `FALSE`.
+
+- R:
+
+  Integer. Number of bootstrap replicates. Default `1000`.
+
+- level:
+
+  Numeric. Confidence level. Default `0.95`.
+
 ## Value
 
 An S3 object of class `"iq_theil"` with elements:
@@ -49,11 +69,42 @@ An S3 object of class `"iq_theil"` with elements:
 
   Integer. Number of observations.
 
+- se:
+
+  Numeric or `NULL`. Bootstrap standard error.
+
+- ci_lower:
+
+  Numeric or `NULL`. Lower bound of the CI.
+
+- ci_upper:
+
+  Numeric or `NULL`. Upper bound of the CI.
+
+- level:
+
+  Numeric or `NULL`. Confidence level.
+
 ## Details
 
 Generalised entropy indices are the only class of inequality measures
 that are both decomposable by population subgroups and satisfy the
 transfer principle. Higher values indicate more inequality.
+
+Theil T (GE(1)) and Theil L (GE(0)) involve `log(x)` and so require
+strictly positive values. GE(alpha) for `alpha > 1` is well-defined for
+non-negative `x` but is highly sensitive to small or zero values. For
+wealth or income net of taxes/transfers (which can be zero or negative)
+use the Gini, S-Gini, or Kolm index instead.
+
+Note on cross-validation against
+[ineq](https://CRAN.R-project.org/package=ineq): this package uses the
+textbook GE(alpha) convention, where `index = "T"` is GE(1) (Theil T)
+and `index = "L"` is GE(0) (mean log deviation). The legacy
+[ineq](https://CRAN.R-project.org/package=ineq) package uses the
+opposite indexing, so `ineq::Theil(x, parameter = 0)` matches
+`iq_theil(x, "T")` and `ineq::Theil(x, parameter = 1)` matches
+`iq_theil(x, "L")`.
 
 ## References
 
@@ -77,6 +128,14 @@ iq_theil(d$income, index = "T")
 #> ── Theil T (GE(1)) ─────────────────────────────────────────────────────────────
 #> • Value: 0.3307
 #> • Observations: 1000
+
+# With bootstrap CIs
+iq_theil(d$income, index = "T", ci = TRUE, R = 200)
+#> 
+#> ── Theil T (GE(1)) ─────────────────────────────────────────────────────────────
+#> • Value: 0.3307
+#> • Observations: 1000
+#> • Bootstrap 95% CI: [0.2797, 0.393]
 
 # Mean log deviation (GE(0))
 iq_theil(d$income, index = "L")

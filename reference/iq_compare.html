@@ -9,7 +9,7 @@ summary table for easy comparison."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,15 @@ summary table for easy comparison.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_compare</span><span class="op">(</span><span class="va">x</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, R <span class="op">=</span> <span class="fl">1000L</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_compare</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  R <span class="op">=</span> <span class="fl">1000L</span>,</span>
+<span>  level <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  negatives <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"error"</span>, <span class="st">"keep"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -50,8 +58,8 @@ summary table for easy comparison.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>Numeric vector of incomes (strictly positive for Theil and
-Atkinson; non-negative for Gini, Palma, Hoover).</p></dd>
+<dd><p>Numeric vector of incomes (strictly positive by default; see
+<code>negatives</code>).</p></dd>
 
 
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
@@ -63,26 +71,51 @@ Atkinson; non-negative for Gini, Palma, Hoover).</p></dd>
 
 
 <dt id="arg-ci">ci<a class="anchor" aria-label="anchor" href="#arg-ci"></a></dt>
-<dd><p>Logical. Compute bootstrap CIs for the Gini? Default <code>FALSE</code>.</p></dd>
+<dd><p>Logical. Compute bootstrap CIs for every measure in the
+table? Default <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
 <dd><p>Integer. Number of bootstrap replicates. Default <code>1000</code>.</p></dd>
 
+
+<dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
+<dd><p>Numeric. Confidence level. Default <code>0.95</code>.</p></dd>
+
+
+<dt id="arg-negatives">negatives<a class="anchor" aria-label="anchor" href="#arg-negatives"></a></dt>
+<dd><p>Character. <code>"error"</code> (default) requires strictly
+positive <code>x</code>; <code>"keep"</code> permits zero or negative values, with <code>NA</code>
+returned for measures that are undefined on those values.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An S3 object of class <code>"iq_comparison"</code> with elements:</p><dl><dt>table</dt>
-<dd><p>data.frame with columns <code>measure</code> and <code>value</code>.</p></dd>
-
-<dt>gini_ci</dt>
-<dd><p>List with <code>lower</code> and <code>upper</code> (or <code>NULL</code>).</p></dd>
+<dd><p>data.frame with columns <code>measure</code>, <code>value</code>, and (when
+<code>ci = TRUE</code>) <code>ci_lower</code> and <code>ci_upper</code>.</p></dd>
 
 <dt>n</dt>
 <dd><p>Integer. Number of observations.</p></dd>
 
+<dt>level</dt>
+<dd><p>Numeric or <code>NULL</code>. Confidence level.</p></dd>
+
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>When <code>ci = TRUE</code> the function runs a single bootstrap loop, recomputing
+every measure on each resample. This is far cheaper than calling each
+measure with its own <code>ci = TRUE</code> and produces a CI for every row of the
+table.</p>
+<p>By default <code>iq_compare()</code> requires strictly positive values because the
+Theil and Atkinson rows are mathematically undefined at zero or below.
+Pass <code>negatives = "keep"</code> to permit zero or negative values: the
+Theil and Atkinson rows are returned as <code>NA</code> in that case, while the
+Gini, S-Gini, Kolm, Wolfson, Palma, Hoover and percentile-ratio rows
+are computed using the formulas appropriate for that input.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -91,14 +124,55 @@ Atkinson; non-negative for Gini, Palma, Hoover).</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Inequality Comparison (n = 1000)</span> <span style="color: #00BBBB;">────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Gini 0.4300</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> S-Gini (delta=3) 0.5627</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Theil T (GE1) 0.3307</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Theil L (GE0) 0.3241</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Atkinson (e=0.5) 0.1506</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Atkinson (e=1.0) 0.2768</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Kolm (a=1) 46736.2301</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Wolfson 0.1988</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Palma ratio 2.1528</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Hoover 0.3126</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P90/P10 7.8282</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P80/P20 3.9206</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># CIs for every measure in the table (one bootstrap loop, all rows)</span></span></span>
+<span class="r-in"><span><span class="fu">iq_compare</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>, R <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Inequality Comparison (n = 1000)</span> <span style="color: #00BBBB;">────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Gini 0.4300 [0.406, 0.4559]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> S-Gini (delta=3) 0.5627 [0.539, 0.5859]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Theil T (GE1) 0.3307 [0.2797, 0.393]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Theil L (GE0) 0.3241 [0.2874, 0.3636]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Atkinson (e=0.5) 0.1506 [0.1328, 0.1712]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Atkinson (e=1.0) 0.2768 [0.2498, 0.3048]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Kolm (a=1) 46736.2301 [43092.8954, 49430.9832]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Wolfson 0.1988 [0.1862, 0.2174]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Palma ratio 2.1528 [1.8718, 2.4882]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Hoover 0.3126 [0.2944, 0.3322]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P90/P10 7.8282 [6.9233, 8.4754]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P80/P20 3.9206 [3.5389, 4.2616]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Bootstrap 95% CIs in brackets.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Wealth distributions can include negatives</span></span></span>
+<span class="r-in"><span><span class="va">wealth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5000</span>, <span class="fl">0</span>, <span class="fl">5000</span>, <span class="fl">20000</span>, <span class="fl">80000</span>, <span class="fl">250000</span>, <span class="fl">1e6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">iq_compare</span><span class="op">(</span><span class="va">wealth</span>, negatives <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Inequality Comparison (n = 7)</span> <span style="color: #00BBBB;">───────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Gini 0.7598</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> S-Gini (delta=3) 0.9344</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Theil T (GE1) NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Theil L (GE0) NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Atkinson (e=0.5) NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Atkinson (e=1.0) NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Kolm (a=1) 197855.1969</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Wolfson 3.4776</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Palma ratio NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Hoover 0.6402</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P90/P10 -95.0000</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P80/P20 -60.6667</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Rows with <span style="color: #0000BB;">"NA"</span> are undefined for the input (e.g. Theil and Atkinson require</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   strictly positive values).</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

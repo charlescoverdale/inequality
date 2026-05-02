@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,24 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>Measure income and wealth inequality in R. Gini coefficients with confidence intervals, Theil indices, Atkinson indices, Palma ratios, Lorenz curves, poverty measures, tax progressivity, and more. All functions accept optional survey weights.</p>
+<p>Measure income and wealth inequality in R. Gini coefficients with confidence intervals, Theil indices, Atkinson indices, Palma ratios, Lorenz curves, poverty measures, tax progressivity, and more. All functions accept optional survey weights, and <strong>every measure now exposes bootstrap confidence intervals</strong> via <code>ci = TRUE</code>.</p>
+<div class="section level2">
+<h2 id="whats-new-in-020">What’s new in 0.2.0<a class="anchor" aria-label="anchor" href="#whats-new-in-020"></a>
+</h2>
+<p>This release responds to feedback from Frank Cowell and Emmanuel Flachaire on the v0.1.0 release.</p>
+<ul>
+<li>
+<strong>Bootstrap CIs on every measure.</strong> <code>iq_theil</code>, <code>iq_atkinson</code>, <code>iq_sgini</code>, <code>iq_palma</code>, <code>iq_hoover</code>, <code>iq_kolm</code>, <code>iq_percentile_ratio</code>, <code>iq_polarisation</code>, <code>iq_shares</code>, <code>iq_concentration</code>, <code>iq_kakwani</code>, and <code>iq_poverty</code> all gain <code>ci</code>, <code>R</code>, and <code>level</code> arguments. <code><a href="reference/iq_compare.html">iq_compare()</a></code> runs a single bootstrap loop and propagates CIs to every row.</li>
+<li>
+<strong>Negative values supported.</strong> Gini, S-Gini, top shares, Palma, Hoover, Wolfson, Kakwani, and <code><a href="reference/iq_compare.html">iq_compare()</a></code> accept <code>negatives = "keep"</code> for distributions containing negatives (wealth, post-tax income).</li>
+<li>
+<strong>Raffinetti et al. (2017) normalised Gini.</strong> <code>iq_gini(x, negatives = "keep", normalised = TRUE)</code> rescales the index back into [0, 1] when negatives are present.</li>
+<li>
+<strong>Wagstaff correction added to <code>iq_concentration</code></strong> alongside the existing Erreygers correction.</li>
+<li>
+<strong><code>iq_kakwani</code> bug fix.</strong> The post-tax Gini no longer takes the absolute value of negative net incomes, so the Reynolds-Smolensky index is honest under high tax burdens.</li>
+</ul>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -177,40 +194,40 @@
 <col width="50%">
 <col width="50%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th>What it measures</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_gini.html">iq_gini()</a></code></td>
 <td>Gini coefficient (bootstrap or asymptotic CIs)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/iq_sgini.html">iq_sgini()</a></code></td>
 <td>Extended Gini family (adjustable inequality aversion)</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_theil.html">iq_theil()</a></code></td>
 <td>Theil T, Theil L, and generalised entropy GE(alpha)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/iq_atkinson.html">iq_atkinson()</a></code></td>
 <td>Atkinson index (with equally distributed equivalent income)</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_kolm.html">iq_kolm()</a></code></td>
 <td>Kolm index (absolute inequality, translation invariant)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/iq_palma.html">iq_palma()</a></code></td>
 <td>Palma ratio (top 10% share / bottom 40% share)</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_hoover.html">iq_hoover()</a></code></td>
 <td>Hoover index (Robin Hood index, Pietra index)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/iq_percentile_ratio.html">iq_percentile_ratio()</a></code></td>
 <td>P90/P10, P80/P20, or custom ratios</td>
 </tr>
@@ -225,28 +242,28 @@
 <col width="50%">
 <col width="50%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th>What it measures</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_lorenz.html">iq_lorenz()</a></code></td>
 <td>Lorenz curve with plot method</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/iq_shares.html">iq_shares()</a></code></td>
 <td>Income shares by quantile (top 1%, top 10%, etc.)</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_decompose.html">iq_decompose()</a></code></td>
 <td>Between-within group decomposition (GE family)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/iq_concentration.html">iq_concentration()</a></code></td>
 <td>Concentration index with optional Erreygers correction</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_polarisation.html">iq_polarisation()</a></code></td>
 <td>Wolfson bipolarisation index</td>
 </tr>
@@ -261,16 +278,16 @@
 <col width="50%">
 <col width="50%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th>What it measures</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_poverty.html">iq_poverty()</a></code></td>
 <td>FGT family (headcount, gap, severity), Sen and Watts indices</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/iq_growth_incidence.html">iq_growth_incidence()</a></code></td>
 <td>Growth incidence curve (is growth pro-poor?)</td>
 </tr>
@@ -285,11 +302,11 @@
 <col width="50%">
 <col width="50%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th>What it measures</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody><tr>
 <td><code><a href="reference/iq_kakwani.html">iq_kakwani()</a></code></td>
 <td>Kakwani progressivity + Reynolds-Smolensky redistribution</td>
 </tr></tbody>
@@ -299,16 +316,16 @@
 <h3 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th>What it does</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/iq_compare.html">iq_compare()</a></code></td>
 <td>All major indices in one table</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/iq_sample_data.html">iq_sample_data()</a></code></td>
 <td>Built-in synthetic data for examples</td>
 </tr>
@@ -325,48 +342,48 @@
 <col width="34%">
 <col width="37%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Source</th>
 <th>Coverage</th>
 <th>R package</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://datanalytics.worldbank.org/PIP-Methodology/" class="external-link">World Bank PIP</a></td>
 <td>Global poverty and inequality</td>
 <td><code>pipr</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://wid.world/" class="external-link">World Inequality Database</a></td>
 <td>Top income shares, 100+ countries</td>
 <td><code>wid</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://www.lisdatacenter.org/" class="external-link">Luxembourg Income Study</a></td>
 <td>Harmonised household surveys</td>
 <td><code>lissyrtools</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://stats.oecd.org/" class="external-link">OECD Income Distribution</a></td>
 <td>OECD member Gini, P90/P10, shares</td>
 <td><code>readoecd</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://ec.europa.eu/eurostat" class="external-link">Eurostat EU-SILC</a></td>
 <td>European household income</td>
 <td><code>eurostat</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://www.gov.uk/government/collections/family-resources-survey--2" class="external-link">UK Family Resources Survey</a></td>
 <td>UK income distribution</td>
 <td>Download CSV</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://www.census.gov/programs-surveys/cps.html" class="external-link">US Current Population Survey</a></td>
 <td>US income and poverty</td>
 <td><code>ipumsr</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://www.wider.unu.edu/database/world-income-inequality-database-wiid" class="external-link">UN WIDER WIID</a></td>
 <td>Cross-country inequality database</td>
 <td>Download CSV</td>
@@ -382,28 +399,28 @@
 <col width="40%">
 <col width="59%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Package</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/charlescoverdale/inflationkit" class="external-link">inflationkit</a></td>
 <td>Inflation decomposition and core measures</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/charlescoverdale/debtkit" class="external-link">debtkit</a></td>
 <td>Debt sustainability analysis</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/charlescoverdale/yieldcurves" class="external-link">yieldcurves</a></td>
 <td>Yield curve fitting and analysis</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/charlescoverdale/predictset" class="external-link">predictset</a></td>
 <td>Conformal prediction intervals</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/charlescoverdale/nowcast" class="external-link">nowcast</a></td>
 <td>Economic nowcasting</td>
 </tr>

@@ -9,7 +9,7 @@ choices include P90/P10 (interdecile ratio), P80/P20, and P50/P10."></head><body
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,16 @@ choices include P90/P10 (interdecile ratio), P80/P20, and P50/P10.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_percentile_ratio</span><span class="op">(</span><span class="va">x</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, upper <span class="op">=</span> <span class="fl">90</span>, lower <span class="op">=</span> <span class="fl">10</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_percentile_ratio</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  upper <span class="op">=</span> <span class="fl">90</span>,</span>
+<span>  lower <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  R <span class="op">=</span> <span class="fl">1000L</span>,</span>
+<span>  level <span class="op">=</span> <span class="fl">0.95</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,6 +77,18 @@ choices include P90/P10 (interdecile ratio), P80/P20, and P50/P10.</p>
 <dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
 <dd><p>Logical. Remove <code>NA</code> values? Default <code>FALSE</code>.</p></dd>
 
+
+<dt id="arg-ci">ci<a class="anchor" aria-label="anchor" href="#arg-ci"></a></dt>
+<dd><p>Logical. Compute bootstrap confidence intervals? Default <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
+<dd><p>Integer. Number of bootstrap replicates. Default <code>1000</code>.</p></dd>
+
+
+<dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
+<dd><p>Numeric. Confidence level. Default <code>0.95</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -89,6 +110,10 @@ choices include P90/P10 (interdecile ratio), P80/P20, and P50/P10.</p>
 <dt>n</dt>
 <dd><p>Integer. Number of observations.</p></dd>
 
+<dt>se, ci_lower, ci_upper, level</dt>
+<dd><p>Bootstrap CI fields, <code>NULL</code> unless
+<code>ci = TRUE</code>.</p></dd>
+
 
 </dl></div>
 
@@ -104,6 +129,16 @@ choices include P90/P10 (interdecile ratio), P80/P20, and P50/P10.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P90: <span style="color: #0000BB;">101314.08</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P10: <span style="color: #0000BB;">12942.26</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># With bootstrap CIs</span></span></span>
+<span class="r-in"><span><span class="fu">iq_percentile_ratio</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>, R <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Percentile Ratio (P90/P10)</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Ratio: <span style="color: #0000BB;">7.83</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P90: <span style="color: #0000BB;">101314.08</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P10: <span style="color: #0000BB;">12942.26</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bootstrap 95% CI: [<span style="color: #0000BB;">6.92</span>, <span style="color: #0000BB;">8.48</span>]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># P80/P20</span></span></span>
 <span class="r-in"><span><span class="fu">iq_percentile_ratio</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, upper <span class="op">=</span> <span class="fl">80</span>, lower <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>

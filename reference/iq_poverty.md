@@ -7,7 +7,15 @@ line.
 ## Usage
 
 ``` r
-iq_poverty(x, line, weights = NULL, na.rm = FALSE)
+iq_poverty(
+  x,
+  line,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
+)
 ```
 
 ## Arguments
@@ -28,6 +36,19 @@ iq_poverty(x, line, weights = NULL, na.rm = FALSE)
 
   Logical. Remove `NA` values? Default `FALSE`.
 
+- ci:
+
+  Logical. Compute bootstrap confidence intervals on the headcount, gap,
+  severity, and Sen indices? Default `FALSE`.
+
+- R:
+
+  Integer. Number of bootstrap replicates. Default `1000`.
+
+- level:
+
+  Numeric. Confidence level. Default `0.95`.
+
 ## Value
 
 An S3 object of class `"iq_poverty"` with elements:
@@ -46,12 +67,11 @@ An S3 object of class `"iq_poverty"` with elements:
 
 - sen:
 
-  Numeric. Sen index: headcount \* (gap among poor + Gini among poor \*
-  (1 - gap among poor)).
+  Numeric. Sen index.
 
 - watts:
 
-  Numeric. Watts index: mean of log(line/x) among the poor.
+  Numeric. Watts index.
 
 - line:
 
@@ -64,6 +84,15 @@ An S3 object of class `"iq_poverty"` with elements:
 - n_poor:
 
   Integer. Number of observations below the line.
+
+- ci:
+
+  Optional list of bootstrap CIs for the four standard FGT/Sen measures
+  (each a list with `lower` and `upper`).
+
+- level:
+
+  Numeric or `NULL`. Confidence level.
 
 ## References
 
@@ -88,4 +117,20 @@ iq_poverty(d$income, line = p20)
 #> • Sen index: 0.0874
 #> • Watts index: 0.0891
 #> • Poor: 200 of 1000 observations
+
+# With bootstrap CIs
+iq_poverty(d$income, line = p20, ci = TRUE, R = 200)
+#> 
+#> ── Poverty Measures (line = 17977.94) ──────────────────────────────────────────
+#> • Headcount (FGT0): 20%
+#> • Poverty gap (FGT1): 0.0639
+#> • Severity (FGT2): 0.029
+#> • Sen index: 0.0874
+#> • Watts index: 0.0891
+#> • Poor: 200 of 1000 observations
+#> • Bootstrap 95% CIs:
+#>   Headcount 95% CI: [0.181, 0.225]
+#>   Gap 95% CI: [0.0552, 0.0724]
+#>   Severity 95% CI: [0.0239, 0.0338]
+#>   Sen 95% CI: [0.0768, 0.099]
 ```

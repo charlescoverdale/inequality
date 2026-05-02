@@ -11,7 +11,7 @@ coefficient, the ranking variable and the outcome variable are different."></hea
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,9 +49,12 @@ coefficient, the ranking variable and the outcome variable are different.</p>
 <span>  <span class="va">x</span>,</span>
 <span>  <span class="va">rank</span>,</span>
 <span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  correction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"erreygers"</span><span class="op">)</span>,</span>
+<span>  correction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"erreygers"</span>, <span class="st">"wagstaff"</span><span class="op">)</span>,</span>
 <span>  bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  R <span class="op">=</span> <span class="fl">1000L</span>,</span>
+<span>  level <span class="op">=</span> <span class="fl">0.95</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -73,9 +76,9 @@ same length as <code>x</code>.</p></dd>
 
 
 <dt id="arg-correction">correction<a class="anchor" aria-label="anchor" href="#arg-correction"></a></dt>
-<dd><p>Character. <code>"none"</code> (default) for the standard index,
-or <code>"erreygers"</code> for the Erreygers (2009) correction for bounded
-variables.</p></dd>
+<dd><p>Character. <code>"none"</code> (default) for the standard index;
+<code>"erreygers"</code> for the Erreygers (2009) bounded-variable correction;
+<code>"wagstaff"</code> for the Wagstaff (2005) normalised index.</p></dd>
 
 
 <dt id="arg-bounds">bounds<a class="anchor" aria-label="anchor" href="#arg-bounds"></a></dt>
@@ -86,6 +89,18 @@ of <code>x</code>. Required when <code>correction = "erreygers"</code>. Default 
 
 <dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
 <dd><p>Logical. Remove <code>NA</code> values? Default <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-ci">ci<a class="anchor" aria-label="anchor" href="#arg-ci"></a></dt>
+<dd><p>Logical. Compute bootstrap confidence intervals? Default <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
+<dd><p>Integer. Number of bootstrap replicates. Default <code>1000</code>.</p></dd>
+
+
+<dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
+<dd><p>Numeric. Confidence level. Default <code>0.95</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -99,6 +114,10 @@ of <code>x</code>. Required when <code>correction = "erreygers"</code>. Default 
 <dt>n</dt>
 <dd><p>Integer. Number of observations.</p></dd>
 
+<dt>se, ci_lower, ci_upper, level</dt>
+<dd><p>Bootstrap CI fields, <code>NULL</code> unless
+<code>ci = TRUE</code>.</p></dd>
+
 
 </dl></div>
     <div class="section level2">
@@ -106,10 +125,14 @@ of <code>x</code>. Required when <code>correction = "erreygers"</code>. Default 
     <p>A positive value indicates the outcome is concentrated among the better-off;
 a negative value indicates concentration among the worse-off.</p>
 <p>For bounded variables (e.g. binary health indicators), the standard
-concentration index has bounds that depend on the mean. Use
-<code>correction = "erreygers"</code> for the Erreygers (2009) corrected index,
-which has fixed bounds of -1 to 1 regardless of the mean.</p>
-    </div>
+concentration index has bounds that depend on the mean. Two corrections
+are available:</p><ul><li><p><code>correction = "erreygers"</code>: the Erreygers (2009) corrected index,
+<code>E = 4 * mu / (b - a) * C</code>, which has fixed bounds of -1 to 1.</p></li>
+<li><p><code>correction = "wagstaff"</code>: the Wagstaff (2005) normalised index,
+<code>W = C / (1 - mu / b)</code> for variables bounded above at <code>b</code>, which is
+the standard normalisation in much of the health-economics
+literature.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Wagstaff, A., Paci, P. and van Doorslaer, E. (1991). "On the Measurement
@@ -117,6 +140,9 @@ of Inequalities in Health." <em>Social Science and Medicine</em>, 33(5),
 545–557.</p>
 <p>Erreygers, G. (2009). "Correcting the Concentration Index."
 <em>Journal of Health Economics</em>, 28(2), 504–515.</p>
+<p>Wagstaff, A. (2005). "The Bounds of the Concentration Index when the
+Variable of Interest is Binary, with an Application to Immunization
+Inequality." <em>Health Economics</em>, 14(4), 429–432.</p>
     </div>
 
     <div class="section level2">
@@ -130,13 +156,21 @@ of Inequalities in Health." <em>Social Science and Medicine</em>, 33(5),
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Value: <span style="color: #0000BB;">0.3065</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">200</span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># With bootstrap CIs</span></span></span>
+<span class="r-in"><span><span class="fu">iq_concentration</span><span class="op">(</span><span class="va">health_exp</span>, rank <span class="op">=</span> <span class="va">income</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>, R <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Concentration Index</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Value: <span style="color: #0000BB;">0.3065</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">200</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bootstrap 95% CI: [<span style="color: #0000BB;">0.2691</span>, <span style="color: #0000BB;">0.3359</span>]</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Binary outcome with Erreygers correction</span></span></span>
 <span class="r-in"><span><span class="va">sick</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">income</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">income</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="fl">200</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sick</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="va">sick</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">iq_concentration</span><span class="op">(</span><span class="va">sick</span>, rank <span class="op">=</span> <span class="va">income</span>, correction <span class="op">=</span> <span class="st">"erreygers"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Concentration Index (Erreygers)</span> <span style="color: #00BBBB;">─────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Value: <span style="color: #0000BB;">-0.8826</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Value: <span style="color: #0000BB;">-0.9241</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">200</span></span>
 </code></pre></div>
     </div>

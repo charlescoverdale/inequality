@@ -9,7 +9,7 @@ or a generalised entropy index GE(alpha) for any non-negative alpha."></head><bo
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,15 @@ or a generalised entropy index GE(alpha) for any non-negative alpha.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_theil</span><span class="op">(</span><span class="va">x</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, index <span class="op">=</span> <span class="st">"T"</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_theil</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  index <span class="op">=</span> <span class="st">"T"</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  R <span class="op">=</span> <span class="fl">1000L</span>,</span>
+<span>  level <span class="op">=</span> <span class="fl">0.95</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,6 +74,18 @@ mean log deviation (GE(0)), or a numeric value for GE(alpha). Default
 <dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
 <dd><p>Logical. Remove <code>NA</code> values? Default <code>FALSE</code>.</p></dd>
 
+
+<dt id="arg-ci">ci<a class="anchor" aria-label="anchor" href="#arg-ci"></a></dt>
+<dd><p>Logical. Compute bootstrap confidence intervals? Default <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
+<dd><p>Integer. Number of bootstrap replicates. Default <code>1000</code>.</p></dd>
+
+
+<dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
+<dd><p>Numeric. Confidence level. Default <code>0.95</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -81,6 +101,18 @@ mean log deviation (GE(0)), or a numeric value for GE(alpha). Default
 <dt>n</dt>
 <dd><p>Integer. Number of observations.</p></dd>
 
+<dt>se</dt>
+<dd><p>Numeric or <code>NULL</code>. Bootstrap standard error.</p></dd>
+
+<dt>ci_lower</dt>
+<dd><p>Numeric or <code>NULL</code>. Lower bound of the CI.</p></dd>
+
+<dt>ci_upper</dt>
+<dd><p>Numeric or <code>NULL</code>. Upper bound of the CI.</p></dd>
+
+<dt>level</dt>
+<dd><p>Numeric or <code>NULL</code>. Confidence level.</p></dd>
+
 
 </dl></div>
     <div class="section level2">
@@ -88,6 +120,17 @@ mean log deviation (GE(0)), or a numeric value for GE(alpha). Default
     <p>Generalised entropy indices are the only class of inequality measures that
 are both decomposable by population subgroups and satisfy the transfer
 principle. Higher values indicate more inequality.</p>
+<p>Theil T (GE(1)) and Theil L (GE(0)) involve <code>log(x)</code> and so require
+strictly positive values. GE(alpha) for <code>alpha &gt; 1</code> is well-defined for
+non-negative <code>x</code> but is highly sensitive to small or zero values. For
+wealth or income net of taxes/transfers (which can be zero or negative)
+use the Gini, S-Gini, or Kolm index instead.</p>
+<p>Note on cross-validation against <a href="https://CRAN.R-project.org/package=ineq" class="external-link"><span class="pkg">ineq</span></a>: this package uses the
+textbook GE(alpha) convention, where <code>index = "T"</code> is GE(1) (Theil T)
+and <code>index = "L"</code> is GE(0) (mean log deviation). The legacy
+<a href="https://CRAN.R-project.org/package=ineq" class="external-link"><span class="pkg">ineq</span></a> package uses the opposite indexing, so
+<code>ineq::Theil(x, parameter = 0)</code> matches <code>iq_theil(x, "T")</code> and
+<code>ineq::Theil(x, parameter = 1)</code> matches <code>iq_theil(x, "L")</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -109,6 +152,14 @@ Inequality Measures." <em>Econometrica</em>, 48(3), 613–625.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Theil T (GE(1))</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Value: <span style="color: #0000BB;">0.3307</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># With bootstrap CIs</span></span></span>
+<span class="r-in"><span><span class="fu">iq_theil</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, index <span class="op">=</span> <span class="st">"T"</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>, R <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Theil T (GE(1))</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Value: <span style="color: #0000BB;">0.3307</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bootstrap 95% CI: [<span style="color: #0000BB;">0.2797</span>, <span style="color: #0000BB;">0.393</span>]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Mean log deviation (GE(0))</span></span></span>
 <span class="r-in"><span><span class="fu">iq_theil</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, index <span class="op">=</span> <span class="st">"L"</span><span class="op">)</span></span></span>

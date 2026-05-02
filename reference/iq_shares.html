@@ -11,7 +11,7 @@ and top 1%."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,16 @@ and top 1%.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_shares</span><span class="op">(</span><span class="va">x</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.9</span>, <span class="fl">0.99</span>, <span class="fl">1</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_shares</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.9</span>, <span class="fl">0.99</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  R <span class="op">=</span> <span class="fl">1000L</span>,</span>
+<span>  level <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  negatives <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"error"</span>, <span class="st">"keep"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -53,7 +62,7 @@ and top 1%.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>Numeric vector of incomes (non-negative).</p></dd>
+<dd><p>Numeric vector of incomes.</p></dd>
 
 
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
@@ -68,18 +77,52 @@ defining the segments. Default <code>c(0.50, 0.90, 0.99, 1.00)</code>.</p></dd>
 <dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
 <dd><p>Logical. Remove <code>NA</code> values? Default <code>FALSE</code>.</p></dd>
 
+
+<dt id="arg-ci">ci<a class="anchor" aria-label="anchor" href="#arg-ci"></a></dt>
+<dd><p>Logical. Compute bootstrap confidence intervals on each
+share? Default <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
+<dd><p>Integer. Number of bootstrap replicates. Default <code>1000</code>.</p></dd>
+
+
+<dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
+<dd><p>Numeric. Confidence level. Default <code>0.95</code>.</p></dd>
+
+
+<dt id="arg-negatives">negatives<a class="anchor" aria-label="anchor" href="#arg-negatives"></a></dt>
+<dd><p>Character. <code>"error"</code> (default) aborts on negatives;
+<code>"keep"</code> permits them.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An S3 object of class <code>"iq_shares"</code> with elements:</p><dl><dt>shares</dt>
 <dd><p>data.frame with columns <code>segment</code>, <code>pop_share</code>,
-<code>income_share</code>.</p></dd>
+<code>income_share</code>, and (when <code>ci = TRUE</code>) <code>ci_lower</code> and <code>ci_upper</code>.</p></dd>
 
 <dt>n</dt>
 <dd><p>Integer. Number of observations.</p></dd>
 
+<dt>level</dt>
+<dd><p>Numeric or <code>NULL</code>. Confidence level.</p></dd>
+
+<dt>has_negatives</dt>
+<dd><p>Logical. Whether the input contained negatives.</p></dd>
+
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Distributions containing negative values can produce shares that fall
+outside the unit interval: the bottom segment may have a negative share
+(it pulls total income down), and other segments may exceed 100% as a
+result. The function returns the raw shares and emits a warning when
+negatives are present so the user can interpret accordingly. If the
+population total income is non-positive (so shares are not well-defined
+at all), the function returns <code>NA</code> shares with a warning.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -93,6 +136,17 @@ defining the segments. Default <code>c(0.50, 0.90, 0.99, 1.00)</code>.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Top 1%: 7.3% of income (1% of population)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># With bootstrap CIs on each share</span></span></span>
+<span class="r-in"><span><span class="fu">iq_shares</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>, R <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Income Shares</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bottom 50%: 21.2% of income (50% of population) [19.9%, 22.5%]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P50-P90: 47.2% of income (40% of population) [45.2%, 49.3%]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P90-P99: 24.2% of income (9% of population) [23%, 25.7%]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Top 1%: 7.3% of income (1% of population) [5.2%, 9.6%]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bootstrap 95% CIs shown in brackets.</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Custom breaks: quintiles</span></span></span>
 <span class="r-in"><span><span class="fu">iq_shares</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.20</span>, <span class="fl">0.40</span>, <span class="fl">0.60</span>, <span class="fl">0.80</span>, <span class="fl">1.00</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -103,6 +157,19 @@ defining the segments. Default <code>c(0.50, 0.90, 0.99, 1.00)</code>.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P60-P80: 22.4% of income (20% of population)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Top 20%: 48.5% of income (20% of population)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Wealth distributions can include negative net worth</span></span></span>
+<span class="r-in"><span><span class="va">wealth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5000</span>, <span class="op">-</span><span class="fl">1000</span>, <span class="fl">0</span>, <span class="fl">5000</span>, <span class="fl">20000</span>, <span class="fl">80000</span>, <span class="fl">250000</span>, <span class="fl">1e6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">iq_shares</span><span class="op">(</span><span class="va">wealth</span>, negatives <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Input contains negatives; some income shares may fall outside [0, 1].</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Income Shares</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bottom 50%: -0.1% of income (50% of population)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P50-P90: 25.9% of income (40% of population)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> P90-P99: 0% of income (9% of population)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Top 1%: 74.1% of income (1% of population)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">8</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Input contains negatives; shares may fall outside [0, 1].</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

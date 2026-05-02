@@ -7,14 +7,22 @@ unimodal. Higher values indicate more polarisation.
 ## Usage
 
 ``` r
-iq_polarisation(x, weights = NULL, na.rm = FALSE)
+iq_polarisation(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 ```
 
 ## Arguments
 
 - x:
 
-  Numeric vector of incomes (non-negative).
+  Numeric vector of incomes.
 
 - weights:
 
@@ -23,6 +31,23 @@ iq_polarisation(x, weights = NULL, na.rm = FALSE)
 - na.rm:
 
   Logical. Remove `NA` values? Default `FALSE`.
+
+- ci:
+
+  Logical. Compute bootstrap confidence intervals? Default `FALSE`.
+
+- R:
+
+  Integer. Number of bootstrap replicates. Default `1000`.
+
+- level:
+
+  Numeric. Confidence level. Default `0.95`.
+
+- negatives:
+
+  Character. `"error"` (default) aborts on negatives; `"keep"` permits
+  them.
 
 ## Value
 
@@ -48,6 +73,10 @@ An S3 object of class `"iq_polarisation"` with elements:
 
   Integer. Number of observations.
 
+- se, ci_lower, ci_upper, level:
+
+  Bootstrap CI fields, `NULL` unless `ci = TRUE`.
+
 ## References
 
 Wolfson, M. C. (1994). "When Inequalities Diverge." *American Economic
@@ -69,4 +98,15 @@ iq_polarisation(d$income)
 #> • Median income: 35934.96
 #> • Mean income: 49190.12
 #> • Observations: 1000
+
+# With bootstrap CIs
+iq_polarisation(d$income, ci = TRUE, R = 200)
+#> 
+#> ── Polarisation ────────────────────────────────────────────────────────────────
+#> • Wolfson index: 0.1988
+#> • Gini: 0.43
+#> • Median income: 35934.96
+#> • Mean income: 49190.12
+#> • Observations: 1000
+#> • Bootstrap 95% CI: [0.1862, 0.2174]
 ```

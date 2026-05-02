@@ -1,5 +1,143 @@
 # Changelog
 
+## inequality 0.2.0
+
+This release responds to feedback from Frank Cowell and Emmanuel
+Flachaire (personal communication, 1 May 2026) on the v0.1.0 release.
+Two gaps were flagged: confidence intervals were available only for the
+Gini, and the package rejected non-positive values for the Gini and the
+top shares. A follow-up internal audit produced several smaller fixes
+that ship together.
+
+### Confidence intervals on every inequality measure
+
+Bootstrap confidence intervals are now available on every inequality
+function via `ci = TRUE`. Each function gains `ci`, `R`, and `level`
+arguments matching the existing Gini API. Results are returned in
+`ci_lower`, `ci_upper`, and `se` fields on the output object and shown
+by the print method.
+
+Functions extended:
+[`iq_theil()`](https://charlescoverdale.github.io/inequality/reference/iq_theil.md),
+[`iq_atkinson()`](https://charlescoverdale.github.io/inequality/reference/iq_atkinson.md),
+[`iq_sgini()`](https://charlescoverdale.github.io/inequality/reference/iq_sgini.md),
+[`iq_palma()`](https://charlescoverdale.github.io/inequality/reference/iq_palma.md),
+[`iq_hoover()`](https://charlescoverdale.github.io/inequality/reference/iq_hoover.md),
+[`iq_kolm()`](https://charlescoverdale.github.io/inequality/reference/iq_kolm.md),
+[`iq_percentile_ratio()`](https://charlescoverdale.github.io/inequality/reference/iq_percentile_ratio.md),
+[`iq_polarisation()`](https://charlescoverdale.github.io/inequality/reference/iq_polarisation.md),
+[`iq_shares()`](https://charlescoverdale.github.io/inequality/reference/iq_shares.md),
+[`iq_concentration()`](https://charlescoverdale.github.io/inequality/reference/iq_concentration.md),
+[`iq_kakwani()`](https://charlescoverdale.github.io/inequality/reference/iq_kakwani.md),
+and
+[`iq_poverty()`](https://charlescoverdale.github.io/inequality/reference/iq_poverty.md).
+
+The bootstrap uses probability-proportional resampling, so survey
+weights flow through to the variance, not just the point estimate.
+
+### `iq_compare()` runs one bootstrap loop, propagates CIs to every row
+
+When `ci = TRUE`,
+[`iq_compare()`](https://charlescoverdale.github.io/inequality/reference/iq_compare.md)
+now runs a single resample loop and attaches `ci_lower` and `ci_upper`
+columns to every row of the table. The old `gini_ci` field is removed.
+The table now also covers S-Gini, Kolm, and Wolfson (12 measures, up
+from 9).
+
+### Negative values are now supported via `negatives = "keep"`
+
+Functions that are mathematically defined for distributions containing
+negative values now accept `negatives = c("error", "keep")`, with
+`"error"` as the default for back-compatibility. With
+`negatives = "keep"`:
+
+- [`iq_gini()`](https://charlescoverdale.github.io/inequality/reference/iq_gini.md)
+  and
+  [`iq_sgini()`](https://charlescoverdale.github.io/inequality/reference/iq_sgini.md)
+  permit negatives; the index is still computed by the standard formula
+  but is no longer bounded in \[0, 1\]. The print method emits a note
+  when the input contains negatives.
+- [`iq_shares()`](https://charlescoverdale.github.io/inequality/reference/iq_shares.md)
+  permits negatives; segment shares may fall outside \[0, 1\] and a
+  warning is issued. If total income is non-positive, the function
+  returns `NA` shares with a warning.
+- [`iq_palma()`](https://charlescoverdale.github.io/inequality/reference/iq_palma.md),
+  [`iq_hoover()`](https://charlescoverdale.github.io/inequality/reference/iq_hoover.md),
+  and
+  [`iq_polarisation()`](https://charlescoverdale.github.io/inequality/reference/iq_polarisation.md)
+  similarly accept negatives.
+
+[`iq_kolm()`](https://charlescoverdale.github.io/inequality/reference/iq_kolm.md)
+already worked for negative values and is unchanged.
+
+[`iq_atkinson()`](https://charlescoverdale.github.io/inequality/reference/iq_atkinson.md)
+and
+[`iq_theil()`](https://charlescoverdale.github.io/inequality/reference/iq_theil.md)
+continue to require strictly positive values: they involve `log(x)` or
+`x^(1 - epsilon)` for which the formula is mathematically undefined at
+zero or below. The error message now documents this explicitly.
+
+### Bug fixes
+
+- [`iq_kakwani()`](https://charlescoverdale.github.io/inequality/reference/iq_kakwani.md)
+  no longer takes the absolute value of post-tax income before computing
+  the post-tax Gini. Households whose post-tax income is negative are
+  now reflected honestly in the Reynolds-Smolensky index.
+- [`iq_palma()`](https://charlescoverdale.github.io/inequality/reference/iq_palma.md)
+  and
+  [`iq_polarisation()`](https://charlescoverdale.github.io/inequality/reference/iq_polarisation.md)
+  now warn rather than abort when the relevant denominator is
+  non-positive (returning `NA`).
+- The standard Gini now returns `NA` (with a warning) when the
+  population mean is non-positive. Previously the function returned `0`
+  when `mu == 0`, which conflated “perfect equality” with “undefined”.
+  With `negatives = "keep"` set, the user is pointed at
+  `normalised = TRUE` for the Raffinetti et al. (2017) bounded variant.
+- The Watts poverty index drops observations with `x = 0` from the Watts
+  sum (since `log(line / 0)` diverges) and emits a one-time warning. FGT
+  measures and the Sen index continue to include all poor observations.
+- [`iq_percentile_ratio()`](https://charlescoverdale.github.io/inequality/reference/iq_percentile_ratio.md)
+  now warns when the lower percentile is negative, since the resulting
+  ratio sign-flips and has no inequality interpretation.
+- The error message for measures that require strictly positive input
+  (Theil, Atkinson, decompose, growth_incidence) no longer suggests
+  setting `negatives = "keep"`, which those wrappers do not expose.
+  Instead the message points the user at measures that admit zero or
+  negative support.
+
+### New features (audit follow-up)
+
+- [`iq_gini()`](https://charlescoverdale.github.io/inequality/reference/iq_gini.md)
+  gains a `normalised` flag implementing the Raffinetti, Siletti and
+  Vernizzi (2017) Gini variant, which is bounded in \[-1, 1\] for
+  distributions containing negative values.
+- [`iq_compare()`](https://charlescoverdale.github.io/inequality/reference/iq_compare.md)
+  gains a `negatives` argument. With `negatives = "keep"` it permits
+  zero or negative input and returns `NA` for the Theil and Atkinson
+  rows (which are mathematically undefined for non-positive values),
+  while still computing Gini, S-Gini, Kolm, Wolfson, Hoover, Palma and
+  percentile-ratio rows.
+- [`iq_concentration()`](https://charlescoverdale.github.io/inequality/reference/iq_concentration.md)
+  gains a `correction = "wagstaff"` option for the Wagstaff (2005)
+  normalised concentration index, alongside the existing
+  Erreygers (2009) correction.
+- [`?iq_theil`](https://charlescoverdale.github.io/inequality/reference/iq_theil.md)
+  now documents the convention difference vs the legacy `ineq` package
+  (`ineq::Theil(x, parameter = 0)` corresponds to GE(1) / Theil T here,
+  not to GE(0) / Theil L).
+- New `tests/testthat/test-axioms.R` locks in scale invariance, Kolm
+  translation invariance, Pigou-Dalton transfer principle, anonymity,
+  parameter monotonicity, decomposition exactness, the Erreygers and
+  Wagstaff bounds, and bootstrap nominal coverage.
+- New `tests/testthat/test-cross-package.R` cross-checks Gini, Theil,
+  and Atkinson values against the legacy `ineq` package on a fixed seed.
+  Skipped when `ineq` is not installed and on CRAN.
+
+### Acknowledgements
+
+Thanks to Frank Cowell and Emmanuel Flachaire for the careful read and
+the two-line list of gaps.
+
 ## inequality 0.1.0
 
 CRAN release: 2026-04-20

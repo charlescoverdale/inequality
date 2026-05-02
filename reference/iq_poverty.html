@@ -11,7 +11,7 @@ line."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,15 @@ line.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_poverty</span><span class="op">(</span><span class="va">x</span>, <span class="va">line</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iq_poverty</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">line</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  R <span class="op">=</span> <span class="fl">1000L</span>,</span>
+<span>  level <span class="op">=</span> <span class="fl">0.95</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,6 +75,19 @@ line.</p>
 <dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
 <dd><p>Logical. Remove <code>NA</code> values? Default <code>FALSE</code>.</p></dd>
 
+
+<dt id="arg-ci">ci<a class="anchor" aria-label="anchor" href="#arg-ci"></a></dt>
+<dd><p>Logical. Compute bootstrap confidence intervals on the
+headcount, gap, severity, and Sen indices? Default <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
+<dd><p>Integer. Number of bootstrap replicates. Default <code>1000</code>.</p></dd>
+
+
+<dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
+<dd><p>Numeric. Confidence level. Default <code>0.95</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -80,11 +101,10 @@ line.</p>
 <dd><p>Numeric. FGT(2): average squared normalised gap.</p></dd>
 
 <dt>sen</dt>
-<dd><p>Numeric. Sen index: headcount * (gap among poor +
-Gini among poor * (1 - gap among poor)).</p></dd>
+<dd><p>Numeric. Sen index.</p></dd>
 
 <dt>watts</dt>
-<dd><p>Numeric. Watts index: mean of log(line/x) among the poor.</p></dd>
+<dd><p>Numeric. Watts index.</p></dd>
 
 <dt>line</dt>
 <dd><p>Numeric. The poverty line used.</p></dd>
@@ -94,6 +114,13 @@ Gini among poor * (1 - gap among poor)).</p></dd>
 
 <dt>n_poor</dt>
 <dd><p>Integer. Number of observations below the line.</p></dd>
+
+<dt>ci</dt>
+<dd><p>Optional list of bootstrap CIs for the four standard FGT/Sen
+measures (each a list with <code>lower</code> and <code>upper</code>).</p></dd>
+
+<dt>level</dt>
+<dd><p>Numeric or <code>NULL</code>. Confidence level.</p></dd>
 
 
 </dl></div>
@@ -119,6 +146,22 @@ Poverty Measures." <em>Econometrica</em>, 52(3), 761–766.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Sen index: <span style="color: #0000BB;">0.0874</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Watts index: <span style="color: #0000BB;">0.0891</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Poor: <span style="color: #0000BB;">200</span> of <span style="color: #0000BB;">1000</span> observations</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># With bootstrap CIs</span></span></span>
+<span class="r-in"><span><span class="fu">iq_poverty</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, line <span class="op">=</span> <span class="va">p20</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>, R <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Poverty Measures (line = 17977.94)</span> <span style="color: #00BBBB;">──────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Headcount (FGT0): <span style="color: #0000BB;">20</span>%</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Poverty gap (FGT1): <span style="color: #0000BB;">0.0639</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Severity (FGT2): <span style="color: #0000BB;">0.029</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Sen index: <span style="color: #0000BB;">0.0874</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Watts index: <span style="color: #0000BB;">0.0891</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Poor: <span style="color: #0000BB;">200</span> of <span style="color: #0000BB;">1000</span> observations</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bootstrap 95% CIs:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   Headcount 95% CI: [0.181, 0.225]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   Gap 95% CI: [0.0552, 0.0724]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   Severity 95% CI: [0.0239, 0.0338]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   Sen 95% CI: [0.0768, 0.099]</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -8,14 +8,22 @@ equivalently, half the mean absolute deviation divided by the mean.
 ## Usage
 
 ``` r
-iq_hoover(x, weights = NULL, na.rm = FALSE)
+iq_hoover(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 ```
 
 ## Arguments
 
 - x:
 
-  Numeric vector of incomes (non-negative).
+  Numeric vector of incomes.
 
 - weights:
 
@@ -25,17 +33,38 @@ iq_hoover(x, weights = NULL, na.rm = FALSE)
 
   Logical. Remove `NA` values? Default `FALSE`.
 
+- ci:
+
+  Logical. Compute bootstrap confidence intervals? Default `FALSE`.
+
+- R:
+
+  Integer. Number of bootstrap replicates. Default `1000`.
+
+- level:
+
+  Numeric. Confidence level. Default `0.95`.
+
+- negatives:
+
+  Character. `"error"` (default) aborts on negatives; `"keep"` permits
+  them.
+
 ## Value
 
 An S3 object of class `"iq_hoover"` with elements:
 
 - value:
 
-  Numeric. The Hoover index (0 to 1).
+  Numeric. The Hoover index (0 to 1 with non-negative input).
 
 - n:
 
   Integer. Number of observations.
+
+- se, ci_lower, ci_upper, level:
+
+  Bootstrap CI fields, `NULL` unless `ci = TRUE`.
 
 ## Examples
 
@@ -46,6 +75,14 @@ iq_hoover(d$income)
 #> ── Hoover Index ────────────────────────────────────────────────────────────────
 #> • Value: 0.3126
 #> • Observations: 1000
+
+# With bootstrap CIs
+iq_hoover(d$income, ci = TRUE, R = 200)
+#> 
+#> ── Hoover Index ────────────────────────────────────────────────────────────────
+#> • Value: 0.3126
+#> • Observations: 1000
+#> • Bootstrap 95% CI: [0.2944, 0.3322]
 
 # Perfect equality
 iq_hoover(rep(100, 50))

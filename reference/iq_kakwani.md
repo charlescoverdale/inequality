@@ -8,14 +8,23 @@ proportional.
 ## Usage
 
 ``` r
-iq_kakwani(pre_tax, tax, weights = NULL, na.rm = FALSE)
+iq_kakwani(
+  pre_tax,
+  tax,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 ```
 
 ## Arguments
 
 - pre_tax:
 
-  Numeric vector of pre-tax incomes (non-negative).
+  Numeric vector of pre-tax incomes (non-negative by default).
 
 - tax:
 
@@ -29,6 +38,24 @@ iq_kakwani(pre_tax, tax, weights = NULL, na.rm = FALSE)
 - na.rm:
 
   Logical. Remove `NA` values? Default `FALSE`.
+
+- ci:
+
+  Logical. Compute bootstrap confidence intervals on the Kakwani and
+  Reynolds-Smolensky indices? Default `FALSE`.
+
+- R:
+
+  Integer. Number of bootstrap replicates. Default `1000`.
+
+- level:
+
+  Numeric. Confidence level. Default `0.95`.
+
+- negatives:
+
+  Character. `"error"` (default) aborts on negative pre-tax incomes;
+  `"keep"` permits them.
 
 ## Value
 
@@ -63,10 +90,19 @@ An S3 object of class `"iq_kakwani"` with elements:
 
   Integer. Number of observations.
 
+- kakwani_ci, rs_ci:
+
+  Lists with `lower` and `upper` (or `NULL`).
+
 ## Details
 
 The Kakwani index equals the concentration coefficient of the tax minus
 the pre-tax Gini coefficient: K = C_T - G_pre.
+
+The post-tax Gini is computed on `pre_tax - tax` directly. Households
+whose post-tax income is negative are kept as-is, so the post-tax Gini
+may exceed 1 in distributions with extreme tax burdens. Pass
+`negatives = "error"` to abort on negative pre-tax incomes.
 
 ## References
 
@@ -93,4 +129,19 @@ iq_kakwani(pre, tax)
 #> • Tax concentration coefficient: 0.4946
 #> • Average tax rate: 12.5%
 #> • Observations: 1000
+
+# With bootstrap CIs
+iq_kakwani(pre, tax, ci = TRUE, R = 200)
+#> 
+#> ── Fiscal Progressivity (Progressive) ──────────────────────────────────────────
+#> • Kakwani index: 0.0646
+#> • Reynolds-Smolensky index: 0.0092
+#> • Pre-tax Gini: 0.43
+#> • Post-tax Gini: 0.4208
+#> • Tax concentration coefficient: 0.4946
+#> • Average tax rate: 12.5%
+#> • Observations: 1000
+#> • Bootstrap 95% CIs:
+#>   Kakwani: [0.0484, 0.081]
+#>   Reynolds-Smolensky: [0.0066, 0.0121]
 ```

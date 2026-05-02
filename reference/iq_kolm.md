@@ -9,7 +9,15 @@ leaves them unchanged.
 ## Usage
 
 ``` r
-iq_kolm(x, weights = NULL, alpha = 1, na.rm = FALSE)
+iq_kolm(
+  x,
+  weights = NULL,
+  alpha = 1,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
+)
 ```
 
 ## Arguments
@@ -30,6 +38,18 @@ iq_kolm(x, weights = NULL, alpha = 1, na.rm = FALSE)
 
   Logical. Remove `NA` values? Default `FALSE`.
 
+- ci:
+
+  Logical. Compute bootstrap confidence intervals? Default `FALSE`.
+
+- R:
+
+  Integer. Number of bootstrap replicates. Default `1000`.
+
+- level:
+
+  Numeric. Confidence level. Default `0.95`.
+
 ## Value
 
 An S3 object of class `"iq_kolm"` with elements:
@@ -46,11 +66,16 @@ An S3 object of class `"iq_kolm"` with elements:
 
   Integer. Number of observations.
 
+- se, ci_lower, ci_upper, level:
+
+  Bootstrap CI fields, `NULL` unless `ci = TRUE`.
+
 ## Details
 
 Higher alpha gives more weight to inequality at the bottom of the
 distribution. The index is always non-negative and equals zero only
-under perfect equality.
+under perfect equality. The Kolm index is well-defined for any real
+values, including negatives.
 
 ## References
 
@@ -67,6 +92,15 @@ iq_kolm(d$income, alpha = 1)
 #> • Value: 46736.2301
 #> • Alpha: 1
 #> • Observations: 1000
+
+# With bootstrap CIs
+iq_kolm(d$income, alpha = 1, ci = TRUE, R = 200)
+#> 
+#> ── Kolm Index (absolute inequality) ────────────────────────────────────────────
+#> • Value: 46736.2301
+#> • Alpha: 1
+#> • Observations: 1000
+#> • Bootstrap 95% CI: [43092.8954, 49430.9832]
 
 # Higher aversion to inequality at the bottom
 iq_kolm(d$income, alpha = 2)

@@ -6,14 +6,22 @@ Computes the Palma ratio: the share of total income received by the top
 ## Usage
 
 ``` r
-iq_palma(x, weights = NULL, na.rm = FALSE)
+iq_palma(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 ```
 
 ## Arguments
 
 - x:
 
-  Numeric vector of incomes (non-negative).
+  Numeric vector of incomes.
 
 - weights:
 
@@ -22,6 +30,23 @@ iq_palma(x, weights = NULL, na.rm = FALSE)
 - na.rm:
 
   Logical. Remove `NA` values? Default `FALSE`.
+
+- ci:
+
+  Logical. Compute bootstrap confidence intervals? Default `FALSE`.
+
+- R:
+
+  Integer. Number of bootstrap replicates. Default `1000`.
+
+- level:
+
+  Numeric. Confidence level. Default `0.95`.
+
+- negatives:
+
+  Character. `"error"` (default) aborts on negatives; `"keep"` permits
+  them.
 
 ## Value
 
@@ -43,6 +68,10 @@ An S3 object of class `"iq_palma"` with elements:
 
   Integer. Number of observations.
 
+- se, ci_lower, ci_upper, level:
+
+  Bootstrap CI fields, `NULL` unless `ci = TRUE`.
+
 ## Details
 
 The Palma ratio is motivated by Palma's (2011) observation that the
@@ -50,6 +79,10 @@ The Palma ratio is motivated by Palma's (2011) observation that the
 share of income across countries, so inequality is driven by what
 happens at the tails. A Palma ratio of 1 means the top 10 percent and
 bottom 40 percent receive equal shares.
+
+Distributions containing negative values may produce a non-positive
+bottom-40 share, in which case the Palma ratio is undefined. The
+function returns `NA` with a warning rather than aborting.
 
 ## References
 
@@ -68,6 +101,16 @@ iq_palma(d$income)
 #> • Top 10% share: 31.5%
 #> • Bottom 40% share: 14.6%
 #> • Observations: 1000
+
+# With bootstrap CIs
+iq_palma(d$income, ci = TRUE, R = 200)
+#> 
+#> ── Palma Ratio ─────────────────────────────────────────────────────────────────
+#> • Palma ratio: 2.1528
+#> • Top 10% share: 31.5%
+#> • Bottom 40% share: 14.6%
+#> • Observations: 1000
+#> • Bootstrap 95% CI: [1.8718, 2.4882]
 
 # Equal distribution: Palma = 0.25/0.40 = 0.625
 iq_palma(rep(100, 100))

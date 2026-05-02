@@ -22,6 +22,8 @@ and work with data from any source.
 
 Useful links:
 
+- <https://charlescoverdale.github.io/inequality/>
+
 - <https://github.com/charlescoverdale/inequality>
 
 - Report bugs at <https://github.com/charlescoverdale/inequality/issues>

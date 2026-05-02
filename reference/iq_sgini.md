@@ -8,14 +8,23 @@ parts of the distribution. The standard Gini is the special case
 ## Usage
 
 ``` r
-iq_sgini(x, weights = NULL, delta = 2, na.rm = FALSE)
+iq_sgini(
+  x,
+  weights = NULL,
+  delta = 2,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 ```
 
 ## Arguments
 
 - x:
 
-  Numeric vector of incomes (non-negative).
+  Numeric vector of incomes.
 
 - weights:
 
@@ -29,6 +38,23 @@ iq_sgini(x, weights = NULL, delta = 2, na.rm = FALSE)
 - na.rm:
 
   Logical. Remove `NA` values? Default `FALSE`.
+
+- ci:
+
+  Logical. Compute bootstrap confidence intervals? Default `FALSE`.
+
+- R:
+
+  Integer. Number of bootstrap replicates. Default `1000`.
+
+- level:
+
+  Numeric. Confidence level. Default `0.95`.
+
+- negatives:
+
+  Character. `"error"` (default) aborts on negatives; `"keep"` permits
+  them.
 
 ## Value
 
@@ -46,12 +72,24 @@ An S3 object of class `"iq_sgini"` with elements:
 
   Integer. Number of observations.
 
+- se, ci_lower, ci_upper, level:
+
+  Bootstrap CI fields, `NULL` unless `ci = TRUE`.
+
+- has_negatives:
+
+  Logical. Whether the input contained negatives.
+
 ## Details
 
 Lower delta (approaching 1) gives equal weight everywhere; higher delta
 gives more weight to the bottom of the distribution. The standard Gini
 (delta = 2) weights by rank position. Delta = 3 or 4 places even more
 emphasis on the poorest.
+
+Like the standard Gini, the S-Gini is well-defined for distributions
+containing negative values via `negatives = "keep"`, though the
+resulting index is no longer bounded in the unit interval.
 
 ## References
 
@@ -80,4 +118,12 @@ iq_sgini(d$income, delta = 3)
 #> ── S-Gini (delta = 3) ──────────────────────────────────────────────────────────
 #> • Value: 0.5627
 #> • Observations: 1000
+
+# With bootstrap CIs
+iq_sgini(d$income, delta = 3, ci = TRUE, R = 200)
+#> 
+#> ── S-Gini (delta = 3) ──────────────────────────────────────────────────────────
+#> • Value: 0.5627
+#> • Observations: 1000
+#> • Bootstrap 95% CI: [0.539, 0.5859]
 ```

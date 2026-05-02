@@ -9,7 +9,7 @@ weights and confidence intervals (bootstrap or asymptotic)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,9 @@ weights and confidence intervals (bootstrap or asymptotic).</p>
 <span>  ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bootstrap"</span>, <span class="st">"asymptotic"</span><span class="op">)</span>,</span>
 <span>  R <span class="op">=</span> <span class="fl">1000L</span>,</span>
-<span>  level <span class="op">=</span> <span class="fl">0.95</span></span>
+<span>  level <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  negatives <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"error"</span>, <span class="st">"keep"</span><span class="op">)</span>,</span>
+<span>  normalised <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -58,7 +60,7 @@ weights and confidence intervals (bootstrap or asymptotic).</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>Numeric vector of incomes or values (non-negative).</p></dd>
+<dd><p>Numeric vector of incomes or values.</p></dd>
 
 
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
@@ -86,17 +88,27 @@ asymptotic). Default <code>1000</code>.</p></dd>
 <dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
 <dd><p>Numeric. Confidence level. Default <code>0.95</code>.</p></dd>
 
+
+<dt id="arg-negatives">negatives<a class="anchor" aria-label="anchor" href="#arg-negatives"></a></dt>
+<dd><p>Character. <code>"error"</code> (default) aborts when <code>x</code> contains
+negative values; <code>"keep"</code> permits negatives.</p></dd>
+
+
+<dt id="arg-normalised">normalised<a class="anchor" aria-label="anchor" href="#arg-normalised"></a></dt>
+<dd><p>Logical. Use the Raffinetti, Siletti and Vernizzi (2017)
+normalised Gini? Default <code>FALSE</code>. Only meaningful when <code>negatives = "keep"</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An S3 object of class <code>"iq_gini"</code> with elements:</p><dl><dt>gini</dt>
-<dd><p>Numeric. The Gini coefficient.</p></dd>
+<dd><p>Numeric. The Gini coefficient (or <code>NA</code> when undefined).</p></dd>
 
 <dt>n</dt>
 <dd><p>Integer. Number of observations.</p></dd>
 
 <dt>se</dt>
-<dd><p>Numeric or <code>NULL</code>. Standard error (asymptotic method only).</p></dd>
+<dd><p>Numeric or <code>NULL</code>. Standard error.</p></dd>
 
 <dt>ci_lower</dt>
 <dd><p>Numeric or <code>NULL</code>. Lower bound of the CI.</p></dd>
@@ -110,14 +122,32 @@ asymptotic). Default <code>1000</code>.</p></dd>
 <dt>method</dt>
 <dd><p>Character or <code>NULL</code>. CI method used.</p></dd>
 
+<dt>has_negatives</dt>
+<dd><p>Logical. Whether the input contained negatives.</p></dd>
+
+<dt>normalised</dt>
+<dd><p>Logical. Whether the Raffinetti et al. normalisation
+was applied.</p></dd>
+
 
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The Gini coefficient ranges from 0 (perfect equality) to 1 (perfect
-inequality). It equals twice the area between the Lorenz curve and
-the 45-degree line.</p>
-    </div>
+    <p>For a strictly non-negative distribution the Gini ranges from 0 (perfect
+equality) to 1 (perfect inequality) and equals twice the area between the
+Lorenz curve and the 45-degree line.</p>
+<p>Following feedback from Cowell and Flachaire (personal communication, 2026)
+the package permits negative values via <code>negatives = "keep"</code>. Two policies
+are then available:</p><ul><li><p><code>normalised = FALSE</code> (default): the standard formula is applied. With
+negatives present the index is no longer bounded in the unit interval.
+When the population mean is non-positive the Gini has no inequality
+interpretation and the function returns <code>NA</code> with a warning.</p></li>
+<li><p><code>normalised = TRUE</code>: the Raffinetti, Siletti and Vernizzi (2017)
+normalised Gini, which rescales the index back into the unit interval
+for distributions containing negatives. The denominator is replaced
+by <code>mean(|x|)</code> so the index is well-defined whenever any observation
+is non-zero.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Gini, C. (1912). "Variabilita e mutabilita." Reprinted in
@@ -125,6 +155,10 @@ the 45-degree line.</p>
 Rome: Libreria Eredi Virgilio Veschi.</p>
 <p>Davidson, R. (2009). "Reliable Inference for the Gini Index."
 <em>Journal of Econometrics</em>, 150(1), 30–40.</p>
+<p>Raffinetti, E., Siletti, E. and Vernizzi, A. (2017). "Analyzing the
+Effects of Negative and Non-negative Values on Income Inequality:
+Evidence from the Survey of Household Income and Wealth of the Bank
+of Italy (2012)." <em>Social Indicators Research</em>, 133(1), 185–207.</p>
     </div>
 
     <div class="section level2">
@@ -142,7 +176,7 @@ Rome: Libreria Eredi Virgilio Veschi.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Gini Coefficient</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Gini: <span style="color: #0000BB;">0.43</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bootstrap 95% CI: [<span style="color: #0000BB;">0.4068</span>, <span style="color: #0000BB;">0.4541</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Bootstrap 95% CI: [<span style="color: #0000BB;">0.4059</span>, <span style="color: #0000BB;">0.4557</span>]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Asymptotic CIs (faster for large samples)</span></span></span>
 <span class="r-in"><span><span class="fu">iq_gini</span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>, method <span class="op">=</span> <span class="st">"asymptotic"</span><span class="op">)</span></span></span>
@@ -151,6 +185,23 @@ Rome: Libreria Eredi Virgilio Veschi.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Gini: <span style="color: #0000BB;">0.43</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">1000</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Asymptotic 95% CI: [<span style="color: #0000BB;">0.4065</span>, <span style="color: #0000BB;">0.4534</span>]</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Wealth distributions can include negative net worth</span></span></span>
+<span class="r-in"><span><span class="va">wealth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5000</span>, <span class="op">-</span><span class="fl">1000</span>, <span class="fl">0</span>, <span class="fl">5000</span>, <span class="fl">20000</span>, <span class="fl">80000</span>, <span class="fl">250000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">iq_gini</span><span class="op">(</span><span class="va">wealth</span>, negatives <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Gini Coefficient</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Gini: <span style="color: #0000BB;">0.7753</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">7</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Input contains negative values; the standard Gini is not bounded in the unit</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   interval.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Same data with the Raffinetti et al. (2017) normalisation</span></span></span>
+<span class="r-in"><span><span class="fu">iq_gini</span><span class="op">(</span><span class="va">wealth</span>, negatives <span class="op">=</span> <span class="st">"keep"</span>, normalised <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Gini Coefficient (Raffinetti et al. normalised)</span> <span style="color: #00BBBB;">─────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Gini: <span style="color: #0000BB;">0.7495</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Observations: <span style="color: #0000BB;">7</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Perfect equality</span></span></span>
 <span class="r-in"><span><span class="fu">iq_gini</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></span>
