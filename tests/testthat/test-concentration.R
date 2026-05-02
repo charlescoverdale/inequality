@@ -36,3 +36,12 @@ test_that("print method runs without error", {
   x <- rlnorm(100, 10, 0.5)
   expect_no_error(print(iq_concentration(x, rank = x)))
 })
+
+test_that("bootstrap CI works", {
+  set.seed(1)
+  x <- rlnorm(200, 10, 0.5)
+  r <- rlnorm(200, 10, 0.8)
+  ci_obj <- iq_concentration(x, rank = r, ci = TRUE, R = 100)
+  expect_false(is.null(ci_obj$ci_lower))
+  expect_false(is.null(ci_obj$ci_upper))
+})

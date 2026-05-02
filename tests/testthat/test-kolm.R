@@ -37,3 +37,16 @@ test_that("invalid alpha is rejected", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_kolm(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CI works", {
+  d <- iq_sample_data("income")
+  k <- iq_kolm(d$income, ci = TRUE, R = 100)
+  expect_false(is.null(k$ci_lower))
+  expect_false(is.null(k$ci_upper))
+})
+
+test_that("Kolm handles negative values", {
+  k <- iq_kolm(c(-100, 0, 100, 200))
+  expect_s3_class(k, "iq_kolm")
+  expect_true(k$value > 0)
+})

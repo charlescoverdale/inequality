@@ -5,7 +5,18 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-Measure income and wealth inequality in R. Gini coefficients with confidence intervals, Theil indices, Atkinson indices, Palma ratios, Lorenz curves, poverty measures, tax progressivity, and more. All functions accept optional survey weights.
+Measure income and wealth inequality in R. Gini coefficients with confidence intervals, Theil indices, Atkinson indices, Palma ratios, Lorenz curves, poverty measures, tax progressivity, and more. All functions accept optional survey weights, and **every measure now exposes bootstrap confidence intervals** via `ci = TRUE`.
+
+
+## What's new in 0.2.0
+
+This release responds to feedback from Frank Cowell and Emmanuel Flachaire on the v0.1.0 release.
+
+- **Bootstrap CIs on every measure.** `iq_theil`, `iq_atkinson`, `iq_sgini`, `iq_palma`, `iq_hoover`, `iq_kolm`, `iq_percentile_ratio`, `iq_polarisation`, `iq_shares`, `iq_concentration`, `iq_kakwani`, and `iq_poverty` all gain `ci`, `R`, and `level` arguments. `iq_compare()` runs a single bootstrap loop and propagates CIs to every row.
+- **Negative values supported.** Gini, S-Gini, top shares, Palma, Hoover, Wolfson, Kakwani, and `iq_compare()` accept `negatives = "keep"` for distributions containing negatives (wealth, post-tax income).
+- **Raffinetti et al. (2017) normalised Gini.** `iq_gini(x, negatives = "keep", normalised = TRUE)` rescales the index back into [0, 1] when negatives are present.
+- **Wagstaff correction added to `iq_concentration`** alongside the existing Erreygers correction.
+- **`iq_kakwani` bug fix.** The post-tax Gini no longer takes the absolute value of negative net incomes, so the Reynolds-Smolensky index is honest under high tax burdens.
 
 
 ## Installation

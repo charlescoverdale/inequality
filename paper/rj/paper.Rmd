@@ -179,15 +179,17 @@ memory-prohibitive for anything beyond toy samples.
 
 ### Confidence intervals
 
-The Gini coefficient admits two inferential routes. The asymptotic
-variance, derived in @davidson2009reliable, is computed from a single
-pass over the data. The bootstrap route resamples the data
-\code{R} times (default 1000) and takes percentile-method intervals.
-The asymptotic estimator is cheap and accurate in large samples; the
+Every inequality function in the package accepts \code{ci = TRUE}
+together with \code{R} and \code{level} arguments. The bootstrap
+resamples the data with replacement (with probability proportional to
+the survey weights, so the weighting flows through to the variance) and
+takes percentile-method intervals. The Gini additionally exposes a
+closed-form jackknife variance derived in @davidson2009reliable via
+\code{method = "asymptotic"}, which is cheap in large samples; the
 bootstrap is slower but behaves better under heavy-tailed income
-distributions where the asymptotic distribution can be slow to
-settle. Both are selected via \code{method = "asymptotic"} or
-\code{method = "bootstrap"} to \code{iq\_gini(..., ci = TRUE)}.
+distributions where the asymptotic distribution can be slow to settle.
+\code{iq\_compare()} runs a single bootstrap loop and reports a CI for
+every row of the comparison table.
 
 ### S3 classes and methods
 
@@ -425,29 +427,34 @@ components are accessible by \code{\$}.
 
 ## Limitations
 
-Five limitations apply.
+Four limitations apply.
 
 1. \CRANpkg{inequality} is a measurement package, not a survey-design
-   package. It accepts survey weights but does not compute
-   replicate-weight or Taylor-series variance estimators for complex
-   survey designs. Users needing design-based inference should pair
-   these functions with \CRANpkg{survey} or \CRANpkg{srvyr}.
+   package. It accepts survey weights and propagates them through the
+   bootstrap via probability-proportional resampling, but it does not
+   compute replicate-weight or Taylor-series variance estimators for
+   complex survey designs with clustering or stratification. Users
+   needing design-based inference should pair these functions with
+   \CRANpkg{survey} or \CRANpkg{srvyr}.
 2. The package does not correct for top-coding, bottom-coding, or
    unit non-response. Analyses of administrative tax data are
    sensitive to the top-coding threshold, and the user must apply
    any correction (Pareto tail interpolation, for example) before
    passing data into the functions.
-3. Inferential coverage is confined to the Gini coefficient. Confidence
-   intervals for the other indices could be added by bootstrap but are
-   not yet exposed as a uniform option.
-4. The package does not reconcile survey income to national accounts,
+3. The package does not reconcile survey income to national accounts,
    as the Distributional National Accounts (DINA) framework does.
    Cross-comparability of inequality indices across countries and
    vintages remains the user's responsibility.
-5. All functions are pure R. For panel inequality analysis at the scale
+4. All functions are pure R. For panel inequality analysis at the scale
    of linked employer-employee data (millions of rows across dozens of
    time periods), compiled-code implementations in Rcpp or Julia
    would be faster.
+
+Confidence intervals are now exposed uniformly across every inequality
+function as of `inequality` 0.2.0, in response to feedback from Cowell
+and Flachaire (personal communication, 2026). Each function takes
+`ci`, `R`, and `level` arguments; `iq_compare()` runs a single bootstrap
+loop and propagates CIs to every row of the comparison table.
 
 \FloatBarrier
 

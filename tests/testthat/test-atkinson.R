@@ -44,3 +44,12 @@ test_that("EDE is less than mean for unequal distribution", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_atkinson(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CI works", {
+  d <- iq_sample_data("income")
+  a <- iq_atkinson(d$income, epsilon = 0.5, ci = TRUE, R = 100)
+  expect_false(is.null(a$ci_lower))
+  expect_false(is.null(a$ci_upper))
+  expect_true(a$ci_lower <= a$value)
+  expect_true(a$ci_upper >= a$value)
+})

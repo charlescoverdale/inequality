@@ -4,33 +4,69 @@
 \alias{iq_compare}
 \title{Compare inequality measures}
 \usage{
-iq_compare(x, weights = NULL, na.rm = FALSE, ci = FALSE, R = 1000L)
+iq_compare(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 }
 \arguments{
-\item{x}{Numeric vector of incomes (strictly positive for Theil and
-Atkinson; non-negative for Gini, Palma, Hoover).}
+\item{x}{Numeric vector of incomes (strictly positive by default; see
+\code{negatives}).}
 
 \item{weights}{Optional numeric vector of survey weights.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
 
-\item{ci}{Logical. Compute bootstrap CIs for the Gini? Default \code{FALSE}.}
+\item{ci}{Logical. Compute bootstrap CIs for every measure in the
+table? Default \code{FALSE}.}
 
 \item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
+
+\item{negatives}{Character. \code{"error"} (default) requires strictly
+positive \code{x}; \code{"keep"} permits zero or negative values, with \code{NA}
+returned for measures that are undefined on those values.}
 }
 \value{
 An S3 object of class \code{"iq_comparison"} with elements:
 \describe{
-\item{table}{data.frame with columns \code{measure} and \code{value}.}
-\item{gini_ci}{List with \code{lower} and \code{upper} (or \code{NULL}).}
+\item{table}{data.frame with columns \code{measure}, \code{value}, and (when
+\code{ci = TRUE}) \code{ci_lower} and \code{ci_upper}.}
 \item{n}{Integer. Number of observations.}
+\item{level}{Numeric or \code{NULL}. Confidence level.}
 }
 }
 \description{
 Computes all major inequality indices on the same data and returns a
 summary table for easy comparison.
 }
+\details{
+When \code{ci = TRUE} the function runs a single bootstrap loop, recomputing
+every measure on each resample. This is far cheaper than calling each
+measure with its own \code{ci = TRUE} and produces a CI for every row of the
+table.
+
+By default \code{iq_compare()} requires strictly positive values because the
+Theil and Atkinson rows are mathematically undefined at zero or below.
+Pass \code{negatives = "keep"} to permit zero or negative values: the
+Theil and Atkinson rows are returned as \code{NA} in that case, while the
+Gini, S-Gini, Kolm, Wolfson, Palma, Hoover and percentile-ratio rows
+are computed using the formulas appropriate for that input.
+}
 \examples{
 d <- iq_sample_data("income")
 iq_compare(d$income)
+
+# CIs for every measure in the table (one bootstrap loop, all rows)
+iq_compare(d$income, ci = TRUE, R = 200)
+
+# Wealth distributions can include negatives
+wealth <- c(-5000, 0, 5000, 20000, 80000, 250000, 1e6)
+iq_compare(wealth, negatives = "keep")
 }

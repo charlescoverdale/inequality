@@ -11,11 +11,13 @@ iq_gini(
   ci = FALSE,
   method = c("bootstrap", "asymptotic"),
   R = 1000L,
-  level = 0.95
+  level = 0.95,
+  negatives = c("error", "keep"),
+  normalised = FALSE
 )
 }
 \arguments{
-\item{x}{Numeric vector of incomes or values (non-negative).}
+\item{x}{Numeric vector of incomes or values.}
 
 \item{weights}{Optional numeric vector of survey weights.}
 
@@ -30,17 +32,26 @@ iq_gini(
 asymptotic). Default \code{1000}.}
 
 \item{level}{Numeric. Confidence level. Default \code{0.95}.}
+
+\item{negatives}{Character. \code{"error"} (default) aborts when \code{x} contains
+negative values; \code{"keep"} permits negatives.}
+
+\item{normalised}{Logical. Use the Raffinetti, Siletti and Vernizzi (2017)
+normalised Gini? Default \code{FALSE}. Only meaningful when \code{negatives = "keep"}.}
 }
 \value{
 An S3 object of class \code{"iq_gini"} with elements:
 \describe{
-\item{gini}{Numeric. The Gini coefficient.}
+\item{gini}{Numeric. The Gini coefficient (or \code{NA} when undefined).}
 \item{n}{Integer. Number of observations.}
-\item{se}{Numeric or \code{NULL}. Standard error (asymptotic method only).}
+\item{se}{Numeric or \code{NULL}. Standard error.}
 \item{ci_lower}{Numeric or \code{NULL}. Lower bound of the CI.}
 \item{ci_upper}{Numeric or \code{NULL}. Upper bound of the CI.}
 \item{level}{Numeric or \code{NULL}. Confidence level.}
 \item{method}{Character or \code{NULL}. CI method used.}
+\item{has_negatives}{Logical. Whether the input contained negatives.}
+\item{normalised}{Logical. Whether the Raffinetti et al. normalisation
+was applied.}
 }
 }
 \description{
@@ -48,9 +59,24 @@ Computes the Gini coefficient of a distribution, with optional survey
 weights and confidence intervals (bootstrap or asymptotic).
 }
 \details{
-The Gini coefficient ranges from 0 (perfect equality) to 1 (perfect
-inequality). It equals twice the area between the Lorenz curve and
-the 45-degree line.
+For a strictly non-negative distribution the Gini ranges from 0 (perfect
+equality) to 1 (perfect inequality) and equals twice the area between the
+Lorenz curve and the 45-degree line.
+
+Following feedback from Cowell and Flachaire (personal communication, 2026)
+the package permits negative values via \code{negatives = "keep"}. Two policies
+are then available:
+\itemize{
+\item \code{normalised = FALSE} (default): the standard formula is applied. With
+negatives present the index is no longer bounded in the unit interval.
+When the population mean is non-positive the Gini has no inequality
+interpretation and the function returns \code{NA} with a warning.
+\item \code{normalised = TRUE}: the Raffinetti, Siletti and Vernizzi (2017)
+normalised Gini, which rescales the index back into the unit interval
+for distributions containing negatives. The denominator is replaced
+by \verb{mean(|x|)} so the index is well-defined whenever any observation
+is non-zero.
+}
 }
 \examples{
 d <- iq_sample_data("income")
@@ -62,6 +88,13 @@ iq_gini(d$income, ci = TRUE, R = 500)
 # Asymptotic CIs (faster for large samples)
 iq_gini(d$income, ci = TRUE, method = "asymptotic")
 
+# Wealth distributions can include negative net worth
+wealth <- c(-5000, -1000, 0, 5000, 20000, 80000, 250000)
+iq_gini(wealth, negatives = "keep")
+
+# Same data with the Raffinetti et al. (2017) normalisation
+iq_gini(wealth, negatives = "keep", normalised = TRUE)
+
 # Perfect equality
 iq_gini(rep(100, 50))
 }
@@ -72,4 +105,9 @@ Rome: Libreria Eredi Virgilio Veschi.
 
 Davidson, R. (2009). "Reliable Inference for the Gini Index."
 \emph{Journal of Econometrics}, 150(1), 30--40.
+
+Raffinetti, E., Siletti, E. and Vernizzi, A. (2017). "Analyzing the
+Effects of Negative and Non-negative Values on Income Inequality:
+Evidence from the Survey of Household Income and Wealth of the Bank
+of Italy (2012)." \emph{Social Indicators Research}, 133(1), 185--207.
 }

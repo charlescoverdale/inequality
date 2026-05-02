@@ -4,7 +4,15 @@
 \alias{iq_theil}
 \title{Theil index and generalised entropy measures}
 \usage{
-iq_theil(x, weights = NULL, index = "T", na.rm = FALSE)
+iq_theil(
+  x,
+  weights = NULL,
+  index = "T",
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
+)
 }
 \arguments{
 \item{x}{Numeric vector of incomes (strictly positive).}
@@ -16,6 +24,12 @@ mean log deviation (GE(0)), or a numeric value for GE(alpha). Default
 \code{"T"}.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
 }
 \value{
 An S3 object of class \code{"iq_theil"} with elements:
@@ -24,6 +38,10 @@ An S3 object of class \code{"iq_theil"} with elements:
 \item{alpha}{Numeric. The alpha parameter used.}
 \item{index_name}{Character. Human-readable name of the index.}
 \item{n}{Integer. Number of observations.}
+\item{se}{Numeric or \code{NULL}. Bootstrap standard error.}
+\item{ci_lower}{Numeric or \code{NULL}. Lower bound of the CI.}
+\item{ci_upper}{Numeric or \code{NULL}. Upper bound of the CI.}
+\item{level}{Numeric or \code{NULL}. Confidence level.}
 }
 }
 \description{
@@ -34,12 +52,28 @@ or a generalised entropy index GE(alpha) for any non-negative alpha.
 Generalised entropy indices are the only class of inequality measures that
 are both decomposable by population subgroups and satisfy the transfer
 principle. Higher values indicate more inequality.
+
+Theil T (GE(1)) and Theil L (GE(0)) involve \code{log(x)} and so require
+strictly positive values. GE(alpha) for \code{alpha > 1} is well-defined for
+non-negative \code{x} but is highly sensitive to small or zero values. For
+wealth or income net of taxes/transfers (which can be zero or negative)
+use the Gini, S-Gini, or Kolm index instead.
+
+Note on cross-validation against \CRANpkg{ineq}: this package uses the
+textbook GE(alpha) convention, where \code{index = "T"} is GE(1) (Theil T)
+and \code{index = "L"} is GE(0) (mean log deviation). The legacy
+\CRANpkg{ineq} package uses the opposite indexing, so
+\code{ineq::Theil(x, parameter = 0)} matches \code{iq_theil(x, "T")} and
+\code{ineq::Theil(x, parameter = 1)} matches \code{iq_theil(x, "L")}.
 }
 \examples{
 d <- iq_sample_data("income")
 
 # Theil T (GE(1))
 iq_theil(d$income, index = "T")
+
+# With bootstrap CIs
+iq_theil(d$income, index = "T", ci = TRUE, R = 200)
 
 # Mean log deviation (GE(0))
 iq_theil(d$income, index = "L")

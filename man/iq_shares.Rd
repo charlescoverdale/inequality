@@ -4,10 +4,19 @@
 \alias{iq_shares}
 \title{Income shares by quantile}
 \usage{
-iq_shares(x, weights = NULL, breaks = c(0.5, 0.9, 0.99, 1), na.rm = FALSE)
+iq_shares(
+  x,
+  weights = NULL,
+  breaks = c(0.5, 0.9, 0.99, 1),
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 }
 \arguments{
-\item{x}{Numeric vector of incomes (non-negative).}
+\item{x}{Numeric vector of incomes.}
 
 \item{weights}{Optional numeric vector of survey weights.}
 
@@ -15,13 +24,25 @@ iq_shares(x, weights = NULL, breaks = c(0.5, 0.9, 0.99, 1), na.rm = FALSE)
 defining the segments. Default \code{c(0.50, 0.90, 0.99, 1.00)}.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals on each
+share? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
+
+\item{negatives}{Character. \code{"error"} (default) aborts on negatives;
+\code{"keep"} permits them.}
 }
 \value{
 An S3 object of class \code{"iq_shares"} with elements:
 \describe{
 \item{shares}{data.frame with columns \code{segment}, \code{pop_share},
-\code{income_share}.}
+\code{income_share}, and (when \code{ci = TRUE}) \code{ci_lower} and \code{ci_upper}.}
 \item{n}{Integer. Number of observations.}
+\item{level}{Numeric or \code{NULL}. Confidence level.}
+\item{has_negatives}{Logical. Whether the input contained negatives.}
 }
 }
 \description{
@@ -29,10 +50,26 @@ Computes the share of total income held by each segment of the
 distribution. Default segments: bottom 50\%, middle 40\%, top 10\%,
 and top 1\%.
 }
+\details{
+Distributions containing negative values can produce shares that fall
+outside the unit interval: the bottom segment may have a negative share
+(it pulls total income down), and other segments may exceed 100\% as a
+result. The function returns the raw shares and emits a warning when
+negatives are present so the user can interpret accordingly. If the
+population total income is non-positive (so shares are not well-defined
+at all), the function returns \code{NA} shares with a warning.
+}
 \examples{
 d <- iq_sample_data("income")
 iq_shares(d$income)
 
+# With bootstrap CIs on each share
+iq_shares(d$income, ci = TRUE, R = 200)
+
 # Custom breaks: quintiles
 iq_shares(d$income, breaks = c(0.20, 0.40, 0.60, 0.80, 1.00))
+
+# Wealth distributions can include negative net worth
+wealth <- c(-5000, -1000, 0, 5000, 20000, 80000, 250000, 1e6)
+iq_shares(wealth, negatives = "keep")
 }

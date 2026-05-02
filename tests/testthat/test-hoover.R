@@ -26,3 +26,10 @@ test_that("known calculation", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_hoover(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CI works", {
+  d <- iq_sample_data("income")
+  h <- iq_hoover(d$income, ci = TRUE, R = 100)
+  expect_false(is.null(h$ci_lower))
+  expect_false(is.null(h$ci_upper))
+})

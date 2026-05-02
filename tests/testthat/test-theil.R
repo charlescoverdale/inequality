@@ -46,3 +46,12 @@ test_that("weights affect the result", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_theil(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CI works", {
+  d <- iq_sample_data("income")
+  t <- iq_theil(d$income, index = "T", ci = TRUE, R = 100)
+  expect_false(is.null(t$ci_lower))
+  expect_false(is.null(t$ci_upper))
+  expect_true(t$ci_lower <= t$value)
+  expect_true(t$ci_upper >= t$value)
+})

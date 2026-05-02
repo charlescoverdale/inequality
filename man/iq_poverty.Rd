@@ -4,7 +4,15 @@
 \alias{iq_poverty}
 \title{Poverty measures}
 \usage{
-iq_poverty(x, line, weights = NULL, na.rm = FALSE)
+iq_poverty(
+  x,
+  line,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
+)
 }
 \arguments{
 \item{x}{Numeric vector of incomes (non-negative).}
@@ -14,6 +22,13 @@ iq_poverty(x, line, weights = NULL, na.rm = FALSE)
 \item{weights}{Optional numeric vector of survey weights.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals on the
+headcount, gap, severity, and Sen indices? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
 }
 \value{
 An S3 object of class \code{"iq_poverty"} with elements:
@@ -21,12 +36,14 @@ An S3 object of class \code{"iq_poverty"} with elements:
 \item{headcount}{Numeric. FGT(0): proportion below the poverty line.}
 \item{gap}{Numeric. FGT(1): average normalised gap.}
 \item{severity}{Numeric. FGT(2): average squared normalised gap.}
-\item{sen}{Numeric. Sen index: headcount * (gap among poor +
-Gini among poor * (1 - gap among poor)).}
-\item{watts}{Numeric. Watts index: mean of log(line/x) among the poor.}
+\item{sen}{Numeric. Sen index.}
+\item{watts}{Numeric. Watts index.}
 \item{line}{Numeric. The poverty line used.}
 \item{n}{Integer. Number of observations.}
 \item{n_poor}{Integer. Number of observations below the line.}
+\item{ci}{Optional list of bootstrap CIs for the four standard FGT/Sen
+measures (each a list with \code{lower} and \code{upper}).}
+\item{level}{Numeric or \code{NULL}. Confidence level.}
 }
 }
 \description{
@@ -39,6 +56,9 @@ d <- iq_sample_data("income")
 # Poverty line at the 20th percentile
 p20 <- quantile(d$income, 0.20)
 iq_poverty(d$income, line = p20)
+
+# With bootstrap CIs
+iq_poverty(d$income, line = p20, ci = TRUE, R = 200)
 }
 \references{
 Foster, J., Greer, J. and Thorbecke, E. (1984). "A Class of Decomposable

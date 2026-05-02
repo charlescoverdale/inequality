@@ -29,3 +29,10 @@ test_that("equal distribution gives ratio of 1", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_percentile_ratio(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CI works", {
+  d <- iq_sample_data("income")
+  pr <- iq_percentile_ratio(d$income, ci = TRUE, R = 100)
+  expect_false(is.null(pr$ci_lower))
+  expect_false(is.null(pr$ci_upper))
+})

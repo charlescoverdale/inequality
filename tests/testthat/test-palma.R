@@ -28,3 +28,10 @@ test_that("Palma is positive for typical data", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_palma(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CI works", {
+  d <- iq_sample_data("income")
+  p <- iq_palma(d$income, ci = TRUE, R = 100)
+  expect_false(is.null(p$ci_lower))
+  expect_false(is.null(p$ci_upper))
+})

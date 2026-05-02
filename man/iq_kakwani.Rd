@@ -4,10 +4,19 @@
 \alias{iq_kakwani}
 \title{Kakwani progressivity index}
 \usage{
-iq_kakwani(pre_tax, tax, weights = NULL, na.rm = FALSE)
+iq_kakwani(
+  pre_tax,
+  tax,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 }
 \arguments{
-\item{pre_tax}{Numeric vector of pre-tax incomes (non-negative).}
+\item{pre_tax}{Numeric vector of pre-tax incomes (non-negative by default).}
 
 \item{tax}{Numeric vector of tax payments (same length as \code{pre_tax}).
 Positive values are taxes paid; negative values are transfers received.}
@@ -15,6 +24,16 @@ Positive values are taxes paid; negative values are transfers received.}
 \item{weights}{Optional numeric vector of survey weights.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals on the
+Kakwani and Reynolds-Smolensky indices? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
+
+\item{negatives}{Character. \code{"error"} (default) aborts on negative
+pre-tax incomes; \code{"keep"} permits them.}
 }
 \value{
 An S3 object of class \code{"iq_kakwani"} with elements:
@@ -27,6 +46,7 @@ An S3 object of class \code{"iq_kakwani"} with elements:
 \item{gini_post}{Numeric. The post-tax Gini coefficient.}
 \item{avg_tax_rate}{Numeric. Average effective tax rate.}
 \item{n}{Integer. Number of observations.}
+\item{kakwani_ci, rs_ci}{Lists with \code{lower} and \code{upper} (or \code{NULL}).}
 }
 }
 \description{
@@ -37,6 +57,11 @@ share); a negative value indicates regressivity. Zero means proportional.
 \details{
 The Kakwani index equals the concentration coefficient of the tax minus
 the pre-tax Gini coefficient: K = C_T - G_pre.
+
+The post-tax Gini is computed on \code{pre_tax - tax} directly. Households
+whose post-tax income is negative are kept as-is, so the post-tax Gini
+may exceed 1 in distributions with extreme tax burdens. Pass
+\code{negatives = "error"} to abort on negative pre-tax incomes.
 }
 \examples{
 set.seed(1)
@@ -44,6 +69,9 @@ pre <- iq_sample_data("income")$income
 # Progressive tax: higher rate for higher incomes
 tax <- pre * (0.10 + 0.15 * (pre / max(pre)))
 iq_kakwani(pre, tax)
+
+# With bootstrap CIs
+iq_kakwani(pre, tax, ci = TRUE, R = 200)
 }
 \references{
 Kakwani, N. C. (1977). "Measurement of Tax Progressivity: An

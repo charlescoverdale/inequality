@@ -4,7 +4,15 @@
 \alias{iq_kolm}
 \title{Kolm index (absolute inequality)}
 \usage{
-iq_kolm(x, weights = NULL, alpha = 1, na.rm = FALSE)
+iq_kolm(
+  x,
+  weights = NULL,
+  alpha = 1,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
+)
 }
 \arguments{
 \item{x}{Numeric vector of incomes.}
@@ -14,6 +22,12 @@ iq_kolm(x, weights = NULL, alpha = 1, na.rm = FALSE)
 \item{alpha}{Numeric. Inequality aversion parameter (> 0). Default \code{1}.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
 }
 \value{
 An S3 object of class \code{"iq_kolm"} with elements:
@@ -21,6 +35,8 @@ An S3 object of class \code{"iq_kolm"} with elements:
 \item{value}{Numeric. The Kolm index.}
 \item{alpha}{Numeric. The inequality aversion parameter used.}
 \item{n}{Integer. Number of observations.}
+\item{se, ci_lower, ci_upper, level}{Bootstrap CI fields, \code{NULL} unless
+\code{ci = TRUE}.}
 }
 }
 \description{
@@ -33,11 +49,15 @@ factor leaves them unchanged.
 \details{
 Higher alpha gives more weight to inequality at the bottom of the
 distribution. The index is always non-negative and equals zero only
-under perfect equality.
+under perfect equality. The Kolm index is well-defined for any real
+values, including negatives.
 }
 \examples{
 d <- iq_sample_data("income")
 iq_kolm(d$income, alpha = 1)
+
+# With bootstrap CIs
+iq_kolm(d$income, alpha = 1, ci = TRUE, R = 200)
 
 # Higher aversion to inequality at the bottom
 iq_kolm(d$income, alpha = 2)

@@ -4,9 +4,14 @@
 #' to which a distribution is bimodal (clustering at the tails) rather
 #' than unimodal. Higher values indicate more polarisation.
 #'
-#' @param x Numeric vector of incomes (non-negative).
+#' @param x Numeric vector of incomes.
 #' @param weights Optional numeric vector of survey weights.
 #' @param na.rm Logical. Remove `NA` values? Default `FALSE`.
+#' @param ci Logical. Compute bootstrap confidence intervals? Default `FALSE`.
+#' @param R Integer. Number of bootstrap replicates. Default `1000`.
+#' @param level Numeric. Confidence level. Default `0.95`.
+#' @param negatives Character. `"error"` (default) aborts on negatives;
+#'   `"keep"` permits them.
 #'
 #' @return An S3 object of class `"iq_polarisation"` with elements:
 #' \describe{
@@ -15,6 +20,8 @@
 #'   \item{median}{Numeric. The weighted median income.}
 #'   \item{mean}{Numeric. The weighted mean income.}
 #'   \item{n}{Integer. Number of observations.}
+#'   \item{se, ci_lower, ci_upper, level}{Bootstrap CI fields, `NULL` unless
+#'     `ci = TRUE`.}
 #' }
 #'
 #' @references
@@ -29,37 +36,60 @@
 #' @examples
 #' d <- iq_sample_data("income")
 #' iq_polarisation(d$income)
-iq_polarisation <- function(x, weights = NULL, na.rm = FALSE) {
-  v <- validate_inputs(x, weights, na.rm, require_positive = TRUE)
+#'
+#' # With bootstrap CIs
+#' iq_polarisation(d$income, ci = TRUE, R = 200)
+iq_polarisation <- function(x, weights = NULL, na.rm = FALSE,
+                            ci = FALSE, R = 1000L, level = 0.95,
+                            negatives = c("error", "keep")) {
+  negatives <- match.arg(negatives)
+  v <- validate_inputs(x, weights, na.rm, require_positive = TRUE,
+                       negatives = negatives)
   x <- v$x
   w <- v$weights
 
+  res <- .wolfson_components(x, w)
+
+  stat_fn <- function(x, w) .wolfson_components(x, w)$wolfson
+  ci_block <- if (ci) .bootstrap_ci(stat_fn, x, w, R = R, level = level)
+              else list(se = NULL, ci_lower = NULL, ci_upper = NULL, level = NULL)
+
+  structure(
+    list(wolfson = res$wolfson, gini = res$gini, median = res$median,
+         mean = res$mean, n = length(x),
+         se = ci_block$se,
+         ci_lower = ci_block$ci_lower,
+         ci_upper = ci_block$ci_upper,
+         level = if (ci) level else NULL),
+    class = "iq_polarisation"
+  )
+}
+
+#' @noRd
+.wolfson_components <- function(x, w) {
   mu <- sum(w * x)
   med <- weighted_quantile(x, w, 0.5)
   gini_val <- .gini_weighted(x, w)
 
-  # Lorenz ordinate at the median: L(0.5)
+  if (!isTRUE(med > 0)) {
+    return(list(wolfson = NA_real_, gini = gini_val, median = med, mean = mu))
+  }
+
   ord <- order(x)
   xs <- x[ord]
   ws <- w[ord]
   cum_w <- cumsum(ws)
-  cum_income <- cumsum(ws * xs) / sum(ws * xs)
-  # Interpolate L(0.5)
+  total <- sum(ws * xs)
+  if (!isTRUE(total > 0)) {
+    return(list(wolfson = NA_real_, gini = gini_val, median = med, mean = mu))
+  }
+  cum_income <- cumsum(ws * xs) / total
   l50 <- approx(cum_w, cum_income, xout = 0.5, rule = 2)$y
 
-  # Wolfson = 2 * (2 * (0.5 - L(0.5)) - Gini) * (mu / med)
-  # Simplified: W = (mu/med) * (Gini - 2*(Gini_below_median))
-  # Standard form: W = 2 * (mu/med) * (0.5 - L(0.5) - Gini/2)
-  # But more commonly: W = (mu/med) * (2 * (0.5 - L(0.5)) - Gini)
   wolfson <- (mu / med) * (2 * (0.5 - l50) - gini_val)
-  # Wolfson should be non-negative; numerical issues can make it slightly negative
   wolfson <- max(wolfson, 0)
 
-  structure(
-    list(wolfson = wolfson, gini = gini_val, median = med, mean = mu,
-         n = length(x)),
-    class = "iq_polarisation"
-  )
+  list(wolfson = wolfson, gini = gini_val, median = med, mean = mu)
 }
 
 #' @export
@@ -72,5 +102,10 @@ print.iq_polarisation <- function(x, ...) {
     "*" = "Mean income: {.val {round(x$mean, 2)}}",
     "*" = "Observations: {.val {x$n}}"
   ))
+  if (!is.null(x$ci_lower)) {
+    cli_bullets(c(
+      "*" = "Bootstrap {round(x$level * 100)}% CI: [{.val {round(x$ci_lower, 4)}}, {.val {round(x$ci_upper, 4)}}]"
+    ))
+  }
   invisible(x)
 }

@@ -39,3 +39,22 @@ test_that("top segments capture disproportionate share for skewed data", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_shares(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CIs are added to each segment", {
+  d <- iq_sample_data("income")
+  s <- iq_shares(d$income, ci = TRUE, R = 100)
+  expect_true("ci_lower" %in% names(s$shares))
+  expect_true("ci_upper" %in% names(s$shares))
+  expect_true(all(s$shares$ci_lower <= s$shares$ci_upper))
+})
+
+test_that("negatives = 'keep' permits negative values with warning", {
+  wealth <- c(-5000, -1000, 0, 5000, 20000, 80000, 250000, 1e6)
+  expect_warning(s <- iq_shares(wealth, negatives = "keep"), "outside")
+  expect_s3_class(s, "iq_shares")
+  expect_true(s$has_negatives)
+})
+
+test_that("negatives = 'error' rejects negatives", {
+  expect_error(iq_shares(c(-1, 2, 3, 4)), "non-negative")
+})

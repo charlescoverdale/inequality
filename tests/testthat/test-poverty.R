@@ -42,3 +42,11 @@ test_that("print method runs without error", {
   d <- iq_sample_data("income")
   expect_no_error(print(iq_poverty(d$income, line = median(d$income))))
 })
+
+test_that("bootstrap CIs work", {
+  d <- iq_sample_data("income")
+  p <- iq_poverty(d$income, line = median(d$income), ci = TRUE, R = 100)
+  expect_false(is.null(p$ci))
+  expect_true(p$ci$headcount$lower <= p$headcount)
+  expect_true(p$ci$headcount$upper >= p$headcount)
+})

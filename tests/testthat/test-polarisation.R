@@ -25,3 +25,10 @@ test_that("Gini is computed correctly", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_polarisation(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CI works", {
+  d <- iq_sample_data("income")
+  p <- iq_polarisation(d$income, ci = TRUE, R = 100)
+  expect_false(is.null(p$ci_lower))
+  expect_false(is.null(p$ci_upper))
+})

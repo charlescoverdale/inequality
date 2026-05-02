@@ -4,7 +4,16 @@
 \alias{iq_percentile_ratio}
 \title{Percentile ratio}
 \usage{
-iq_percentile_ratio(x, weights = NULL, upper = 90, lower = 10, na.rm = FALSE)
+iq_percentile_ratio(
+  x,
+  weights = NULL,
+  upper = 90,
+  lower = 10,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
+)
 }
 \arguments{
 \item{x}{Numeric vector of incomes.}
@@ -16,6 +25,12 @@ iq_percentile_ratio(x, weights = NULL, upper = 90, lower = 10, na.rm = FALSE)
 \item{lower}{Numeric. Lower percentile (0 to 100). Default \code{10}.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
 }
 \value{
 An S3 object of class \code{"iq_percentile_ratio"} with elements:
@@ -26,6 +41,8 @@ An S3 object of class \code{"iq_percentile_ratio"} with elements:
 \item{upper}{Numeric. The upper percentile used.}
 \item{lower}{Numeric. The lower percentile used.}
 \item{n}{Integer. Number of observations.}
+\item{se, ci_lower, ci_upper, level}{Bootstrap CI fields, \code{NULL} unless
+\code{ci = TRUE}.}
 }
 }
 \description{
@@ -37,6 +54,9 @@ d <- iq_sample_data("income")
 
 # P90/P10 (interdecile ratio)
 iq_percentile_ratio(d$income)
+
+# With bootstrap CIs
+iq_percentile_ratio(d$income, ci = TRUE, R = 200)
 
 # P80/P20
 iq_percentile_ratio(d$income, upper = 80, lower = 20)

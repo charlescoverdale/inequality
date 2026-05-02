@@ -4,14 +4,31 @@
 \alias{iq_palma}
 \title{Palma ratio}
 \usage{
-iq_palma(x, weights = NULL, na.rm = FALSE)
+iq_palma(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 }
 \arguments{
-\item{x}{Numeric vector of incomes (non-negative).}
+\item{x}{Numeric vector of incomes.}
 
 \item{weights}{Optional numeric vector of survey weights.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
+
+\item{negatives}{Character. \code{"error"} (default) aborts on negatives;
+\code{"keep"} permits them.}
 }
 \value{
 An S3 object of class \code{"iq_palma"} with elements:
@@ -20,6 +37,8 @@ An S3 object of class \code{"iq_palma"} with elements:
 \item{top10_share}{Numeric. Share of income held by the top 10 percent.}
 \item{bottom40_share}{Numeric. Share of income held by the bottom 40 percent.}
 \item{n}{Integer. Number of observations.}
+\item{se, ci_lower, ci_upper, level}{Bootstrap CI fields, \code{NULL} unless
+\code{ci = TRUE}.}
 }
 }
 \description{
@@ -32,10 +51,17 @@ The Palma ratio is motivated by Palma's (2011) observation that the
 share of income across countries, so inequality is driven by what happens
 at the tails. A Palma ratio of 1 means the top 10 percent and bottom 40
 percent receive equal shares.
+
+Distributions containing negative values may produce a non-positive
+bottom-40 share, in which case the Palma ratio is undefined. The
+function returns \code{NA} with a warning rather than aborting.
 }
 \examples{
 d <- iq_sample_data("income")
 iq_palma(d$income)
+
+# With bootstrap CIs
+iq_palma(d$income, ci = TRUE, R = 200)
 
 # Equal distribution: Palma = 0.25/0.40 = 0.625
 iq_palma(rep(100, 100))

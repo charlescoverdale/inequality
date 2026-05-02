@@ -1,6 +1,6 @@
 Package: inequality
 Title: Inequality Measurement, Decomposition, and Poverty Analysis
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
     person("Charles", "Coverdale", , "charlesfcoverdale@gmail.com", role = c("aut", "cre"))
 Description: Tools for measuring income and wealth inequality. Computes the
@@ -30,6 +30,7 @@ Imports:
     graphics,
     stats
 Suggests:
+    ineq,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://charlescoverdale.github.io/inequality/, https://github.com/charlescoverdale/inequality

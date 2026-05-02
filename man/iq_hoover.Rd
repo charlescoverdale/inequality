@@ -4,20 +4,39 @@
 \alias{iq_hoover}
 \title{Hoover index (Robin Hood index)}
 \usage{
-iq_hoover(x, weights = NULL, na.rm = FALSE)
+iq_hoover(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 }
 \arguments{
-\item{x}{Numeric vector of incomes (non-negative).}
+\item{x}{Numeric vector of incomes.}
 
 \item{weights}{Optional numeric vector of survey weights.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
+
+\item{negatives}{Character. \code{"error"} (default) aborts on negatives;
+\code{"keep"} permits them.}
 }
 \value{
 An S3 object of class \code{"iq_hoover"} with elements:
 \describe{
-\item{value}{Numeric. The Hoover index (0 to 1).}
+\item{value}{Numeric. The Hoover index (0 to 1 with non-negative input).}
 \item{n}{Integer. Number of observations.}
+\item{se, ci_lower, ci_upper, level}{Bootstrap CI fields, \code{NULL} unless
+\code{ci = TRUE}.}
 }
 }
 \description{
@@ -29,6 +48,9 @@ equivalently, half the mean absolute deviation divided by the mean.
 \examples{
 d <- iq_sample_data("income")
 iq_hoover(d$income)
+
+# With bootstrap CIs
+iq_hoover(d$income, ci = TRUE, R = 200)
 
 # Perfect equality
 iq_hoover(rep(100, 50))

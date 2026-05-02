@@ -11,6 +11,7 @@ Tools for measuring income and wealth inequality. Computes the Gini coefficient 
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://charlescoverdale.github.io/inequality/}
   \item \url{https://github.com/charlescoverdale/inequality}
   \item Report bugs at \url{https://github.com/charlescoverdale/inequality/issues}
 }

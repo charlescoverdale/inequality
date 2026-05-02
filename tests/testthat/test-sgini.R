@@ -31,3 +31,16 @@ test_that("delta must be greater than 1", {
 test_that("print method runs without error", {
   expect_no_error(print(iq_sgini(iq_sample_data("income")$income)))
 })
+
+test_that("bootstrap CI works", {
+  d <- iq_sample_data("income")
+  sg <- iq_sgini(d$income, delta = 3, ci = TRUE, R = 100)
+  expect_false(is.null(sg$ci_lower))
+  expect_false(is.null(sg$ci_upper))
+})
+
+test_that("negatives = 'keep' permits negatives", {
+  sg <- iq_sgini(c(-1, 2, 5, 10), negatives = "keep")
+  expect_s3_class(sg, "iq_sgini")
+  expect_true(sg$has_negatives)
+})

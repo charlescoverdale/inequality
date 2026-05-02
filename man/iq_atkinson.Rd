@@ -4,7 +4,15 @@
 \alias{iq_atkinson}
 \title{Atkinson index}
 \usage{
-iq_atkinson(x, weights = NULL, epsilon = 0.5, na.rm = FALSE)
+iq_atkinson(
+  x,
+  weights = NULL,
+  epsilon = 0.5,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
+)
 }
 \arguments{
 \item{x}{Numeric vector of incomes (strictly positive).}
@@ -15,6 +23,12 @@ iq_atkinson(x, weights = NULL, epsilon = 0.5, na.rm = FALSE)
 Common values: 0.5 (moderate), 1.0 (high), 2.0 (very high aversion).}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
 }
 \value{
 An S3 object of class \code{"iq_atkinson"} with elements:
@@ -24,6 +38,8 @@ An S3 object of class \code{"iq_atkinson"} with elements:
 \item{ede}{Numeric. The equally distributed equivalent income.}
 \item{mean_income}{Numeric. The mean income.}
 \item{n}{Integer. Number of observations.}
+\item{se, ci_lower, ci_upper, level}{Bootstrap CI fields, \code{NULL} unless
+\code{ci = TRUE}.}
 }
 }
 \description{
@@ -32,11 +48,20 @@ normative judgement about inequality aversion through the parameter
 epsilon. Higher epsilon gives more weight to transfers at the bottom
 of the distribution.
 }
+\details{
+The Atkinson index involves either a power transformation
+\code{x^(1 - epsilon)} or \code{log(x)} (when \code{epsilon = 1}) and so requires
+strictly positive values. Use the Gini, S-Gini, or Kolm index for
+distributions that include zeros or negatives.
+}
 \examples{
 d <- iq_sample_data("income")
 
 # Moderate inequality aversion
 iq_atkinson(d$income, epsilon = 0.5)
+
+# With bootstrap CIs
+iq_atkinson(d$income, epsilon = 0.5, ci = TRUE, R = 200)
 
 # High inequality aversion
 iq_atkinson(d$income, epsilon = 1)
@@ -47,4 +72,9 @@ iq_atkinson(d$income, epsilon = 2)
 \references{
 Atkinson, A. B. (1970). "On the Measurement of Inequality."
 \emph{Journal of Economic Theory}, 2(3), 244--263.
+
+Biewen, M. and Jenkins, S. P. (2006). "Variance Estimation for
+Generalized Entropy and Atkinson Inequality Indices: The Complex
+Survey Data Case." \emph{Oxford Bulletin of Economics and Statistics},
+68(3), 371--383.
 }

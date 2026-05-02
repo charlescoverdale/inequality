@@ -48,6 +48,30 @@ test_that("print method runs without error", {
   expect_no_error(print(g))
 })
 
-test_that("negative values are rejected", {
+test_that("negative values are rejected by default", {
   expect_error(iq_gini(c(-1, 2, 3)), "non-negative")
+})
+
+test_that("asymptotic CI works", {
+  d <- iq_sample_data("income")
+  g <- iq_gini(d$income, ci = TRUE, method = "asymptotic")
+  expect_false(is.null(g$ci_lower))
+  expect_false(is.null(g$ci_upper))
+  expect_true(g$ci_lower <= g$gini)
+  expect_true(g$ci_upper >= g$gini)
+})
+
+test_that("negatives = 'keep' permits negative values", {
+  wealth <- c(-5000, -1000, 0, 5000, 20000, 80000, 250000)
+  g <- iq_gini(wealth, negatives = "keep")
+  expect_s3_class(g, "iq_gini")
+  expect_true(g$has_negatives)
+})
+
+test_that("CI works with negatives = 'keep'", {
+  set.seed(2)
+  wealth <- c(-5000, -1000, 0, 5000, 20000, 80000, 250000)
+  g <- iq_gini(wealth, ci = TRUE, R = 100, negatives = "keep")
+  expect_false(is.null(g$ci_lower))
+  expect_false(is.null(g$ci_upper))
 })

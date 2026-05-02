@@ -8,9 +8,12 @@ iq_concentration(
   x,
   rank,
   weights = NULL,
-  correction = c("none", "erreygers"),
+  correction = c("none", "erreygers", "wagstaff"),
   bounds = c(0, 1),
-  na.rm = FALSE
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95
 )
 }
 \arguments{
@@ -21,15 +24,21 @@ same length as \code{x}.}
 
 \item{weights}{Optional numeric vector of survey weights.}
 
-\item{correction}{Character. \code{"none"} (default) for the standard index,
-or \code{"erreygers"} for the Erreygers (2009) correction for bounded
-variables.}
+\item{correction}{Character. \code{"none"} (default) for the standard index;
+\code{"erreygers"} for the Erreygers (2009) bounded-variable correction;
+\code{"wagstaff"} for the Wagstaff (2005) normalised index.}
 
 \item{bounds}{Numeric vector of length 2 giving the lower and upper bounds
 of \code{x}. Required when \code{correction = "erreygers"}. Default \code{c(0, 1)}
 (suitable for binary or proportion variables).}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
 }
 \value{
 An S3 object of class \code{"iq_concentration"} with elements:
@@ -37,6 +46,8 @@ An S3 object of class \code{"iq_concentration"} with elements:
 \item{value}{Numeric. The concentration index.}
 \item{correction}{Character. The correction applied.}
 \item{n}{Integer. Number of observations.}
+\item{se, ci_lower, ci_upper, level}{Bootstrap CI fields, \code{NULL} unless
+\code{ci = TRUE}.}
 }
 }
 \description{
@@ -49,15 +60,25 @@ A positive value indicates the outcome is concentrated among the better-off;
 a negative value indicates concentration among the worse-off.
 
 For bounded variables (e.g. binary health indicators), the standard
-concentration index has bounds that depend on the mean. Use
-\code{correction = "erreygers"} for the Erreygers (2009) corrected index,
-which has fixed bounds of -1 to 1 regardless of the mean.
+concentration index has bounds that depend on the mean. Two corrections
+are available:
+\itemize{
+\item \code{correction = "erreygers"}: the Erreygers (2009) corrected index,
+\code{E = 4 * mu / (b - a) * C}, which has fixed bounds of -1 to 1.
+\item \code{correction = "wagstaff"}: the Wagstaff (2005) normalised index,
+\code{W = C / (1 - mu / b)} for variables bounded above at \code{b}, which is
+the standard normalisation in much of the health-economics
+literature.
+}
 }
 \examples{
 set.seed(1)
 income <- rlnorm(200, 10, 0.8)
 health_exp <- income * 0.05 + rnorm(200, 500, 100)
 iq_concentration(health_exp, rank = income)
+
+# With bootstrap CIs
+iq_concentration(health_exp, rank = income, ci = TRUE, R = 200)
 
 # Binary outcome with Erreygers correction
 sick <- as.numeric(income < median(income)) + rbinom(200, 1, 0.1)
@@ -71,4 +92,8 @@ of Inequalities in Health." \emph{Social Science and Medicine}, 33(5),
 
 Erreygers, G. (2009). "Correcting the Concentration Index."
 \emph{Journal of Health Economics}, 28(2), 504--515.
+
+Wagstaff, A. (2005). "The Bounds of the Concentration Index when the
+Variable of Interest is Binary, with an Application to Immunization
+Inequality." \emph{Health Economics}, 14(4), 429--432.
 }

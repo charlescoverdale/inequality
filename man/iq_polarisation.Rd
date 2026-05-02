@@ -4,14 +4,31 @@
 \alias{iq_polarisation}
 \title{Polarisation index}
 \usage{
-iq_polarisation(x, weights = NULL, na.rm = FALSE)
+iq_polarisation(
+  x,
+  weights = NULL,
+  na.rm = FALSE,
+  ci = FALSE,
+  R = 1000L,
+  level = 0.95,
+  negatives = c("error", "keep")
+)
 }
 \arguments{
-\item{x}{Numeric vector of incomes (non-negative).}
+\item{x}{Numeric vector of incomes.}
 
 \item{weights}{Optional numeric vector of survey weights.}
 
 \item{na.rm}{Logical. Remove \code{NA} values? Default \code{FALSE}.}
+
+\item{ci}{Logical. Compute bootstrap confidence intervals? Default \code{FALSE}.}
+
+\item{R}{Integer. Number of bootstrap replicates. Default \code{1000}.}
+
+\item{level}{Numeric. Confidence level. Default \code{0.95}.}
+
+\item{negatives}{Character. \code{"error"} (default) aborts on negatives;
+\code{"keep"} permits them.}
 }
 \value{
 An S3 object of class \code{"iq_polarisation"} with elements:
@@ -21,6 +38,8 @@ An S3 object of class \code{"iq_polarisation"} with elements:
 \item{median}{Numeric. The weighted median income.}
 \item{mean}{Numeric. The weighted mean income.}
 \item{n}{Integer. Number of observations.}
+\item{se, ci_lower, ci_upper, level}{Bootstrap CI fields, \code{NULL} unless
+\code{ci = TRUE}.}
 }
 }
 \description{
@@ -31,6 +50,9 @@ than unimodal. Higher values indicate more polarisation.
 \examples{
 d <- iq_sample_data("income")
 iq_polarisation(d$income)
+
+# With bootstrap CIs
+iq_polarisation(d$income, ci = TRUE, R = 200)
 }
 \references{
 Wolfson, M. C. (1994). "When Inequalities Diverge."
