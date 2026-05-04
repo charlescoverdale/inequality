@@ -221,11 +221,12 @@ plot(gic)
 
 | Package | Description |
 |----|----|
-| [inflationkit](https://github.com/charlescoverdale/inflationkit) | Inflation decomposition and core measures |
-| [debtkit](https://github.com/charlescoverdale/debtkit) | Debt sustainability analysis |
-| [yieldcurves](https://github.com/charlescoverdale/yieldcurves) | Yield curve fitting and analysis |
-| [predictset](https://github.com/charlescoverdale/predictset) | Conformal prediction intervals |
-| [nowcast](https://github.com/charlescoverdale/nowcast) | Economic nowcasting |
+| [hmrc](https://github.com/charlescoverdale/hmrc) | UK income tax data (Income Tax by income range) |
+| [ato](https://github.com/charlescoverdale/ato) | Australian Taxation Office (income distributions) |
+| [ons](https://github.com/charlescoverdale/ons) | UK Office for National Statistics data (household income, ASHE) |
+| [ukhousing](https://github.com/charlescoverdale/ukhousing) | UK Land Registry, EPC, and planning data (housing wealth) |
+| [ivcheck](https://github.com/charlescoverdale/ivcheck) | IV diagnostics (for distributional treatment effects) |
+| [inflationkit](https://github.com/charlescoverdale/inflationkit) | Inflation analysis (real-terms incomes) |
 
 ## Issues
 
