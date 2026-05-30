@@ -5,6 +5,8 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
+A technical working paper for this package can be found [here](https://charlescoverdale.github.io/files/coverdale_inequality_2026.pdf).
+
 Measure income and wealth inequality in R. Gini coefficients with confidence intervals, Theil indices, Atkinson indices, Palma ratios, Lorenz curves, poverty measures, tax progressivity, and more. All functions accept optional survey weights, and **every measure now exposes bootstrap confidence intervals** via `ci = TRUE`.
 
 
