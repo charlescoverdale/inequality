@@ -1,4 +1,4 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{20}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -115,5 +115,10 @@ A.~F. Shorrocks.
 H.~Theil.
 \newblock \emph{Economics and Information Theory}.
 \newblock North-Holland, Amsterdam, 1967.
+
+\bibitem[Wolfson(1994)]{wolfson1994inequalities}
+M.~C. Wolfson.
+\newblock When inequalities diverge.
+\newblock \emph{American Economic Review}, 84\penalty0 (2):\penalty0 353--358, 1994.
 
 \end{thebibliography}

@@ -3,7 +3,8 @@
 
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
-                      fig.align = "center", out.width = "100%")
+                      fig.align = "center", out.width = "100%",
+                      fig.pos = "H", out.extra = "")
 
 
 ## ----lorenz, fig.cap = "Lorenz curves for three synthetic income distributions with low, medium, and high inequality. Each series is a lognormal sample of 2000 observations. Distributions share the same geometric mean and differ only in dispersion. Dashed diagonal is the line of perfect equality. Each Gini is twice the area between its curve and the diagonal.", fig.alt = "A chart showing three Lorenz curves nested between the origin and the top-right corner of a square, alongside a dashed diagonal representing perfect equality. The innermost curve, close to the diagonal, corresponds to a Gini of 0.20; the middle curve to a Gini of 0.43; the outermost curve, furthest from the diagonal, to a Gini of 0.69. All three curves are monotonic and convex."----
@@ -26,7 +27,7 @@ knitr::include_graphics("figures/fig4_gic.pdf")
 knitr::include_graphics("figures/fig5_atkinson.pdf")
 
 
-## ----wb-gini, fig.cap = "Gini coefficient by country, 1970 to 2024, from the World Bank Poverty and Inequality Platform. Data: World Bank series \\texttt{SI.POV.GINI}, downloaded via the WDI API. Six economies with the longest continuous coverage are shown. Brazil shows the well-documented post-Bolsa-Familia decline from 58 in 1989 to 51 in 2024. The United States shows a steady rise from 37 in 1970 to 42 in 2024. Sweden, France, Germany cluster in the 25 to 32 band throughout. The United Kingdom traces a Thatcher-era rise and post-1990 stabilisation.", fig.alt = "A line chart with calendar year on the horizontal axis from 1970 to 2024 and Gini coefficient on the vertical axis from about 22 to 60. Six country series are plotted. Brazil sits well above the others, starting around 58 and declining to about 50. The United States climbs from 37 to 42. Sweden, France, and Germany cluster between 25 and 33 across the full period. The United Kingdom rises from 28 to 32 with most of the increase in the 1980s."----
+## ----wb-gini, fig.cap = "Gini coefficient by country from the World Bank Poverty and Inequality Platform, each series from its first available year through 2024. Data: World Bank series \\texttt{SI.POV.GINI}. Brazil shows the well-documented post-Bolsa-Familia decline from 57.9 in 1981 to 50.3 in 2024. The United States shows a steady rise from 37 in 1970 to 42 in 2024. Sweden, France, and the UK are broadly in the 25 to 33 band throughout. Germany data begins 1991 after reunification.", fig.alt = "A line chart with calendar year on the horizontal axis and Gini coefficient on the vertical axis from about 22 to 60. Six country series are plotted at different start dates. Brazil sits well above the others, starting around 58 and declining to about 50. The United States climbs from 37 to 42. Sweden, France, and Germany cluster between 25 and 33 across the available period. The United Kingdom rises from 28 to 32 with most of the increase in the 1980s."----
 knitr::include_graphics("figures/fig6_wb_gini.pdf")
 
 
@@ -41,25 +42,25 @@ wb_summary <- data.frame(
   `Change (pp)` = c("+5.0", "-5.3", "+4.4", "+4.4", "+5.2", "-7.6"),
   check.names = FALSE
 )
-knitr::kable(
+k <- knitr::kable(
   wb_summary,
   caption = "First-year and last-year Gini plus total change for six countries in the World Bank Poverty and Inequality Platform panel. Ordered by latest observed Gini, ascending. Change is the last-year Gini minus the first-year Gini in percentage points.",
-  booktabs = TRUE
+  booktabs = TRUE, format = "latex"
 )
+kableExtra::kable_styling(k, latex_options = c("HOLD_position"))
 
 
 ## ----compare------------------------------------------------------------------
+cmp <- inequality::iq_compare(
+  inequality::iq_sample_data("income")$income)
 compare_tbl <- data.frame(
-  Index = c("Gini", "Theil T (GE1)", "Theil L (GE0)",
-            "Atkinson (e=0.5)", "Atkinson (e=1.0)",
-            "Palma ratio", "Hoover", "P90/P10", "P80/P20"),
-  Value = c(0.4300, 0.3307, 0.3241, 0.1506, 0.2768,
-            2.1528, 0.3126, 7.8282, 3.9206)
+  Index = cmp$table$measure,
+  Value = cmp$table$value
 )
-knitr::kable(
+k2 <- knitr::kable(
   compare_tbl,
-  caption = "Nine inequality and poverty indices for the package's synthetic income sample. Output of \\texttt{iq\\_compare(iq\\_sample\\_data(\"income\")\\$income)}. Gini and Theil agree on the total magnitude; Atkinson rises sharply with inequality aversion; Palma ratio captures the 10/40 tail concentration; P90/P10 gives the most intuitive read.",
-  booktabs = TRUE,
-  digits = 4
+  caption = "Twelve inequality indices for the package's synthetic income sample. Output of \\texttt{iq\\_compare(iq\\_sample\\_data(\"income\")\\$income)}. Gini and Theil agree on the total magnitude; the S-Gini raises the weight on rank differences; Atkinson rises sharply with inequality aversion; Palma ratio captures the 10/40 tail concentration; P90/P10 gives the most intuitive read. The Kolm index is absolute rather than relative and is reported in the income units of the sample, so its magnitude is not comparable with the scale-invariant indices above it.",
+  booktabs = TRUE, digits = 4, format = "latex"
 )
+kableExtra::kable_styling(k2, latex_options = c("HOLD_position"))
 

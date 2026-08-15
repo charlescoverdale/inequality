@@ -1,5 +1,5 @@
 % !TeX root = RJwrapper.tex
-\title{Inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R}
+\title{inequality: Inequality Measurement, Decomposition, and Poverty Analysis in R}
 
 
 \author{by Charles Coverdale}
@@ -7,7 +7,7 @@
 \maketitle
 
 \abstract{%
-The inequality package provides tools for measuring income and wealth inequality, decomposing it into between-group and within-group components, and relating it to poverty and fiscal redistribution. It covers the Gini coefficient with Davidson (2009) bootstrap and asymptotic confidence intervals, the extended S-Gini family, the generalised entropy family (Theil T and L), the Atkinson and Kolm indices, the Palma ratio, the Hoover index, percentile ratios, Lorenz curves, Bourguignon (1979) between-within decomposition, concentration indices with Erreygers (2009) correction, Kakwani tax progressivity, Reynolds-Smolensky redistribution, Foster-Greer-Thorbecke poverty measures, the Sen and Watts indices, Ravallion-Chen (2003) growth incidence curves, and Wolfson polarisation. Every function accepts optional survey weights. The package is pure R, has no network dependency, and will be available on CRAN shortly.
+The inequality package provides tools for measuring income and wealth inequality, decomposing it into between-group and within-group components, and relating it to poverty and fiscal redistribution. It covers the Gini coefficient with Davidson (2009) bootstrap and asymptotic confidence intervals, the extended S-Gini family, the generalised entropy family (Theil T and L), the Atkinson and Kolm indices, the Palma ratio, the Hoover index, percentile ratios, Lorenz curves, Bourguignon (1979) between-within decomposition, concentration indices with Erreygers (2009) correction, Kakwani tax progressivity, Reynolds-Smolensky redistribution, Foster-Greer-Thorbecke poverty measures, the Sen and Watts indices, Ravallion-Chen (2003) growth incidence curves, and Wolfson polarisation. Every function accepts optional survey weights. The package is pure R, has no network dependency, and is available on CRAN.
 }
 
 \section{Introduction}\label{introduction}
@@ -109,11 +109,11 @@ between pre-tax and post-tax Gini decomposes cleanly into Kakwani
 progressivity times average tax rate, plus a reranking term. These
 diagnostics are central to distributional fiscal incidence analysis.
 
-\textbf{Polarisation.} \citet{foster2010polarization} argue that inequality and
-bipolarisation are conceptually distinct: the same Gini is consistent
-with a unimodal distribution and with a bimodal ``disappearing middle''
-distribution. The Wolfson polarisation index, developed further in
-that paper, is designed to separate the two.
+\textbf{Polarisation.} \citet{wolfson1994inequalities} introduced a
+bipolarisation index that is conceptually distinct from inequality:
+the same Gini is consistent with a unimodal distribution and with a
+bimodal ``disappearing middle'' distribution. \citet{foster2010polarization}
+further develop this framework and extend it to Canada and the US.
 
 \textbf{Concentration and health.} The concentration index, related to the
 Gini but computed against a ranking variable (usually income) rather
@@ -218,8 +218,7 @@ observations the interval collapses to under 0.02 Gini points.
 equally-distributed-equivalent income. The remaining inequality
 measures are exposed through \code{iq\_kolm()},
 \code{iq\_palma()}, \code{iq\_hoover()}, \code{iq\_sgini()}, and
-\code{iq\_percentile\_ratio()} complete the set of inequality
-indices.
+\code{iq\_percentile\_ratio()}.
 
 \section{Decomposition and income shares}\label{decomposition-and-income-shares}
 
@@ -332,21 +331,21 @@ index set on the same data and returning the tabulated results.
 
 Figure \ref{fig:wb-gini} plots annual Gini coefficients from the
 World Bank's Poverty and Inequality Platform (PIP), series
-\code{SI.POV.GINI}, for six economies with the longest continuous
-coverage: Sweden, Germany, France, the United Kingdom, the United
-States, and Brazil, 1970 to 2024. The Gini values themselves are
-published; the case study's contribution is to show how the package
-machinery handles the full observed record (241 country-year
-observations) in one pipeline and to produce a Davidson-interval
-point estimate on any slice the user cares about.
+\code{SI.POV.GINI}, for six economies: Sweden (from 1975), France (from 1970),
+the United Kingdom (from 1970), the United States (from 1970),
+Germany (from 1991), and Brazil (from 1981), through 2024. The Gini
+values themselves are published; the case study's contribution is to
+show how the package machinery handles the full observed record
+(241 country-year observations) in one pipeline and to produce a
+Davidson-interval point estimate on any slice the user cares about.
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=1\linewidth,alt={A line chart with calendar year on the horizontal axis from 1970 to 2024 and Gini coefficient on the vertical axis from about 22 to 60. Six country series are plotted. Brazil sits well above the others, starting around 58 and declining to about 50. The United States climbs from 37 to 42. Sweden, France, and Germany cluster between 25 and 33 across the full period. The United Kingdom rises from 28 to 32 with most of the increase in the 1980s.},]{figures/fig6_wb_gini} 
+{\centering \includegraphics[width=1\linewidth,alt={A line chart with calendar year on the horizontal axis and Gini coefficient on the vertical axis from about 22 to 60. Six country series are plotted at different start dates. Brazil sits well above the others, starting around 58 and declining to about 50. The United States climbs from 37 to 42. Sweden, France, and Germany cluster between 25 and 33 across the available period. The United Kingdom rises from 28 to 32 with most of the increase in the 1980s.},]{figures/fig6_wb_gini} 
 
 }
 
-\caption{Gini coefficient by country, 1970 to 2024, from the World Bank Poverty and Inequality Platform. Data: World Bank series \texttt{SI.POV.GINI}, downloaded via the WDI API. Six economies with the longest continuous coverage are shown. Brazil shows the well-documented post-Bolsa-Familia decline from 58 in 1989 to 51 in 2024. The United States shows a steady rise from 37 in 1970 to 42 in 2024. Sweden, France, Germany cluster in the 25 to 32 band throughout. The United Kingdom traces a Thatcher-era rise and post-1990 stabilisation.}\label{fig:wb-gini}
+\caption{Gini coefficient by country from the World Bank Poverty and Inequality Platform, each series from its first available year through 2024. Data: World Bank series \texttt{SI.POV.GINI}. Brazil shows the well-documented post-Bolsa-Familia decline from 57.9 in 1981 to 50.3 in 2024. The United States shows a steady rise from 37 in 1970 to 42 in 2024. Sweden, France, and the UK are broadly in the 25 to 33 band throughout. Germany data begins 1991 after reunification.}\label{fig:wb-gini}
 \end{figure}
 
 Table \ref{tab:wb-summary} reports the first-year and last-year
@@ -399,20 +398,24 @@ deviation log 0.8; the sample is bundled via
 
 \begin{table}[H]
 \centering
-\caption{\label{tab:compare}Nine inequality and poverty indices for the package's synthetic income sample. Output of \texttt{iq\_compare(iq\_sample\_data("income")\$income)}. Gini and Theil agree on the total magnitude; Atkinson rises sharply with inequality aversion; Palma ratio captures the 10/40 tail concentration; P90/P10 gives the most intuitive read.}
+\caption{\label{tab:compare}Twelve inequality indices for the package's synthetic income sample. Output of \texttt{iq\_compare(iq\_sample\_data("income")\$income)}. Gini and Theil agree on the total magnitude; the S-Gini raises the weight on rank differences; Atkinson rises sharply with inequality aversion; Palma ratio captures the 10/40 tail concentration; P90/P10 gives the most intuitive read. The Kolm index is absolute rather than relative and is reported in the income units of the sample, so its magnitude is not comparable with the scale-invariant indices above it.}
 \centering
 \begin{tabular}[t]{lr}
 \toprule
 Index & Value\\
 \midrule
 Gini & 0.4300\\
+S-Gini (delta=3) & 0.5627\\
 Theil T (GE1) & 0.3307\\
 Theil L (GE0) & 0.3241\\
 Atkinson (e=0.5) & 0.1506\\
-Atkinson (e=1.0) & 0.2768\\
 \addlinespace
+Atkinson (e=1.0) & 0.2768\\
+Kolm (a=1) & 46736.2301\\
+Wolfson & 0.1988\\
 Palma ratio & 2.1528\\
 Hoover & 0.3126\\
+\addlinespace
 P90/P10 & 7.8282\\
 P80/P20 & 3.9206\\
 \bottomrule
