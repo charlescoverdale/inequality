@@ -1,6 +1,6 @@
 Package: inequality
 Title: Inequality Measurement, Decomposition, and Poverty Analysis
-Version: 0.2.0
+Version: 0.2.1
 Authors@R:
     person("Charles", "Coverdale", , "charlesfcoverdale@gmail.com", role = c("aut", "cre"))
 Description: Tools for measuring income and wealth inequality. Computes the

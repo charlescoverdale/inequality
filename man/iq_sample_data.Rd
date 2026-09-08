@@ -28,6 +28,12 @@ Creates synthetic data for testing and demonstrating inequalitykit functions.
 Three types are available: individual incomes, a two-period panel for growth
 incidence analysis, and grouped incomes for decomposition.
 }
+\details{
+The data is generated from a fixed seed, so a given \code{type} always returns
+the same values. The seed applies for the duration of the call only: your
+own random stream is restored on exit, so calling this function does not
+affect the reproducibility of anything you do afterwards.
+}
 \examples{
 d <- iq_sample_data("income")
 head(d)

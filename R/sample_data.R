@@ -6,6 +6,12 @@
 #'
 #' @param type Character. One of `"income"`, `"panel"`, or `"grouped"`.
 #'
+#' @details
+#' The data is generated from a fixed seed, so a given `type` always returns
+#' the same values. The seed applies for the duration of the call only: your
+#' own random stream is restored on exit, so calling this function does not
+#' affect the reproducibility of anything you do afterwards.
+#'
 #' @return A data.frame.
 #' \describe{
 #'   \item{`"income"`}{1000 rows with columns `income` and `weight`.
@@ -31,7 +37,9 @@
 #' head(grouped)
 iq_sample_data <- function(type = c("income", "panel", "grouped")) {
   type <- match.arg(type)
-  set.seed(42L)
+  # Seed 42 for the duration of this call only. The data is meant to be the
+  # same every time, but that must not cost the caller their random stream.
+  .local_seed(42L)
 
   switch(type,
     income  = .sample_income(),

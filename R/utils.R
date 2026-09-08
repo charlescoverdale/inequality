@@ -133,3 +133,29 @@ weighted_quantile <- function(x, weights, probs) {
     method = "bootstrap"
   )
 }
+
+# Set the RNG seed for the duration of the calling function only, restoring the
+# caller's .Random.seed on exit. A package should not leave the global random
+# stream altered as a side effect of being called: someone who calls
+# iq_sample_data() to get a demonstration data frame should not find every
+# subsequent random draw in their session silently reseeded.
+#
+# Touching globalenv() is deliberate and unavoidable: .Random.seed lives there
+# by definition. This preserves the caller's state rather than adding to it,
+# which is the opposite of the pattern CRAN objects to.
+.local_seed <- function(seed, frame = parent.frame()) {
+  had_seed <- exists(".Random.seed", envir = globalenv(), inherits = FALSE)
+  restore <- if (had_seed) {
+    old <- get(".Random.seed", envir = globalenv(), inherits = FALSE)
+    substitute(
+      assign(".Random.seed", value, envir = globalenv()),
+      list(value = old)
+    )
+  } else {
+    # No stream existed before the call, so leave none behind.
+    quote(suppressWarnings(rm(".Random.seed", envir = globalenv())))
+  }
+  do.call(on.exit, list(restore, add = TRUE, after = FALSE), envir = frame)
+  set.seed(seed)
+  invisible(NULL)
+}
