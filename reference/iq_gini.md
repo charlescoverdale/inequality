@@ -152,7 +152,7 @@ iq_gini(d$income, ci = TRUE, R = 500)
 #> ── Gini Coefficient ────────────────────────────────────────────────────────────
 #> • Gini: 0.43
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [0.4059, 0.4557]
+#> • Bootstrap 95% CI: [0.4054, 0.4527]
 
 # Asymptotic CIs (faster for large samples)
 iq_gini(d$income, ci = TRUE, method = "asymptotic")

@@ -108,5 +108,5 @@ iq_polarisation(d$income, ci = TRUE, R = 200)
 #> • Median income: 35934.96
 #> • Mean income: 49190.12
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [0.1862, 0.2174]
+#> • Bootstrap 95% CI: [0.1851, 0.2169]
 ```

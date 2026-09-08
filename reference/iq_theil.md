@@ -135,7 +135,7 @@ iq_theil(d$income, index = "T", ci = TRUE, R = 200)
 #> ── Theil T (GE(1)) ─────────────────────────────────────────────────────────────
 #> • Value: 0.3307
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [0.2797, 0.393]
+#> • Bootstrap 95% CI: [0.2848, 0.3777]
 
 # Mean log deviation (GE(0))
 iq_theil(d$income, index = "L")

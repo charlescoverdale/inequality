@@ -119,7 +119,7 @@ iq_atkinson(d$income, epsilon = 0.5, ci = TRUE, R = 200)
 #> • EDE income: 41783.21
 #> • Mean income: 49190.12
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [0.1328, 0.1712]
+#> • Bootstrap 95% CI: [0.1352, 0.1664]
 
 # High inequality aversion
 iq_atkinson(d$income, epsilon = 1)

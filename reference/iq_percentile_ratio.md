@@ -106,7 +106,7 @@ iq_percentile_ratio(d$income, ci = TRUE, R = 200)
 #> • P90: 101314.08
 #> • P10: 12942.26
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [6.92, 8.48]
+#> • Bootstrap 95% CI: [7.01, 8.73]
 
 # P80/P20
 iq_percentile_ratio(d$income, upper = 80, lower = 20)

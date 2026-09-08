@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,12 @@
       <small>Source: <a href="https://github.com/charlescoverdale/inequality/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="inequality-021">inequality 0.2.1<a class="anchor" aria-label="anchor" href="#inequality-021"></a></h2>
+<p>Patch release. One fix, to a side effect rather than to any returned value.</p>
+<p><code><a href="../reference/iq_sample_data.html">iq_sample_data()</a></code> called <code>set.seed(42L)</code> and did not restore the previous state, so calling it reseeded the caller’s random stream. Anyone who ran <code><a href="../reference/iq_sample_data.html">iq_sample_data()</a></code> to get a demonstration data frame found every subsequent random draw in their session silently reset to a fixed sequence, which quietly breaks reproducibility for the analysis around it. The seed now applies for the duration of the call only and <code>.Random.seed</code> is restored on exit.</p>
+<p>The generated data is unchanged: a given <code>type</code> still returns exactly the same values, and now does so regardless of the caller’s own seed. No inequality measure returns a different number as a result of this release.</p>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="inequality-020">inequality 0.2.0<a class="anchor" aria-label="anchor" href="#inequality-020"></a></h2>
 <p>This release responds to feedback from Frank Cowell and Emmanuel Flachaire (personal communication, 1 May 2026) on the v0.1.0 release. Two gaps were flagged: confidence intervals were available only for the Gini, and the package rejected non-positive values for the Gini and the top shares. A follow-up internal audit produced several smaller fixes that ship together.</p>

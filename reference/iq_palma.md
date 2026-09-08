@@ -110,7 +110,7 @@ iq_palma(d$income, ci = TRUE, R = 200)
 #> • Top 10% share: 31.5%
 #> • Bottom 40% share: 14.6%
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [1.8718, 2.4882]
+#> • Bootstrap 95% CI: [1.847, 2.455]
 
 # Equal distribution: Palma = 0.25/0.40 = 0.625
 iq_palma(rep(100, 100))

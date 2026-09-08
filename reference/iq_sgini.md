@@ -125,5 +125,5 @@ iq_sgini(d$income, delta = 3, ci = TRUE, R = 200)
 #> ── S-Gini (delta = 3) ──────────────────────────────────────────────────────────
 #> • Value: 0.5627
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [0.539, 0.5859]
+#> • Bootstrap 95% CI: [0.5416, 0.5829]
 ```

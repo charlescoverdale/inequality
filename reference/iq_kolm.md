@@ -100,7 +100,7 @@ iq_kolm(d$income, alpha = 1, ci = TRUE, R = 200)
 #> • Value: 46736.2301
 #> • Alpha: 1
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [43092.8954, 49430.9832]
+#> • Bootstrap 95% CI: [43103.6959, 49144.8229]
 
 # Higher aversion to inequality at the bottom
 iq_kolm(d$income, alpha = 2)

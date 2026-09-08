@@ -38,6 +38,14 @@ A data.frame.
   1000 rows with columns `income`, `group`, `weight`. Three groups (A,
   B, C) with different mean incomes for between/within decomposition.
 
+## Details
+
+The data is generated from a fixed seed, so a given `type` always
+returns the same values. The seed applies for the duration of the call
+only: your own random stream is restored on exit, so calling this
+function does not affect the reproducibility of anything you do
+afterwards.
+
 ## Examples
 
 ``` r

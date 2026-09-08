@@ -11,7 +11,7 @@ incidence analysis, and grouped incomes for decomposition."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">inequality</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,6 +75,13 @@ for between/within decomposition.</p></dd>
 
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The data is generated from a fixed seed, so a given <code>type</code> always returns
+the same values. The seed applies for the duration of the call only: your
+own random stream is restored on exit, so calling this function does not
+affect the reproducibility of anything you do afterwards.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

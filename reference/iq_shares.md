@@ -104,10 +104,10 @@ iq_shares(d$income)
 iq_shares(d$income, ci = TRUE, R = 200)
 #> 
 #> ── Income Shares ───────────────────────────────────────────────────────────────
-#> • Bottom 50%: 21.2% of income (50% of population) [19.9%, 22.5%]
-#> • P50-P90: 47.2% of income (40% of population) [45.2%, 49.3%]
-#> • P90-P99: 24.2% of income (9% of population) [23%, 25.7%]
-#> • Top 1%: 7.3% of income (1% of population) [5.2%, 9.6%]
+#> • Bottom 50%: 21.2% of income (50% of population) [20%, 22.7%]
+#> • P50-P90: 47.2% of income (40% of population) [45.5%, 49%]
+#> • P90-P99: 24.2% of income (9% of population) [23%, 25.8%]
+#> • Top 1%: 7.3% of income (1% of population) [5.3%, 9.2%]
 #> • Observations: 1000
 #> • Bootstrap 95% CIs shown in brackets.
 

@@ -1,5 +1,24 @@
 # Changelog
 
+## inequality 0.2.1
+
+Patch release. One fix, to a side effect rather than to any returned
+value.
+
+[`iq_sample_data()`](https://charlescoverdale.github.io/inequality/reference/iq_sample_data.md)
+called `set.seed(42L)` and did not restore the previous state, so
+calling it reseeded the caller’s random stream. Anyone who ran
+[`iq_sample_data()`](https://charlescoverdale.github.io/inequality/reference/iq_sample_data.md)
+to get a demonstration data frame found every subsequent random draw in
+their session silently reset to a fixed sequence, which quietly breaks
+reproducibility for the analysis around it. The seed now applies for the
+duration of the call only and `.Random.seed` is restored on exit.
+
+The generated data is unchanged: a given `type` still returns exactly
+the same values, and now does so regardless of the caller’s own seed. No
+inequality measure returns a different number as a result of this
+release.
+
 ## inequality 0.2.0
 
 This release responds to feedback from Frank Cowell and Emmanuel

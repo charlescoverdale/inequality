@@ -142,6 +142,6 @@ iq_kakwani(pre, tax, ci = TRUE, R = 200)
 #> • Average tax rate: 12.5%
 #> • Observations: 1000
 #> • Bootstrap 95% CIs:
-#>   Kakwani: [0.0484, 0.081]
-#>   Reynolds-Smolensky: [0.0066, 0.0121]
+#>   Kakwani: [0.0521, 0.0802]
+#>   Reynolds-Smolensky: [0.0072, 0.012]
 ```

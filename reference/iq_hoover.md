@@ -82,7 +82,7 @@ iq_hoover(d$income, ci = TRUE, R = 200)
 #> ── Hoover Index ────────────────────────────────────────────────────────────────
 #> • Value: 0.3126
 #> • Observations: 1000
-#> • Bootstrap 95% CI: [0.2944, 0.3322]
+#> • Bootstrap 95% CI: [0.2943, 0.331]
 
 # Perfect equality
 iq_hoover(rep(100, 50))

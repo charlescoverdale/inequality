@@ -129,8 +129,8 @@ iq_poverty(d$income, line = p20, ci = TRUE, R = 200)
 #> • Watts index: 0.0891
 #> • Poor: 200 of 1000 observations
 #> • Bootstrap 95% CIs:
-#>   Headcount 95% CI: [0.181, 0.225]
-#>   Gap 95% CI: [0.0552, 0.0724]
-#>   Severity 95% CI: [0.0239, 0.0338]
-#>   Sen 95% CI: [0.0768, 0.099]
+#>   Headcount 95% CI: [0.1749, 0.2231]
+#>   Gap 95% CI: [0.0531, 0.0738]
+#>   Severity 95% CI: [0.0233, 0.0352]
+#>   Sen 95% CI: [0.0729, 0.1006]
 ```
