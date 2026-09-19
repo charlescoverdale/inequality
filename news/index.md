@@ -21,6 +21,8 @@ release.
 
 ## inequality 0.2.0
 
+CRAN release: 2026-09-08
+
 This release responds to feedback from Frank Cowell and Emmanuel
 Flachaire (personal communication, 1 May 2026) on the v0.1.0 release.
 Two gaps were flagged: confidence intervals were available only for the
