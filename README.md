@@ -10,9 +10,11 @@ A technical working paper for this package can be found [here](https://charlesco
 Measure income and wealth inequality in R. Gini coefficients with confidence intervals, Theil indices, Atkinson indices, Palma ratios, Lorenz curves, poverty measures, tax progressivity, and more. All functions accept optional survey weights, and **every measure now exposes bootstrap confidence intervals** via `ci = TRUE`.
 
 
-## What's new in 0.2.0
+## What's new
 
-This release responds to feedback from Frank Cowell and Emmanuel Flachaire on the v0.1.0 release.
+**0.2.1** fixes a side effect: `iq_sample_data()` reseeded the caller's random number stream, so every later random draw in the session was reset to a fixed sequence. It now restores the caller's state. No returned value changes.
+
+**0.2.0** responds to feedback from Frank Cowell and Emmanuel Flachaire on the v0.1.0 release.
 
 - **Bootstrap CIs on every measure.** `iq_theil`, `iq_atkinson`, `iq_sgini`, `iq_palma`, `iq_hoover`, `iq_kolm`, `iq_percentile_ratio`, `iq_polarisation`, `iq_shares`, `iq_concentration`, `iq_kakwani`, and `iq_poverty` all gain `ci`, `R`, and `level` arguments. `iq_compare()` runs a single bootstrap loop and propagates CIs to every row.
 - **Negative values supported.** Gini, S-Gini, top shares, Palma, Hoover, Wolfson, Kakwani, and `iq_compare()` accept `negatives = "keep"` for distributions containing negatives (wealth, post-tax income).
@@ -24,6 +26,9 @@ This release responds to feedback from Frank Cowell and Emmanuel Flachaire on th
 ## Installation
 
 ```r
+install.packages("inequality")
+
+# Development version
 # install.packages("devtools")
 devtools::install_github("charlescoverdale/inequality")
 ```
