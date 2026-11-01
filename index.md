@@ -9,10 +9,16 @@ Lorenz curves, poverty measures, tax progressivity, and more. All
 functions accept optional survey weights, and **every measure now
 exposes bootstrap confidence intervals** via `ci = TRUE`.
 
-## What’s new in 0.2.0
+## What’s new
 
-This release responds to feedback from Frank Cowell and Emmanuel
-Flachaire on the v0.1.0 release.
+**0.2.1** fixes a side effect:
+[`iq_sample_data()`](https://charlescoverdale.github.io/inequality/reference/iq_sample_data.md)
+reseeded the caller’s random number stream, so every later random draw
+in the session was reset to a fixed sequence. It now restores the
+caller’s state. No returned value changes.
+
+**0.2.0** responds to feedback from Frank Cowell and Emmanuel Flachaire
+on the v0.1.0 release.
 
 - **Bootstrap CIs on every measure.** `iq_theil`, `iq_atkinson`,
   `iq_sgini`, `iq_palma`, `iq_hoover`, `iq_kolm`, `iq_percentile_ratio`,
@@ -38,6 +44,9 @@ Flachaire on the v0.1.0 release.
 
 ``` r
 
+install.packages("inequality")
+
+# Development version
 # install.packages("devtools")
 devtools::install_github("charlescoverdale/inequality")
 ```
@@ -67,16 +76,16 @@ d <- iq_sample_data("income")
 
 # How unequal is this distribution?
 iq_gini(d$income)
-#> -- Gini Coefficient --
+#> -- Gini Coefficient ------------------------------------------------------------
 #> * Gini: 0.43
 #> * Observations: 1000
 
 # With confidence intervals
 iq_gini(d$income, ci = TRUE)
-#> -- Gini Coefficient --
+#> -- Gini Coefficient ------------------------------------------------------------
 #> * Gini: 0.43
 #> * Observations: 1000
-#> * Bootstrap 95% CI: [0.4085, 0.453]
+#> * Bootstrap 95% CI: [0.407, 0.4542]
 ```
 
 ## What can it do?
@@ -86,16 +95,19 @@ iq_gini(d$income, ci = TRUE)
 ``` r
 
 iq_compare(d$income)
-#> -- Inequality Comparison (n = 1000) --
-#> * Gini              0.4300
-#> * Theil T (GE1)     0.3307
-#> * Theil L (GE0)     0.3241
-#> * Atkinson (e=0.5)  0.1506
-#> * Atkinson (e=1.0)  0.2768
-#> * Palma ratio       2.1668
-#> * Hoover            0.3126
-#> * P90/P10           7.83
-#> * P80/P20           3.92
+#> -- Inequality Comparison (n = 1000) --------------------------------------------
+#> * Gini 0.4300
+#> * S-Gini (delta=3) 0.5627
+#> * Theil T (GE1) 0.3307
+#> * Theil L (GE0) 0.3241
+#> * Atkinson (e=0.5) 0.1506
+#> * Atkinson (e=1.0) 0.2768
+#> * Kolm (a=1) 46736.2301
+#> * Wolfson 0.1988
+#> * Palma ratio 2.1528
+#> * Hoover 0.3126
+#> * P90/P10 7.8282
+#> * P80/P20 3.9206
 ```
 
 ### Who gets what? Income shares
@@ -103,11 +115,12 @@ iq_compare(d$income)
 ``` r
 
 iq_shares(d$income)
-#> -- Income Shares --
+#> -- Income Shares ---------------------------------------------------------------
 #> * Bottom 50%: 21.2% of income (50% of population)
-#> * P50-P90:    47.1% of income (40% of population)
-#> * P90-P99:    24.0% of income (9% of population)
-#> * Top 1%:      6.6% of income (1% of population)
+#> * P50-P90: 47.1% of income (40% of population)
+#> * P90-P99: 24% of income (9% of population)
+#> * Top 1%: 6.6% of income (1% of population)
+#> * Observations: 1000
 ```
 
 ### Between-group vs within-group inequality
@@ -116,10 +129,16 @@ iq_shares(d$income)
 
 d <- iq_sample_data("grouped")
 iq_decompose(d$income, d$group)
-#> -- Between-Within Decomposition (Theil T (GE(1))) --
+#> -- Between-Within Decomposition (Theil T (GE(1))) ------------------------------
 #> * Total: 0.463
 #> * Between: 0.116 (25.1%)
 #> * Within: 0.347 (74.9%)
+#> 
+#> -- Group Detail --
+#> 
+#> * A: n=400, mean=31572, pop=40%, income=24.1%
+#> * B: n=350, mean=44006, pop=35%, income=29.4%
+#> * C: n=250, mean=97783, pop=25%, income=46.6%
 ```
 
 ### Poverty measurement
@@ -128,12 +147,13 @@ iq_decompose(d$income, d$group)
 
 d <- iq_sample_data("income")
 iq_poverty(d$income, line = 20000)
-#> -- Poverty Measures (line = 20000) --
-#> * Headcount (FGT0): 18.2%
-#> * Poverty gap (FGT1): 0.0521
-#> * Severity (FGT2): 0.0198
-#> * Sen index: 0.0912
-#> * Watts index: 0.0634
+#> -- Poverty Measures (line = 20000) ---------------------------------------------
+#> * Headcount (FGT0): 23.5%
+#> * Poverty gap (FGT1): 0.0795
+#> * Severity (FGT2): 0.0372
+#> * Sen index: 0.1075
+#> * Watts index: 0.1124
+#> * Poor: 235 of 1000 observations
 ```
 
 ### Is a tax progressive?
@@ -143,9 +163,14 @@ iq_poverty(d$income, line = 20000)
 pre_tax <- d$income
 tax <- pre_tax * (0.10 + 0.15 * (pre_tax / max(pre_tax)))
 iq_kakwani(pre_tax, tax)
-#> -- Fiscal Progressivity (Progressive) --
-#> * Kakwani index: 0.1832
-#> * Reynolds-Smolensky index: 0.0421
+#> -- Fiscal Progressivity (Progressive) ------------------------------------------
+#> * Kakwani index: 0.0646
+#> * Reynolds-Smolensky index: 0.0092
+#> * Pre-tax Gini: 0.43
+#> * Post-tax Gini: 0.4208
+#> * Tax concentration coefficient: 0.4946
+#> * Average tax rate: 12.5%
+#> * Observations: 1000
 ```
 
 ### Lorenz curve and growth incidence
